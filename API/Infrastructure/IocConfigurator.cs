@@ -30,6 +30,17 @@ using Inv.BLL.Services.familly_Cate;
 using Inv.BLL.Services.Vendor;
 using Inv.BLL.Services.Vendor;
 using Inv.BLL.Services.SlsTrSales;
+using Inv.BLL.Services.IDUnitGroup;
+using Inv.BLL.Services.IDUnitGroupUom;
+using Inv.BLL.Services.II_ItemYearUomDef;
+using Inv.BLL.Services.I_ItemStoreDeff;
+using Inv.BLL.Services.StkDefStore;
+using Inv.BLL.Services.StkDefCategory;
+using Inv.BLL.Services.StkDefUnit;
+using Inv.BLL.Services.StkDefItemType;
+using Inv.BLL.Services.ItemDef;
+using Inv.BLL.Services.VatNature;
+using Inv.BLL.Services.GenVatType;
 
 namespace Inv.API.Infrastructure
 {
@@ -65,9 +76,19 @@ namespace Inv.API.Infrastructure
             container.RegisterType<ISlsTrSalesServices, SlsTrSalesServices>();
 
 
+            container.RegisterType<II_D_UnitGroupService, I_D_UnitGroupService>();
+            container.RegisterType<II_D_UnitGroupUomService, I_D_UnitGroupUomService>();
+            container.RegisterType<I_ItemYearUomService, I_ItemYearUomDefService>();
+            container.RegisterType<I_ItemStoreService, I_ItemStoredefService>();
 
+            container.RegisterType<IStkDefStoreService, StkDefStoreService>();
+            container.RegisterType<IStkDefUnitService, StkDefUnitService>();
 
-
+            container.RegisterType<IStkDefCategoryService, StkDefCategoryService>();  
+            container.RegisterType<IStkDefItemTypeService, StkDefItemTypeService>();
+            container.RegisterType<IItemDefService, ItemDefService>();
+            container.RegisterType<IVatNatureService, VatNatureService>();
+            container.RegisterType<IGenVatTypeService, GenVatTypeService>();
         }
     }
 }

@@ -34,7 +34,6 @@ namespace Inv.DAL.Domain
         public virtual DbSet<G_AlertControl> G_AlertControl { get; set; }
         public virtual DbSet<G_AlertLog> G_AlertLog { get; set; }
         public virtual DbSet<G_AlertType> G_AlertType { get; set; }
-        public virtual DbSet<G_BRANCH> G_BRANCH { get; set; }
         public virtual DbSet<G_Codes> G_Codes { get; set; }
         public virtual DbSet<G_COMPANY> G_COMPANY { get; set; }
         public virtual DbSet<G_CONTROL> G_CONTROL { get; set; }
@@ -59,7 +58,6 @@ namespace Inv.DAL.Domain
         public virtual DbSet<G_USER_BRANCH> G_USER_BRANCH { get; set; }
         public virtual DbSet<G_USER_COMPANY> G_USER_COMPANY { get; set; }
         public virtual DbSet<G_USER_LOG> G_USER_LOG { get; set; }
-        public virtual DbSet<I_Control> I_Control { get; set; }
         public virtual DbSet<ORDER_DELIVERY> ORDER_DELIVERY { get; set; }
         public virtual DbSet<Outlet> Outlets { get; set; }
         public virtual DbSet<PRODUCT> PRODUCTs { get; set; }
@@ -88,15 +86,41 @@ namespace Inv.DAL.Domain
         public virtual DbSet<CUSTOMER> CUSTOMERs { get; set; }
         public virtual DbSet<Catch_Receipt> Catch_Receipt { get; set; }
         public virtual DbSet<IQ_Catch_Receipt> IQ_Catch_Receipt { get; set; }
-        public virtual DbSet<G_USERS> G_USERS { get; set; }
         public virtual DbSet<AVAT_TR_SlsInvoice> AVAT_TR_SlsInvoice { get; set; }
         public virtual DbSet<AVAT_TRANS> AVAT_TRANS { get; set; }
         public virtual DbSet<AQVAT_GetService> AQVAT_GetService { get; set; }
         public virtual DbSet<AQVAT_GetSlsInvoiceItem> AQVAT_GetSlsInvoiceItem { get; set; }
         public virtual DbSet<AQVAT_GetSrvCategory> AQVAT_GetSrvCategory { get; set; }
         public virtual DbSet<AQVat_Srch_VatPurchaseHeader> AQVat_Srch_VatPurchaseHeader { get; set; }
-        public virtual DbSet<AVAT_TR_SlsInvoiceItem> AVAT_TR_SlsInvoiceItem { get; set; }
-        public virtual DbSet<AQVAT_GetSlsInvoiceList> AQVAT_GetSlsInvoiceList { get; set; }
+        public virtual DbSet<G_USERS> G_USERS { get; set; }
+        public virtual DbSet<G_BRANCH> G_BRANCH { get; set; }
+        public virtual DbSet<I_Control> I_Control { get; set; }
+        public virtual DbSet<I_D_Category> I_D_Category { get; set; }
+        public virtual DbSet<I_D_UnitGroup> I_D_UnitGroup { get; set; }
+        public virtual DbSet<I_D_UnitGroupUom> I_D_UnitGroupUom { get; set; }
+        public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
+        public virtual DbSet<I_G_ItemType> I_G_ItemType { get; set; }
+        public virtual DbSet<I_G_StockMethods> I_G_StockMethods { get; set; }
+        public virtual DbSet<I_Item> I_Item { get; set; }
+        public virtual DbSet<I_ItemBatch> I_ItemBatch { get; set; }
+        public virtual DbSet<I_ItemFamily> I_ItemFamily { get; set; }
+        public virtual DbSet<I_ItemSpecsValue> I_ItemSpecsValue { get; set; }
+        public virtual DbSet<I_ItemStore> I_ItemStore { get; set; }
+        public virtual DbSet<I_ItemStoreBatch> I_ItemStoreBatch { get; set; }
+        public virtual DbSet<I_ItemYear> I_ItemYear { get; set; }
+        public virtual DbSet<I_ItemYearUom> I_ItemYearUom { get; set; }
+        public virtual DbSet<I_Sls_TR_Invoice> I_Sls_TR_Invoice { get; set; }
+        public virtual DbSet<I_Sls_TR_InvoiceItems> I_Sls_TR_InvoiceItems { get; set; }
+        public virtual DbSet<IQ_GetItemCategory> IQ_GetItemCategory { get; set; }
+        public virtual DbSet<IQ_GetItemStore> IQ_GetItemStore { get; set; }
+        public virtual DbSet<IQ_GetItemStoreInfo> IQ_GetItemStoreInfo { get; set; }
+        public virtual DbSet<IQ_GetItemYearUom> IQ_GetItemYearUom { get; set; }
+        public virtual DbSet<IQ_GetSlsInvoiceItem> IQ_GetSlsInvoiceItem { get; set; }
+        public virtual DbSet<G_STORE> G_STORE { get; set; }
+        public virtual DbSet<G_VatNature> G_VatNature { get; set; }
+        public virtual DbSet<GQ_GetStore> GQ_GetStore { get; set; }
+        public virtual DbSet<A_CCDT_Types> A_CCDT_Types { get; set; }
+        public virtual DbSet<A_D_VAT_TYPE> A_D_VAT_TYPE { get; set; }
     
         [DbFunction("InvEntities", "GFun_Companies")]
         public virtual IQueryable<GFun_Companies_Result> GFun_Companies(string userCode)
@@ -653,6 +677,187 @@ namespace Inv.DAL.Domain
                 new ObjectParameter("ToDate", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<all_The_Gard_Result>("all_The_Gard", userNameParameter, fromDateParameter, toDateParameter);
+        }
+    
+        [DbFunction("InvEntities", "IFunc_IitemOpenBal")]
+        public virtual IQueryable<IFunc_IitemOpenBal_Result> IFunc_IitemOpenBal(Nullable<int> comp, Nullable<int> catid, Nullable<int> itTypeid, Nullable<int> itemid, Nullable<int> status, string todate)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("Comp", comp) :
+                new ObjectParameter("Comp", typeof(int));
+    
+            var catidParameter = catid.HasValue ?
+                new ObjectParameter("Catid", catid) :
+                new ObjectParameter("Catid", typeof(int));
+    
+            var itTypeidParameter = itTypeid.HasValue ?
+                new ObjectParameter("ItTypeid", itTypeid) :
+                new ObjectParameter("ItTypeid", typeof(int));
+    
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("Itemid", itemid) :
+                new ObjectParameter("Itemid", typeof(int));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(int));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<IFunc_IitemOpenBal_Result>("[InvEntities].[IFunc_IitemOpenBal](@Comp, @Catid, @ItTypeid, @Itemid, @Status, @Todate)", compParameter, catidParameter, itTypeidParameter, itemidParameter, statusParameter, todateParameter);
+        }
+    
+        [DbFunction("InvEntities", "IFunc_IitemTransaction")]
+        public virtual IQueryable<IFunc_IitemTransaction_Result> IFunc_IitemTransaction(Nullable<int> comp, Nullable<int> catid, Nullable<int> itTypeid, Nullable<int> itemid, Nullable<int> status, string fromdate, string todate)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("Comp", comp) :
+                new ObjectParameter("Comp", typeof(int));
+    
+            var catidParameter = catid.HasValue ?
+                new ObjectParameter("Catid", catid) :
+                new ObjectParameter("Catid", typeof(int));
+    
+            var itTypeidParameter = itTypeid.HasValue ?
+                new ObjectParameter("ItTypeid", itTypeid) :
+                new ObjectParameter("ItTypeid", typeof(int));
+    
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("Itemid", itemid) :
+                new ObjectParameter("Itemid", typeof(int));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(int));
+    
+            var fromdateParameter = fromdate != null ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(string));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<IFunc_IitemTransaction_Result>("[InvEntities].[IFunc_IitemTransaction](@Comp, @Catid, @ItTypeid, @Itemid, @Status, @Fromdate, @Todate)", compParameter, catidParameter, itTypeidParameter, itemidParameter, statusParameter, fromdateParameter, todateParameter);
+        }
+    
+        [DbFunction("InvEntities", "IFunc_IitemTransactionSummery")]
+        public virtual IQueryable<IFunc_IitemTransactionSummery_Result> IFunc_IitemTransactionSummery(Nullable<int> comp, Nullable<int> catid, Nullable<int> itTypeid, Nullable<int> itemid, Nullable<int> status, string fromdate, string todate)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("Comp", comp) :
+                new ObjectParameter("Comp", typeof(int));
+    
+            var catidParameter = catid.HasValue ?
+                new ObjectParameter("Catid", catid) :
+                new ObjectParameter("Catid", typeof(int));
+    
+            var itTypeidParameter = itTypeid.HasValue ?
+                new ObjectParameter("ItTypeid", itTypeid) :
+                new ObjectParameter("ItTypeid", typeof(int));
+    
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("Itemid", itemid) :
+                new ObjectParameter("Itemid", typeof(int));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("Status", status) :
+                new ObjectParameter("Status", typeof(int));
+    
+            var fromdateParameter = fromdate != null ?
+                new ObjectParameter("Fromdate", fromdate) :
+                new ObjectParameter("Fromdate", typeof(string));
+    
+            var todateParameter = todate != null ?
+                new ObjectParameter("Todate", todate) :
+                new ObjectParameter("Todate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<IFunc_IitemTransactionSummery_Result>("[InvEntities].[IFunc_IitemTransactionSummery](@Comp, @Catid, @ItTypeid, @Itemid, @Status, @Fromdate, @Todate)", compParameter, catidParameter, itTypeidParameter, itemidParameter, statusParameter, fromdateParameter, todateParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> Iproc_Deleteitem(Nullable<int> itemid)
+        {
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("itemid", itemid) :
+                new ObjectParameter("itemid", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("Iproc_Deleteitem", itemidParameter);
+        }
+    
+        public virtual ObjectResult<Iproc_GetItemInfo_Result> Iproc_GetItemInfo(Nullable<int> comp, Nullable<int> yr, string itmCode, Nullable<int> itemid, Nullable<int> storeid, Nullable<int> op)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("Comp", comp) :
+                new ObjectParameter("Comp", typeof(int));
+    
+            var yrParameter = yr.HasValue ?
+                new ObjectParameter("Yr", yr) :
+                new ObjectParameter("Yr", typeof(int));
+    
+            var itmCodeParameter = itmCode != null ?
+                new ObjectParameter("ItmCode", itmCode) :
+                new ObjectParameter("ItmCode", typeof(string));
+    
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("Itemid", itemid) :
+                new ObjectParameter("Itemid", typeof(int));
+    
+            var storeidParameter = storeid.HasValue ?
+                new ObjectParameter("Storeid", storeid) :
+                new ObjectParameter("Storeid", typeof(int));
+    
+            var opParameter = op.HasValue ?
+                new ObjectParameter("op", op) :
+                new ObjectParameter("op", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Iproc_GetItemInfo_Result>("Iproc_GetItemInfo", compParameter, yrParameter, itmCodeParameter, itemidParameter, storeidParameter, opParameter);
+        }
+    
+        public virtual ObjectResult<IProc_GetItemQtyList_Result> IProc_GetItemQtyList(Nullable<int> comp, Nullable<int> yr, Nullable<int> bra, Nullable<int> storeid, Nullable<int> catid, Nullable<int> fmid, Nullable<int> uomgrpid, Nullable<int> qtytype, string likeDesc, string likeCode)
+        {
+            var compParameter = comp.HasValue ?
+                new ObjectParameter("comp", comp) :
+                new ObjectParameter("comp", typeof(int));
+    
+            var yrParameter = yr.HasValue ?
+                new ObjectParameter("yr", yr) :
+                new ObjectParameter("yr", typeof(int));
+    
+            var braParameter = bra.HasValue ?
+                new ObjectParameter("bra", bra) :
+                new ObjectParameter("bra", typeof(int));
+    
+            var storeidParameter = storeid.HasValue ?
+                new ObjectParameter("Storeid", storeid) :
+                new ObjectParameter("Storeid", typeof(int));
+    
+            var catidParameter = catid.HasValue ?
+                new ObjectParameter("catid", catid) :
+                new ObjectParameter("catid", typeof(int));
+    
+            var fmidParameter = fmid.HasValue ?
+                new ObjectParameter("fmid", fmid) :
+                new ObjectParameter("fmid", typeof(int));
+    
+            var uomgrpidParameter = uomgrpid.HasValue ?
+                new ObjectParameter("uomgrpid", uomgrpid) :
+                new ObjectParameter("uomgrpid", typeof(int));
+    
+            var qtytypeParameter = qtytype.HasValue ?
+                new ObjectParameter("qtytype", qtytype) :
+                new ObjectParameter("qtytype", typeof(int));
+    
+            var likeDescParameter = likeDesc != null ?
+                new ObjectParameter("LikeDesc", likeDesc) :
+                new ObjectParameter("LikeDesc", typeof(string));
+    
+            var likeCodeParameter = likeCode != null ?
+                new ObjectParameter("LikeCode", likeCode) :
+                new ObjectParameter("LikeCode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<IProc_GetItemQtyList_Result>("IProc_GetItemQtyList", compParameter, yrParameter, braParameter, storeidParameter, catidParameter, fmidParameter, uomgrpidParameter, qtytypeParameter, likeDescParameter, likeCodeParameter);
         }
     }
 }

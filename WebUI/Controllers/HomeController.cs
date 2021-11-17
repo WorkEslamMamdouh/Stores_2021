@@ -181,6 +181,37 @@ namespace Inv.WebUI.Controllers
 
 
 
+        public ActionResult StkDefItemsIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefItemsNewIndex.cshtml");
+        }
+        public ActionResult StkDefItemsNewIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefItemsNewIndex.cshtml");
+        }
+        public ActionResult StkDefCategoryIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefCategoryIndex.cshtml");
+        }
+        public ActionResult StkDefUnitIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefUnitIndex.cshtml");
+        }
+        public ActionResult StkDefItemTypeIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefItemTypeIndex.cshtml");
+        }
+        public ActionResult StkDefUnitGroupIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefUnitGroupIndex.cshtml");
+        }
+        public ActionResult StkDefStoreIndex()
+        {
+            return View("~/Views/StkDefinition/StkDefStoreIndex.cshtml");
+        }
+
+
+
         #endregion  Open Pages 
 
     }

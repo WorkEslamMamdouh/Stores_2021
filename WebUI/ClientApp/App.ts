@@ -28,8 +28,19 @@ var Modules = {
 
 
     
+    StkDefinitionMenu: "StkDefinitionMenu",
+    StkDefItems: "StkDefItems",
+    StkDefItemsNew: "StkDefItemsNew",
+    StkDefCategory: "StkDefCategory",
+    StkDefUnit: "StkDefUnit",
+    StkDefItemType: "StkDefItemType",
+    StkDefStore: "StkDefStore",
+    StkDefUnitGroup: "StkDefUnitGroup",
+    DefStore: "DefStore",
 
+    
 
+    
 };
 var MessageType = {
     Error: '2',

@@ -1177,6 +1177,13 @@
     <Content Include="Views\Generalsetting\CUSTOMERSIndex.cshtml" />
     <Content Include="Views\Generalsetting\Catch_ReceiptIndex.cshtml" />
     <Content Include="Views\Sale\SlsTrSalesManagerIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefCategoryIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefItemsIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefItemsNewIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefItemTypeIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefStoreIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefUnitGroupIndex.cshtml" />
+    <Content Include="Views\StkDefinition\StkDefUnitIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1218,6 +1225,13 @@
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesManager.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesReturn.ts" />
     <TypeScriptCompile Include="ClientApp\Shared.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefCategory.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefItems.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefItemsNew.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefItemType.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefStore.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefUnit.ts" />
+    <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefUnitGroup.ts" />
     <TypeScriptCompile Include="ClientApp\stock\Categories.ts" />
     <TypeScriptCompile Include="ClientApp\stock\familly_Cat.ts" />
     <TypeScriptCompile Include="ClientApp\stock\Items.ts" />

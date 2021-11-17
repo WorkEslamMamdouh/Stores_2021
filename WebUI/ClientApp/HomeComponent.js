@@ -625,6 +625,14 @@ var HomeComponent;
         $("#btnfamilly_Cat").click(function () { OpenPage(Modules.familly_Cat); });
         $("#btnIncome_expenses").click(function () { OpenPage(Modules.Income_expenses); });
         $("#btnSlsTrSalesManager").click(function () { OpenPage(Modules.SlsTrSalesManager); });
+        $("#btnStkDefItems").click(function () { OpenPage(Modules.StkDefItems); });
+        $("#btnStkDefItemsNew").click(function () { OpenPage(Modules.StkDefItemsNew); });
+        $("#btnStkDefCategory").click(function () { OpenPage(Modules.StkDefCategory); });
+        $("#btnStkDefUnit").click(function () { OpenPage(Modules.StkDefUnit); });
+        $("#btnStkDefItemType").click(function () { OpenPage(Modules.StkDefItemType); });
+        $("#btnStkDefStore").click(function () { OpenPage(Modules.StkDefStore); });
+        $("#btnStkDefUnitGroup").click(function () { OpenPage(Modules.StkDefUnitGroup); });
+        $("#btnDefStore").click(function () { OpenPage(Modules.DefStore); });
     }
     function Notifications_Message() {
         var comCode = SysSession.CurrentEnvironment.CompCode;

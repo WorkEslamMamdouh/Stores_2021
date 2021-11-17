@@ -255,11 +255,16 @@
     <Compile Include="Controllers\familly_CatController.cs" />
     <Compile Include="Controllers\GAlertControlController.cs" />
     <Compile Include="Controllers\GCompController.cs" />
+    <Compile Include="Controllers\GenVatTypeController.cs" />
     <Compile Include="Controllers\G_SUB_SYSTEController.cs" />
     <Compile Include="Controllers\GCodesController.cs" />
     <Compile Include="Controllers\GBranchController.cs" />
     <Compile Include="Controllers\InventoryController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
+    <Compile Include="Controllers\I_D_UnitGroupController.cs" />
+    <Compile Include="Controllers\I_D_UnitGroupUomController.cs" />
+    <Compile Include="Controllers\I_ItemStoreController.cs" />
+    <Compile Include="Controllers\I_ItemYearUomDefController.cs" />
     <Compile Include="Controllers\Outletpirce.cs" />
     <Compile Include="Controllers\PurchasesController.cs" />
     <Compile Include="Controllers\ReviewSales.cs" />
@@ -271,6 +276,11 @@
     <Compile Include="Controllers\Shared\I_VW__GetCompStatusController.cs" />
     <Compile Include="Controllers\Shared\SystemToolsController.cs" />
     <Compile Include="Controllers\SlsTrSalesController.cs" />
+    <Compile Include="Controllers\StkDefCategoryController.cs" />
+    <Compile Include="Controllers\StkDefItemsController.cs" />
+    <Compile Include="Controllers\StkDefItemTypeController.cs" />
+    <Compile Include="Controllers\StkDefStoreController.cs" />
+    <Compile Include="Controllers\StkDefUnitController.cs" />
     <Compile Include="Controllers\SupplierController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -284,6 +294,8 @@
     <Compile Include="Models\CustomEntities\SystemParameters.cs" />
     <Compile Include="Models\CustomEntities\UserPrivilege.cs" />
     <Compile Include="Models\CustomModel\CompanyLoginStatus.cs" />
+    <Compile Include="Models\CustomModel\I_Item_YearMasterDetails.cs" />
+    <Compile Include="Models\CustomModel\MasterDetailsUnitGroup.cs" />
     <Compile Include="Models\CustomModel\MasterDetailsUserRoles.cs" />
     <Compile Include="Models\CustomModel\PurchasesMasterDetails.cs" />
     <Compile Include="Models\CustomModel\SlsInvoiceMasterDetails.cs" />

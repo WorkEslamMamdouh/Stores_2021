@@ -12,8 +12,14 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class AQVAT_GetSlsInvoiceList
+    public partial class I_Sls_TR_Invoice
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public I_Sls_TR_Invoice()
+        {
+            this.I_Sls_TR_InvoiceItems = new HashSet<I_Sls_TR_InvoiceItems>();
+        }
+    
         public int InvoiceID { get; set; }
         public Nullable<int> TrNo { get; set; }
         public string RefNO { get; set; }
@@ -24,15 +30,20 @@ namespace Inv.DAL.Domain
         public Nullable<bool> IsCash { get; set; }
         public Nullable<int> SlsInvType { get; set; }
         public Nullable<int> SlsInvSrc { get; set; }
+        public Nullable<int> CashBoxID { get; set; }
+        public Nullable<int> CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerMobileNo { get; set; }
         public Nullable<int> SalesmanId { get; set; }
+        public Nullable<int> StoreId { get; set; }
+        public Nullable<int> OperationId { get; set; }
         public Nullable<decimal> TotalAmount { get; set; }
         public Nullable<decimal> VatAmount { get; set; }
         public Nullable<int> VatType { get; set; }
         public Nullable<decimal> DiscountAmount { get; set; }
         public Nullable<decimal> DiscountPrc { get; set; }
         public Nullable<decimal> NetAfterVat { get; set; }
+        public Nullable<decimal> CommitionAmount { get; set; }
         public Nullable<decimal> CashAmount { get; set; }
         public Nullable<decimal> CardAmount { get; set; }
         public Nullable<decimal> BankTfAmount { get; set; }
@@ -50,9 +61,6 @@ namespace Inv.DAL.Domain
         public string UpdatedBy { get; set; }
         public Nullable<int> CompCode { get; set; }
         public Nullable<int> BranchCode { get; set; }
-        public string Slsm_Code { get; set; }
-        public string Slsm_DescA { get; set; }
-        public string Slsm_DescE { get; set; }
         public string DocNo { get; set; }
         public string DocUUID { get; set; }
         public Nullable<System.TimeSpan> TrTime { get; set; }
@@ -94,12 +102,8 @@ namespace Inv.DAL.Domain
         public Nullable<decimal> ItemDiscountTotal { get; set; }
         public Nullable<decimal> ItemVatTotal { get; set; }
         public Nullable<decimal> RoundingAmount { get; set; }
-        public Nullable<int> RetInv_TrNo { get; set; }
-        public Nullable<System.DateTime> RetInv_TrDate { get; set; }
-        public string RetInv_DocNo { get; set; }
-        public string CustomerCODE { get; set; }
-        public string CUSTOMER_NAME { get; set; }
-        public string NAMEE { get; set; }
-        public Nullable<int> CustomerId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<I_Sls_TR_InvoiceItems> I_Sls_TR_InvoiceItems { get; set; }
     }
 }

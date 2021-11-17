@@ -47,8 +47,6 @@ namespace Inv.DAL.Domain
         public Nullable<int> SysTimeOut { get; set; }
         public Nullable<int> NationalityID { get; set; }
         public Nullable<int> Currencyid { get; set; }
-        public Nullable<int> InvoiceTypeCode { get; set; }
-        public Nullable<int> InvoiceTransCode { get; set; }
         public Nullable<bool> InvoiceWithoutCust { get; set; }
         public Nullable<bool> IvoiceDateEditable { get; set; }
         public Nullable<bool> InvoiceLineDiscount { get; set; }
@@ -58,5 +56,6 @@ namespace Inv.DAL.Domain
         public Nullable<bool> OperationPriceWithVAT { get; set; }
         public Nullable<bool> SalesPriceWithVAT { get; set; }
         public string DocPDFFolder { get; set; }
+        public Nullable<bool> ISCustVendorInGL { get; set; }
     }
 }

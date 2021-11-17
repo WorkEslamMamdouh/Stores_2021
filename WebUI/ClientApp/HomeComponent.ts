@@ -757,9 +757,14 @@ namespace HomeComponent {
         $("#btnSlsTrSalesManager").click(() => { OpenPage(Modules.SlsTrSalesManager); })
 
 
-        
-
-
+        $("#btnStkDefItems").click(() => { OpenPage(Modules.StkDefItems); })
+        $("#btnStkDefItemsNew").click(() => { OpenPage(Modules.StkDefItemsNew); })
+        $("#btnStkDefCategory").click(() => { OpenPage(Modules.StkDefCategory); })
+        $("#btnStkDefUnit").click(() => { OpenPage(Modules.StkDefUnit); })
+        $("#btnStkDefItemType").click(() => { OpenPage(Modules.StkDefItemType); })
+        $("#btnStkDefStore").click(() => { OpenPage(Modules.StkDefStore); })
+        $("#btnStkDefUnitGroup").click(() => { OpenPage(Modules.StkDefUnitGroup); })
+        $("#btnDefStore").click(() => { OpenPage(Modules.DefStore); })
     }
 
     function Notifications_Message() {

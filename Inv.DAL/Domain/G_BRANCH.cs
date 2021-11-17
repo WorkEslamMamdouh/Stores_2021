@@ -56,5 +56,13 @@ namespace Inv.DAL.Domain
         public string Address_District { get; set; }
         public Nullable<int> NationalityID { get; set; }
         public Nullable<int> Currencyid { get; set; }
+        public Nullable<int> InvoiceTypeCode { get; set; }
+        public Nullable<int> ReturnTypeCode { get; set; }
+        public Nullable<int> SlsInvType { get; set; }
+        public Nullable<int> RetailInvoiceTransCode { get; set; }
+        public Nullable<int> WholeInvoiceTransCode { get; set; }
+        public Nullable<int> RetailInvoicePayment { get; set; }
+        public Nullable<int> WholeInvoicePayment { get; set; }
+        public Nullable<int> ServiceInvoiceTransCode { get; set; }
     }
 }

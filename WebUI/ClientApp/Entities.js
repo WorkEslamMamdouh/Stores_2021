@@ -797,6 +797,7 @@ var I_Item = (function (_super) {
         _this.BarCodePrefix = "";
         _this.StatusFlag = "";
         _this.OnhandQty = 0;
+        _this.FirstYear = 0;
         return _this;
     }
     return I_Item;
@@ -6050,4 +6051,192 @@ var IQ_Catch_Receipt = (function () {
     }
     return IQ_Catch_Receipt;
 }());
+var I_D_UnitGroup = (function () {
+    function I_D_UnitGroup() {
+        this.UnitGrpID = 0;
+        this.UnitGrpCode = "";
+        this.DescA = "";
+        this.DescE = "";
+        this.UomID = 0;
+        this.CompCode = 0;
+        this.Remarks = "";
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+        this.Uomdesc = "";
+        this.StatusFlag = "";
+    }
+    return I_D_UnitGroup;
+}());
+var I_D_UnitGroupUom = (function () {
+    function I_D_UnitGroupUom() {
+        this.UnitGrpUom = 0;
+        this.UnitGrpID = 0;
+        this.UomID = 0;
+        this.DescA = "";
+        this.DescE = "";
+        this.Rate = 0;
+        this.IsStock = false;
+        this.IsRetailSales = false;
+        this.IsWholeSales = false;
+        this.IsPurchase = false;
+        this.CompCode = 0;
+        this.Remarks = "";
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+        this.StatusFlag = "";
+    }
+    return I_D_UnitGroupUom;
+}());
+var IProc_GetItemQtyList = (function () {
+    function IProc_GetItemQtyList() {
+        this.ItemID = 0;
+        this.ItemCode = "";
+        this.CompCode = 0;
+        this.DescA = "";
+        this.DescL = "";
+        this.TechDescA = "";
+        this.TechDescL = "";
+        this.UomID = 0;
+        this.UnitGrpID = 0;
+        this.ItemFamilyID = 0;
+        this.OldItemCode = "";
+        this.RefItemCode = "";
+        this.VndItemCode = "";
+        this.BarCode1 = "";
+        this.BarCode2 = "";
+        this.FirstEntryDate = "";
+        this.Remarks = "";
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+        this.FamilyCode = "";
+        this.fm_DescA = "";
+        this.fm_DescE = "";
+        this.CatCode = "";
+        this.cat_DescA = "";
+        this.Cat_DescE = "";
+        this.UnitGrpCode = "";
+        this.ug_DescA = "";
+        this.ug_DescE = "";
+        this.UomCode = "";
+        this.uom_DescA = "";
+        this.Uom_DescE = "";
+        this.CatID = 0;
+        this.CompQty = 0;
+        this.BranchQty = 0;
+        this.StoreQty = 0;
+        this.StarGlobalCost = 0;
+        this.GlobalCost = 0;
+    }
+    return IProc_GetItemQtyList;
+}());
+var IQ_GetItemYearUom = (function () {
+    function IQ_GetItemYearUom() {
+        this.ItemID = 0;
+        this.FinYear = 0;
+        this.UomId = 0;
+        this.MinUnitPrice = 0;
+        this.UnitPrice = 0;
+        this.UnitWholePrice = 0;
+        this.MinUnitWholePrice = 0;
+        this.UomCode = "";
+        this.DescA = "";
+        this.DescE = "";
+        this.Rate = 0;
+        this.IsRetailSales = false;
+        this.IsRetailSalesdes = "";
+        this.IsWholeSales = false;
+        this.IsWholeSalesdes = "";
+        this.IsPurchase = false;
+        this.IsPurchasedes = "";
+        this.IsStock = false;
+        this.IsStockdes = "";
+        this.Statusflag = "";
+    }
+    return IQ_GetItemYearUom;
+}());
+var IQ_GetItemStore = (function () {
+    function IQ_GetItemStore() {
+        this.CreatedAt = "";
+        this.ItemStoreID = 0;
+        this.ItemID = 0;
+        this.FinYear = 0;
+        this.StoreCode = 0;
+        this.BraCode = 0;
+        this.CompCode = 0;
+        this.LOCATION = "";
+        this.LOCATION2 = "";
+        this.OnhandQty = 0;
+        this.BookQty = 0;
+        this.OnRoadQty = 0;
+        this.OnOrderQty = 0;
+        this.ReOrderQty = 0;
+        this.MinQty = 0;
+        this.MaxQty = 0;
+        this.StartQty = 0;
+        this.StartLocalCost = 0;
+        this.LocalCost = 0;
+        this.CreatedAt = "";
+        this.CreatedBy = "";
+        this.UpdatedAt = "";
+        this.UpdatedBy = "";
+        this.StoreId = 0;
+        this.STORE_CODE = 0;
+        this.St_DescA = "";
+        this.st_DescE = "";
+        this.BRA_DESC = "";
+        this.BRA_DESCL = "";
+        this.BRA_CODE = 0;
+        this.Statusflag = "";
+    }
+    ;
+    return IQ_GetItemStore;
+}());
+var I_ItemYearUom = (function () {
+    function I_ItemYearUom() {
+        this.ItemID = 0;
+        this.FinYear = 0;
+        this.UomId = 0;
+        this.MinUnitPrice = 0;
+        this.UnitPrice = 0;
+        this.UnitWholePrice = 0;
+        this.MinUnitWholePrice = 0;
+    }
+    return I_ItemYearUom;
+}());
+var Iproc_GetItemInfo_Result = (function () {
+    function Iproc_GetItemInfo_Result() {
+        this.ItemID = 0;
+        this.uomid = 0;
+        this.UomCode = '';
+        this.u_DescA = '';
+        this.u_DescE = '';
+        this.It_DescA = '';
+        this.it_DescE = '';
+        this.ItemCode = '';
+        this.MinPrice = 0;
+        this.UnitPrice = 0;
+        this.Rate = 0;
+        this.OnhandQty = 0;
+        this.GlobalCost = 0;
+        this.VatPrc = 0;
+        this.VatNatID = 0;
+    }
+    return Iproc_GetItemInfo_Result;
+}());
+var UnitGroup = (function (_super) {
+    __extends(UnitGroup, _super);
+    function UnitGroup() {
+        var _this = _super.call(this) || this;
+        _this.I_D_UnitGroup = new I_D_UnitGroup();
+        _this.I_D_UnitGroupUom = new Array();
+        return _this;
+    }
+    return UnitGroup;
+}(SecurityClass));
 //# sourceMappingURL=Entities.js.map

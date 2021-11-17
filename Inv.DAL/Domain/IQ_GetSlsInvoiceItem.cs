@@ -12,13 +12,12 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class AVAT_TR_SlsInvoiceItem
+    public partial class IQ_GetSlsInvoiceItem
     {
         public int InvoiceItemID { get; set; }
         public Nullable<int> InvoiceID { get; set; }
         public Nullable<int> ItemID { get; set; }
         public Nullable<int> UomID { get; set; }
-        public Nullable<decimal> InvoiceSoldQty { get; set; }
         public Nullable<decimal> SoldQty { get; set; }
         public Nullable<decimal> Unitprice { get; set; }
         public Nullable<decimal> DiscountPrc { get; set; }
@@ -28,8 +27,25 @@ namespace Inv.DAL.Domain
         public Nullable<decimal> VatPrc { get; set; }
         public Nullable<decimal> VatAmount { get; set; }
         public Nullable<decimal> NetAfterVat { get; set; }
+        public Nullable<decimal> StockSoldQty { get; set; }
+        public Nullable<decimal> StockUnitCost { get; set; }
         public Nullable<int> VatApplied { get; set; }
         public Nullable<decimal> TotRetQty { get; set; }
+        public string it_itemCode { get; set; }
+        public string it_DescA { get; set; }
+        public Nullable<int> CompCode { get; set; }
+        public string It_DescE { get; set; }
+        public string ItFm_Code { get; set; }
+        public string ItFm_DescA { get; set; }
+        public string ItFm_DescE { get; set; }
+        public string Cat_Code { get; set; }
+        public string Cat_DescA { get; set; }
+        public string Cat_DescE { get; set; }
+        public string Uom_Code { get; set; }
+        public string Uom_DescA { get; set; }
+        public string Uom_DescE { get; set; }
+        public Nullable<int> ItemFamilyID { get; set; }
+        public Nullable<decimal> InvoiceSoldQty { get; set; }
         public Nullable<int> Serial { get; set; }
         public Nullable<decimal> AllowAmount { get; set; }
         public Nullable<decimal> AllowancePrc { get; set; }
@@ -54,9 +70,7 @@ namespace Inv.DAL.Domain
         public string ChargeReason { get; set; }
         public Nullable<int> ChargeCode { get; set; }
         public Nullable<int> VatNatID { get; set; }
-        public string CC_CODE { get; set; }
-        public string Name_Item { get; set; }
-        public string Uom { get; set; }
-        public string Name_Category { get; set; }
+        public Nullable<decimal> UnitpriceWithVat { get; set; }
+        public Nullable<decimal> NetUnitPriceWithVat { get; set; }
     }
 }

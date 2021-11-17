@@ -71,7 +71,30 @@ namespace Inv.DAL.Domain
     {
 
     }
+    public partial class I_D_UnitGroup : SecurityandUpdateFlagClass
+    {
 
+    }
+
+ 
+    public partial class I_Item : SecurityandUpdateFlagClass
+    {
+
+    }
+
+
+    public partial class I_D_Category : SecurityandUpdateFlagClass
+    {
+
+    }
+    public partial class I_D_UnitGroupUom : SecurityandUpdateFlagClass
+    {
+
+    }
+    public partial class I_ItemFamily : SecurityandUpdateFlagClass
+    {
+
+    }
     public partial class G_CONTROL : SecurityandUpdateFlagClass
     {
     }
