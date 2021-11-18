@@ -1364,6 +1364,23 @@ function Get_PriceWithVAT(item_unitprice, VatPRc, flag_PriceWithVAT) {
     }
     return Getunitprice;
 }
+function SetCustomerType(Transcode, Iscredit, SlsType) {
+    var Ct = new CustomerType();
+    Ct.IsCredit = Iscredit;
+    if (Transcode == 1) {
+        Ct.IsPersonal = false;
+    }
+    if (Transcode == 2) {
+        Ct.IsPersonal = true;
+    }
+    if (SlsType == 'W') {
+        Ct.SalesInvoiceNature = 2;
+    }
+    if (SlsType == 'R') {
+        Ct.SalesInvoiceNature = 1;
+    }
+    return Ct;
+}
 function CompareTime(t1, t2) {
     // add days 
     ////debugger;

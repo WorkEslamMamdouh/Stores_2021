@@ -55,7 +55,10 @@ input[class=checkbox]:checked:before {
     right: 3em;
 }
 
-
+.div_gridcontrol_slsmanger_ts {
+    position: absolute !important;
+    right: 97% !important;
+}
 
 .form-control {
     /*background-color: #f7e4e4;*/

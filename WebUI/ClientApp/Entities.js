@@ -194,6 +194,14 @@ var G_BRANCH = (function (_super) {
         _this.Address_District = "";
         _this.NationalityID = 0;
         _this.Currencyid = 0;
+        _this.InvoiceTypeCode = 0;
+        _this.ReturnTypeCode = 0;
+        _this.SlsInvType = 0;
+        _this.RetailInvoiceTransCode = 0;
+        _this.WholeInvoiceTransCode = 0;
+        _this.RetailInvoicePayment = 0;
+        _this.WholeInvoicePayment = 0;
+        _this.ServiceInvoiceTransCode = 0;
         return _this;
     }
     return G_BRANCH;
@@ -864,6 +872,16 @@ var I_D_UOM = (function (_super) {
     }
     return I_D_UOM;
 }(SecurityClass));
+var SlsInvoiceMasterDetails = (function (_super) {
+    __extends(SlsInvoiceMasterDetails, _super);
+    function SlsInvoiceMasterDetails() {
+        var _this = _super.call(this) || this;
+        _this.I_Sls_TR_Invoice = new I_Sls_TR_Invoice();
+        _this.I_Sls_TR_InvoiceItems = new Array();
+        return _this;
+    }
+    return SlsInvoiceMasterDetails;
+}(SecurityClass));
 var Tax_Type = (function () {
     function Tax_Type() {
         this.Nature = 0;
@@ -871,6 +889,14 @@ var Tax_Type = (function () {
         this.VatType = 0;
     }
     return Tax_Type;
+}());
+var CustomerType = (function () {
+    function CustomerType() {
+        this.IsCredit = null;
+        this.SalesInvoiceNature = null;
+        this.IsPersonal = null;
+    }
+    return CustomerType;
 }());
 var I_ItemFamily = (function (_super) {
     __extends(I_ItemFamily, _super);
@@ -2297,6 +2323,47 @@ var IQ_GetSlsInvoiceStatistic = (function (_super) {
         _this.Cus_NameE = "";
         _this.Box_DescA = "";
         _this.Box_DescE = "";
+        _this.DocNo = "";
+        _this.DocUUID = "";
+        _this.TrTime = "";
+        _this.InvoiceTypeCode = 0;
+        _this.InvoiceTransCode = 0;
+        _this.TaxNotes = "";
+        _this.TaxCurrencyID = 0;
+        _this.InvoiceCurrenyID = 0;
+        _this.ContractNo = "";
+        _this.PurchaseorderNo = "";
+        _this.GlobalInvoiceCounter = 0;
+        _this.PrevInvoiceHash;
+        _this.QRCode;
+        _this.CryptographicStamp;
+        _this.DeliveryDate = "";
+        _this.DeliveryEndDate = "";
+        _this.PaymentMeansTypeCode = 0;
+        _this.CRDBReasoncode = 0;
+        _this.PaymentTerms = "";
+        _this.PaymentTermsID = 0;
+        _this.AllowAmount = 0;
+        _this.AllowPrc = 0;
+        _this.AllowBase = 0;
+        _this.AllowVatNatID = 0;
+        _this.AllowVatPrc = 0;
+        _this.AllowAfterVat = 0;
+        _this.AllowReason = "";
+        _this.AllowCode = 0;
+        _this.ChargeAmount = 0;
+        _this.ChargePrc = 0;
+        _this.ChargeBase = 0;
+        _this.ChargeVatNatID = 0;
+        _this.ChargeVatPrc = 0;
+        _this.ChargeAfterVat = 0;
+        _this.ChargeReason = "";
+        _this.ChargeCode = 0;
+        _this.ItemTotal = 0;
+        _this.ItemAllowTotal = 0;
+        _this.ItemDiscountTotal = 0;
+        _this.ItemVatTotal = 0;
+        _this.RoundingAmount = 0;
         _this.Line_Count = 0;
         _this.Item_Count = 0;
         _this.Tot_Qty = 0;
@@ -2304,10 +2371,9 @@ var IQ_GetSlsInvoiceStatistic = (function (_super) {
         _this.Tot_VAT = 0;
         _this.Tot_Net = 0;
         _this.tot_RetQty = 0;
-        _this.returnTypeDesciption = "";
         _this.statusDesciption = "";
         _this.IsCashDesciption = "";
-        _this.operationName = "";
+        _this.returnTypeDesciption = "";
         return _this;
     }
     return IQ_GetSlsInvoiceStatistic;
@@ -5749,15 +5815,15 @@ var ORDER_DELIVERY = (function (_super) {
     }
     return ORDER_DELIVERY;
 }(SecurityClass));
-var SlsInvoiceMasterDetails = (function (_super) {
-    __extends(SlsInvoiceMasterDetails, _super);
-    function SlsInvoiceMasterDetails() {
+var SlsInvoiceMasterDetailss = (function (_super) {
+    __extends(SlsInvoiceMasterDetailss, _super);
+    function SlsInvoiceMasterDetailss() {
         var _this = _super.call(this) || this;
         _this.I_Sls_TR_Invoice = new ORDER_Master();
         _this.I_Sls_TR_InvoiceItems = new Array();
         return _this;
     }
-    return SlsInvoiceMasterDetails;
+    return SlsInvoiceMasterDetailss;
 }(SecurityClass));
 var SlsMasterDetails = (function (_super) {
     __extends(SlsMasterDetails, _super);

@@ -2115,6 +2115,213 @@ warning 6002: The table/view 'Stores2021.dbo.IQ_GetSlsInvoiceItem' does not have
           <Property Name="NetUnitPriceWithVat" Type="numeric" Precision="18" Scale="5" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6013: The table/view 'Stores2021.dbo.IQ_GetSlsInvoiceList' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="IQ_GetSlsInvoiceList">
+          <Property Name="InvoiceID" Type="int" />
+          <Property Name="TrNo" Type="int" />
+          <Property Name="RefNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefTrID" Type="int" />
+          <Property Name="TrDate" Type="smalldatetime" />
+          <Property Name="TrDateH" Type="nvarchar" MaxLength="20" />
+          <Property Name="TrType" Type="int" />
+          <Property Name="IsCash" Type="bit" />
+          <Property Name="SlsInvType" Type="int" />
+          <Property Name="SlsInvSrc" Type="int" />
+          <Property Name="CashBoxID" Type="int" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerMobileNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="SalesmanId" Type="int" />
+          <Property Name="StoreId" Type="int" />
+          <Property Name="OperationId" Type="int" />
+          <Property Name="TotalAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="VatAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="VatType" Type="int" />
+          <Property Name="DiscountAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="DiscountPrc" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NetAfterVat" Type="numeric" Precision="22" Scale="2" />
+          <Property Name="CommitionAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="CashAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="CardAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="BankTfAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="BankAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="TotalPaidAmount" Type="numeric" Precision="20" Scale="2" />
+          <Property Name="RemainAmount" Type="numeric" Precision="23" Scale="2" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="IsPosted" Type="bit" />
+          <Property Name="VoucherNo" Type="int" />
+          <Property Name="VoucherType" Type="tinyint" />
+          <Property Name="CreatedAt" Type="smalldatetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="25" />
+          <Property Name="UpdatedAt" Type="smalldatetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="25" />
+          <Property Name="CompCode" Type="int" />
+          <Property Name="BranchCode" Type="int" />
+          <Property Name="Slsm_Code" Type="nvarchar" MaxLength="25" />
+          <Property Name="Slsm_DescA" Type="nvarchar" MaxLength="100" />
+          <Property Name="Slsm_DescE" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cus_Code" Type="nvarchar" MaxLength="20" />
+          <Property Name="Cus_NameA" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cus_NameE" Type="nvarchar" MaxLength="100" />
+          <Property Name="Box_DescA" Type="nvarchar" MaxLength="150" />
+          <Property Name="Box_DescE" Type="nvarchar" MaxLength="150" />
+          <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocUUID" Type="nvarchar" MaxLength="124" />
+          <Property Name="TrTime" Type="time" Precision="7" />
+          <Property Name="InvoiceTypeCode" Type="int" />
+          <Property Name="InvoiceTransCode" Type="int" />
+          <Property Name="TaxNotes" Type="nvarchar" MaxLength="200" />
+          <Property Name="TaxCurrencyID" Type="int" />
+          <Property Name="InvoiceCurrenyID" Type="int" />
+          <Property Name="ContractNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="PurchaseorderNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="GlobalInvoiceCounter" Type="int" />
+          <Property Name="PrevInvoiceHash" Type="varchar" MaxLength="500" />
+          <Property Name="QRCode" Type="varchar" MaxLength="2000" />
+          <Property Name="CryptographicStamp" Type="varchar" MaxLength="2000" />
+          <Property Name="DeliveryDate" Type="smalldatetime" />
+          <Property Name="DeliveryEndDate" Type="smalldatetime" />
+          <Property Name="PaymentMeansTypeCode" Type="int" />
+          <Property Name="CRDBReasoncode" Type="int" />
+          <Property Name="PaymentTerms" Type="nvarchar" MaxLength="100" />
+          <Property Name="PaymentTermsID" Type="int" />
+          <Property Name="AllowAmount" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="AllowPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowBase" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowVatNatID" Type="int" />
+          <Property Name="AllowVatPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowAfterVat" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="AllowReason" Type="nvarchar" MaxLength="200" />
+          <Property Name="AllowCode" Type="int" />
+          <Property Name="ChargeAmount" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ChargePrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeBase" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeVatNatID" Type="int" />
+          <Property Name="ChargeVatPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeAfterVat" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ChargeReason" Type="nvarchar" MaxLength="200" />
+          <Property Name="ChargeCode" Type="int" />
+          <Property Name="ItemTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemAllowTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemDiscountTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemVatTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="RoundingAmount" Type="numeric" Precision="19" Scale="2" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Stores2021.dbo.IQ_GetSlsInvoiceStatistic' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="IQ_GetSlsInvoiceStatistic">
+          <Property Name="InvoiceID" Type="int" />
+          <Property Name="TrNo" Type="int" />
+          <Property Name="RefNO" Type="nvarchar" MaxLength="50" />
+          <Property Name="RefTrID" Type="int" />
+          <Property Name="TrDate" Type="smalldatetime" />
+          <Property Name="TrDateH" Type="nvarchar" MaxLength="20" />
+          <Property Name="TrType" Type="int" />
+          <Property Name="IsCash" Type="bit" />
+          <Property Name="SlsInvType" Type="int" />
+          <Property Name="SlsInvSrc" Type="int" />
+          <Property Name="CashBoxID" Type="int" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CustomerMobileNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="SalesmanId" Type="int" />
+          <Property Name="StoreId" Type="int" />
+          <Property Name="OperationId" Type="int" />
+          <Property Name="TotalAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="VatAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="VatType" Type="int" />
+          <Property Name="DiscountAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="DiscountPrc" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="NetAfterVat" Type="numeric" Precision="22" Scale="2" />
+          <Property Name="CommitionAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="CashAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="CardAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="BankTfAmount" Type="numeric" Precision="18" Scale="2" />
+          <Property Name="BankAccount" Type="nvarchar" MaxLength="50" />
+          <Property Name="TotalPaidAmount" Type="numeric" Precision="20" Scale="2" />
+          <Property Name="RemainAmount" Type="numeric" Precision="23" Scale="2" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+          <Property Name="Status" Type="int" />
+          <Property Name="IsPosted" Type="bit" />
+          <Property Name="VoucherNo" Type="int" />
+          <Property Name="VoucherType" Type="tinyint" />
+          <Property Name="CreatedAt" Type="smalldatetime" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="25" />
+          <Property Name="UpdatedAt" Type="smalldatetime" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="25" />
+          <Property Name="CompCode" Type="int" />
+          <Property Name="BranchCode" Type="int" />
+          <Property Name="Slsm_Code" Type="nvarchar" MaxLength="25" />
+          <Property Name="Slsm_DescA" Type="nvarchar" MaxLength="100" />
+          <Property Name="Slsm_DescE" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cus_Code" Type="nvarchar" MaxLength="20" />
+          <Property Name="Cus_NameA" Type="nvarchar" MaxLength="100" />
+          <Property Name="Cus_NameE" Type="nvarchar" MaxLength="100" />
+          <Property Name="Box_DescA" Type="nvarchar" MaxLength="150" />
+          <Property Name="Box_DescE" Type="nvarchar" MaxLength="150" />
+          <Property Name="DocNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocUUID" Type="nvarchar" MaxLength="124" />
+          <Property Name="TrTime" Type="time" Precision="7" />
+          <Property Name="InvoiceTypeCode" Type="int" />
+          <Property Name="InvoiceTransCode" Type="int" />
+          <Property Name="TaxNotes" Type="nvarchar" MaxLength="200" />
+          <Property Name="TaxCurrencyID" Type="int" />
+          <Property Name="InvoiceCurrenyID" Type="int" />
+          <Property Name="ContractNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="PurchaseorderNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="GlobalInvoiceCounter" Type="int" />
+          <Property Name="PrevInvoiceHash" Type="varchar" MaxLength="500" />
+          <Property Name="QRCode" Type="varchar" MaxLength="2000" />
+          <Property Name="CryptographicStamp" Type="varchar" MaxLength="2000" />
+          <Property Name="DeliveryDate" Type="smalldatetime" />
+          <Property Name="DeliveryEndDate" Type="smalldatetime" />
+          <Property Name="PaymentMeansTypeCode" Type="int" />
+          <Property Name="CRDBReasoncode" Type="int" />
+          <Property Name="PaymentTerms" Type="nvarchar" MaxLength="100" />
+          <Property Name="PaymentTermsID" Type="int" />
+          <Property Name="AllowAmount" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="AllowPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowBase" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowVatNatID" Type="int" />
+          <Property Name="AllowVatPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="AllowAfterVat" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="AllowReason" Type="nvarchar" MaxLength="200" />
+          <Property Name="AllowCode" Type="int" />
+          <Property Name="ChargeAmount" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ChargePrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeBase" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeVatNatID" Type="int" />
+          <Property Name="ChargeVatPrc" Type="numeric" Precision="19" Scale="4" />
+          <Property Name="ChargeAfterVat" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ChargeReason" Type="nvarchar" MaxLength="200" />
+          <Property Name="ChargeCode" Type="int" />
+          <Property Name="ItemTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemAllowTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemDiscountTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="ItemVatTotal" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="RoundingAmount" Type="numeric" Precision="19" Scale="2" />
+          <Property Name="Line_Count" Type="int" />
+          <Property Name="Item_Count" Type="int" />
+          <Property Name="Tot_Qty" Type="numeric" Precision="38" Scale="5" />
+          <Property Name="Tot_Amount" Type="numeric" Precision="38" Scale="10" />
+          <Property Name="Tot_VAT" Type="numeric" Precision="38" Scale="5" />
+          <Property Name="Tot_Net" Type="numeric" Precision="38" Scale="10" />
+          <Property Name="tot_RetQty" Type="numeric" Precision="38" Scale="5" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'Stores2021.dbo.IQ_GetSlsInvoiceSummary' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="IQ_GetSlsInvoiceSummary">
+          <Property Name="InvoiceID" Type="int" />
+          <Property Name="Line_Count" Type="int" />
+          <Property Name="Item_Count" Type="int" />
+          <Property Name="Tot_Qty" Type="numeric" Precision="38" Scale="5" />
+          <Property Name="Tot_Amount" Type="numeric" Precision="38" Scale="10" />
+          <Property Name="Tot_VAT" Type="numeric" Precision="38" Scale="5" />
+          <Property Name="Tot_Net" Type="numeric" Precision="38" Scale="10" />
+          <Property Name="tot_RetQty" Type="numeric" Precision="38" Scale="5" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'Stores2021.dbo.IQ_Outlet' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="IQ_Outlet">
           <Key>
@@ -2317,10 +2524,13 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
         </Function>
         <Function Name="GetDocNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="nvarchar">
           <Parameter Name="comp" Type="int" Mode="In" />
-          <Parameter Name="br" Type="nvarchar" Mode="In" />
+          <Parameter Name="br" Type="int" Mode="In" />
           <Parameter Name="trdate" Type="nvarchar" Mode="In" />
-          <Parameter Name="trno" Type="nvarchar" Mode="In" />
-          <Parameter Name="trtype" Type="nvarchar" Mode="In" />
+          <Parameter Name="trno" Type="int" Mode="In" />
+          <Parameter Name="trtype" Type="int" Mode="In" />
+          <Parameter Name="cash" Type="int" Mode="In" />
+          <Parameter Name="transcode" Type="int" Mode="In" />
+          <Parameter Name="Src" Type="int" Mode="In" />
         </Function>
         <Function Name="GFun_Companies" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userCode" Type="nvarchar" Mode="In" />

@@ -247,7 +247,7 @@ class ReportParameters {
     public vatyear: number;
     public prdcode: number;
     public Data_Report: string;
-
+    public DocPDFFolder: string;
 }
 
 class G_BRANCH extends SecurityClass {
@@ -284,7 +284,7 @@ class G_BRANCH extends SecurityClass {
         this.BRA_DESCE = "";
         this.GroupVatNo = "";
         this.VndIDTypeCode = 0;
-        this.IDNo;
+        this.IDNo
         this.Address_Street = "";
         this.Address_Str_Additional = "";
         this.Address_BuildingNo = "";
@@ -295,7 +295,14 @@ class G_BRANCH extends SecurityClass {
         this.Address_District = "";
         this.NationalityID = 0;
         this.Currencyid = 0;
-
+        this.InvoiceTypeCode = 0;
+        this.ReturnTypeCode = 0;
+        this.SlsInvType = 0;
+        this.RetailInvoiceTransCode = 0;
+        this.WholeInvoiceTransCode = 0;
+        this.RetailInvoicePayment = 0;
+        this.WholeInvoicePayment = 0;
+        this.ServiceInvoiceTransCode = 0;
     }
     public COMP_CODE: number;
     public BRA_CODE: number;
@@ -339,6 +346,14 @@ class G_BRANCH extends SecurityClass {
     public Address_District: string;
     public NationalityID: number;
     public Currencyid: number;
+    public InvoiceTypeCode: number;
+    public ReturnTypeCode: number;
+    public SlsInvType: number;
+    public RetailInvoiceTransCode: number;
+    public WholeInvoiceTransCode: number;
+    public RetailInvoicePayment: number;
+    public WholeInvoicePayment: number;
+    public ServiceInvoiceTransCode: number;
 }
 class G_LnkVarBranch extends SecurityClass {
     constructor() {
@@ -1478,6 +1493,18 @@ class I_D_UOM extends SecurityClass {
     public StatusFlag: string;
 }
 
+class SlsInvoiceMasterDetails extends SecurityClass {
+    constructor() {
+        super();
+        this.I_Sls_TR_Invoice = new I_Sls_TR_Invoice();
+        this.I_Sls_TR_InvoiceItems = new Array<I_Sls_TR_InvoiceItems>();
+    }
+    public I_Sls_TR_Invoice: I_Sls_TR_Invoice;
+    public I_Sls_TR_InvoiceItems: Array<I_Sls_TR_InvoiceItems>;
+
+
+}
+
 class Tax_Type {
     constructor() {
         this.Nature = 0;
@@ -1490,6 +1517,16 @@ class Tax_Type {
 
 }
 
+class CustomerType {
+    constructor() {
+        this.IsCredit = null;
+        this.SalesInvoiceNature = null;
+        this.IsPersonal = null;
+    }
+    public IsCredit: number;
+    public SalesInvoiceNature: number;
+    public IsPersonal: boolean;
+}
 
 class I_ItemFamily extends SecurityClass {
     constructor() {
@@ -3775,6 +3812,7 @@ class I_Sls_TR_InvoiceItems extends SecurityClass {
 class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     constructor() {
         super();
+
         this.InvoiceID = 0;
         this.TrNo = 0;
         this.RefNO = "";
@@ -3824,6 +3862,47 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.Cus_NameE = "";
         this.Box_DescA = "";
         this.Box_DescE = "";
+        this.DocNo = "";
+        this.DocUUID = "";
+        this.TrTime = "";
+        this.InvoiceTypeCode = 0;
+        this.InvoiceTransCode = 0;
+        this.TaxNotes = "";
+        this.TaxCurrencyID = 0;
+        this.InvoiceCurrenyID = 0;
+        this.ContractNo = "";
+        this.PurchaseorderNo = "";
+        this.GlobalInvoiceCounter = 0;
+        this.PrevInvoiceHash
+        this.QRCode
+        this.CryptographicStamp
+        this.DeliveryDate = "";
+        this.DeliveryEndDate = "";
+        this.PaymentMeansTypeCode = 0;
+        this.CRDBReasoncode = 0;
+        this.PaymentTerms = "";
+        this.PaymentTermsID = 0;
+        this.AllowAmount = 0;
+        this.AllowPrc = 0;
+        this.AllowBase = 0;
+        this.AllowVatNatID = 0;
+        this.AllowVatPrc = 0;
+        this.AllowAfterVat = 0;
+        this.AllowReason = "";
+        this.AllowCode = 0;
+        this.ChargeAmount = 0;
+        this.ChargePrc = 0;
+        this.ChargeBase = 0;
+        this.ChargeVatNatID = 0;
+        this.ChargeVatPrc = 0;
+        this.ChargeAfterVat = 0;
+        this.ChargeReason = "";
+        this.ChargeCode = 0;
+        this.ItemTotal = 0;
+        this.ItemAllowTotal = 0;
+        this.ItemDiscountTotal = 0;
+        this.ItemVatTotal = 0;
+        this.RoundingAmount = 0;
         this.Line_Count = 0;
         this.Item_Count = 0;
         this.Tot_Qty = 0;
@@ -3831,10 +3910,9 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.Tot_VAT = 0;
         this.Tot_Net = 0;
         this.tot_RetQty = 0;
-        this.returnTypeDesciption = "";
         this.statusDesciption = "";
         this.IsCashDesciption = "";
-        this.operationName = "";
+        this.returnTypeDesciption = "";
     }
     public InvoiceID: number;
     public TrNo: number;
@@ -3885,6 +3963,47 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public Cus_NameE: string;
     public Box_DescA: string;
     public Box_DescE: string;
+    public DocNo: string;
+    public DocUUID: string;
+    public TrTime: string;
+    public InvoiceTypeCode: number;
+    public InvoiceTransCode: number;
+    public TaxNotes: string;
+    public TaxCurrencyID: number;
+    public InvoiceCurrenyID: number;
+    public ContractNo: string;
+    public PurchaseorderNo: string;
+    public GlobalInvoiceCounter: number;
+    public PrevInvoiceHash: any;
+    public QRCode: any;
+    public CryptographicStamp: any;
+    public DeliveryDate: string;
+    public DeliveryEndDate: string;
+    public PaymentMeansTypeCode: number;
+    public CRDBReasoncode: number;
+    public PaymentTerms: string;
+    public PaymentTermsID: number;
+    public AllowAmount: number;
+    public AllowPrc: number;
+    public AllowBase: number;
+    public AllowVatNatID: number;
+    public AllowVatPrc: number;
+    public AllowAfterVat: number;
+    public AllowReason: string;
+    public AllowCode: number;
+    public ChargeAmount: number;
+    public ChargePrc: number;
+    public ChargeBase: number;
+    public ChargeVatNatID: number;
+    public ChargeVatPrc: number;
+    public ChargeAfterVat: number;
+    public ChargeReason: string;
+    public ChargeCode: number;
+    public ItemTotal: number;
+    public ItemAllowTotal: number;
+    public ItemDiscountTotal: number;
+    public ItemVatTotal: number;
+    public RoundingAmount: number;
     public Line_Count: number;
     public Item_Count: number;
     public Tot_Qty: number;
@@ -3892,12 +4011,10 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public Tot_VAT: number;
     public Tot_Net: number;
     public tot_RetQty: number;
-    public returnTypeDesciption: string;
     public statusDesciption: string;
     public IsCashDesciption: string;
-    public operationName: string;
+    public returnTypeDesciption: string;
 }
-
 class IQ_GetSlsInvoiceItem extends SecurityClass {
     constructor() {
         super();
@@ -4019,6 +4136,7 @@ class IQ_GetSlsInvoiceItem extends SecurityClass {
     public UnitpriceWithVat: number;
     public NetUnitPriceWithVat: number;
 }
+
 class IQ_GetSlsInvoiceList extends SecurityClass {
     constructor() {
         super();
@@ -9718,7 +9836,7 @@ class ORDER_DELIVERY extends SecurityClass {
     public Confirmation: boolean;
     public Num_Day: number;
 }
-class SlsInvoiceMasterDetails extends SecurityClass {
+class SlsInvoiceMasterDetailss extends SecurityClass {
     constructor() {
         super();
         this.I_Sls_TR_Invoice = new ORDER_Master();

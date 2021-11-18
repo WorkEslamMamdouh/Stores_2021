@@ -178,6 +178,7 @@ class UserPrivilege {
 
 class SystemEnvironment {
 
+
     public I_Control: I_Control;
     public SystemCode: string;
     public SYSTEM_DESCE: string;
@@ -204,43 +205,34 @@ class SystemEnvironment {
     public ModuleCode: string;
     public IsBiLingual?: any;
     public Token: string;
-    public IsNotificaitonActive: boolean; 
-    public IsDashboardActive: boolean;     
-    public StartDate: string;     
-    public EndDate: string;     
-    public ActionLastDate: string;     
-    public SysTimeOut: number;
+
+    public IsNotificaitonActive: boolean;
+    public IsDashboardActive: boolean;
+    public StartDate: string;
+    public EndDate: string;
+    public InvoiceTypeCode: number;
+    public RetailInvoiceTransCode: number;
+    //public ActionLastDate: string;     
+    //public SysTimeOut: number;
     public NationalityID: number;
     public Currencyid: number;
-    public InvoiceTypeCode: number;
-    public InvoiceTransCode: number;
-    public GL_VoucherCCDT_Type: number;
-    public InvoiceWithoutCust: boolean;
-    public IvoiceDateEditable: boolean;
-    public InvoiceLineDiscount: boolean;
-    public InvoiceLineAllowance: boolean;
-    public InvoiceTotalAllowance: boolean;
-    public InvoiceTotalCharge: boolean;
-    public OperationPriceWithVAT: boolean;
-    public SalesPriceWithVAT: boolean;
-    public IsLocalBranchCustomer: boolean;
-  
+    public ReturnTypeCode: number;
+    public SlsInvType: number;
+    public WholeInvoiceTransCode: number;
+    public RetailInvoicePayment: number;
+    public WholeInvoicePayment: number;
+    public ServiceInvoiceTransCode: number;
+
      }
 class sysInternal_Comm {
-    public static Source: string;
-    public static Destination: string;
-    public static IdList: Array<number>;
-    public static MsgID: number;
-    public static ImgType: string;
-    public static IsSiglePicture: boolean; // 
-    public static PicOwnerID: number;   // Tr No image id 
-    public static IsUploadPic: boolean;   // if true used can upload 
-    public static IsdownloadPic: boolean;  // user can download 
-    public static IsAutoSave: boolean;  // user can download 
-    
-    public static MsgReplyID: number;
-    public static slected_MemberID: number = 0;
-    public static period_ID: number = 0;
+    public static Branch: string;
+    public static Company: string;
+    public static Storeid: number;
+    public static Descr: string;
+    public static Code: string; // 
+    public static Mode: number;   //1 retail , 2 wholesale , 3 : purchase  4 stock 
+    public static VatNatID: number = 0;
+    public static Itemid: number = 0;
 }
 
 

@@ -122,6 +122,9 @@ namespace StkDefCategory {
             $("#txtVatNat" + CountGrid).removeAttr("disabled");
             $("#txtDescA" + CountGrid).removeAttr("disabled");
             $("#txtDescL" + CountGrid).removeAttr("disabled");
+            $("#txtGroupunits" + CountGrid).removeAttr("disabled");
+
+            
 
             // can delete new inserted record  without need for delete privilage
             $("#btn_minus" + CountGrid).removeClass("display_none");

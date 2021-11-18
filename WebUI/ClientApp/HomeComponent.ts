@@ -554,7 +554,7 @@ namespace HomeComponent {
         }
         $('.MED').removeClass('display_none');
 
-        if (SysSession.CurrentEnvironment.GL_VoucherCCDT_Type != 1) {
+        if (SysSession.CurrentEnvironment.I_Control[0].GL_VoucherCCDT_Type  != 1) {
             $('#btnDtcostcenter').addClass('display_none');
             $('#btnCcdtAccState').addClass('display_none');
         }

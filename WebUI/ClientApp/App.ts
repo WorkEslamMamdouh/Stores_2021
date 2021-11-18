@@ -1678,6 +1678,30 @@ function Get_PriceWithVAT(item_unitprice: number, VatPRc: number, flag_PriceWith
 
 
 
+function SetCustomerType(Transcode: number, Iscredit: number, SlsType: string) {
+
+    var Ct: CustomerType = new CustomerType();
+
+    Ct.IsCredit = Iscredit;
+
+    if (Transcode == 1) { //  Standard
+        Ct.IsPersonal = false;
+    }
+    if (Transcode == 2) { //  Simplified
+        Ct.IsPersonal = true;
+    }
+    if (SlsType == 'W') { //  Wholesale 
+        Ct.SalesInvoiceNature = 2;
+    }
+    if (SlsType == 'R') { //  Retail
+        Ct.SalesInvoiceNature = 1;
+    }
+
+    return Ct;
+
+}
+
+
 function CompareTime(t1: string, t2: string): number {
     // add days 
     ////debugger;

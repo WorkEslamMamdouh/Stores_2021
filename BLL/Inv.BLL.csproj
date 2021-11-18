@@ -80,6 +80,8 @@
     <Compile Include="Services\Outletpirce\OutletpirceServices.cs" />
     <Compile Include="Services\Purchases\IPurchases_MasterServices.cs" />
     <Compile Include="Services\Purchases\Purchases_MasterServices.cs" />
+    <Compile Include="Services\SlsInvoiceItems\ISlsInvoiceItemsService.cs" />
+    <Compile Include="Services\SlsInvoiceItems\SlsInvoiceItemsService.cs" />
     <Compile Include="Services\SlsTrSales\ISlsTrSalesServices.cs" />
     <Compile Include="Services\SlsTrSales\SlsTrSalesServices.cs" />
     <Compile Include="Services\StkDefCategory\IStkDefCategoryService.cs" />

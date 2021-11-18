@@ -107,12 +107,12 @@
                             <div id=" " role="menu" class="dropdown-menu left-menu-dropdown animated flipInX">
                                 <ul id=" ">
                                     @*<li class="liItem dropdown-item" id="btnStkDefItems" key="StkDefItems"><a id=""> @SystemResource.Men_StkDefItems </a></li>*@
-                                    <li class="liItem dropdown-item" id="btnStkDefItemsNew" key="StkDefItemsNew"><a id="btnStkDefItemsNew">تعريف @SystemResource.Men_StkDefItems  </a></li>
                                     <li class="liItem dropdown-item" id="btnStkDefUnitGroup" key="StkDefUnitGroup"><a id="">حدد الوحدات </a></li>
-
-                                    <li class="liItem dropdown-item" id="btnStkDefItemType" key="StkDefItemType"><a id="">@SystemResource.Men_StkDefItemType</a></li>
                                     <li class="liItem dropdown-item" id="btnStkDefCategory" key="StkDefCategory"><a id=""> @SystemResource.Men_StkDefCategory </a></li>
-                                    <li class="liItem dropdown-item" id="btnDefStore" key="DefStore"><a id=""> @SystemResource.Men_StkDefStore  </a></li>
+                                    <li class="liItem dropdown-item" id="btnStkDefItemType" key="StkDefItemType"><a id="">@SystemResource.Men_StkDefItemType</a></li>
+                                    <li class="liItem dropdown-item" id="btnStkDefItemsNew" key="StkDefItemsNew"><a id="btnStkDefItemsNew">تعريف @SystemResource.Men_StkDefItems  </a></li>
+
+                                    @*<li class="liItem dropdown-item" id="btnDefStore" key="DefStore"><a id=""> @SystemResource.Men_StkDefStore  </a></li>*@
 
 
                                 </ul>
@@ -281,13 +281,16 @@
                             <div class="  col-lg-2 col-md-2 col-sm-3 col-xs-3  posation_titel_top_par">
                                 <div class="header-top-menu tabl-d-n">
                                     <label id="Screen_name" class="pading_titelpag"></label>
-                                    <label id="TitleSpan" class="pading_titelpag"></label>
+                                    @*<label id="TitleSpan" class="pading_titelpag"></label>*@
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4 pl-0 pr-0">
                                 <div class="header-top-menu tabl-d-n">
                                     <label id="camp_name" class="pading_titelpag"></label>
+                                    <label id="" class="pading_titelpag">   (    </label> 
                                     <label id="TitleSpan" class="pading_titelpag"></label>
+                                    <label id="" class="pading_titelpag">   )     </label>
+
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-5 col-sm-6 col-xs-12 posation_control posation_  top29 ">
@@ -561,5 +564,111 @@
     </script>
 
     <script src="~/Style_design/messages_Script.js"></script>
+
+    <div class="modal fade" id="Popupitem" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 borderred">
+                <button type="button" class="close col-xs-1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="col-xs-12">
+                    <div class="col-lg-12">
+
+                        <div class="col-lg-1 pad_">
+                            <label class=" pading_2 ">@SystemResource.APP_Category</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <select id="drpPaymentType" class="form-control"></select>
+                        </div>
+                        <div class="col-lg-1 pad_">
+                            <label class=" pading_2 ">@SystemResource.App_Type</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <select id="drpitem_family" class="form-control"><option value="0">@SystemResource.App_Type</option></select>
+                        </div>
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" pading_2 ">@SystemResource.Itm_ItemCode</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <input id="ItemCodePopup" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <div class="col-lg-1 pad_">
+                            <label class=" style_pading_lepel2 "> مجموعات</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <select id="drp_UnitGroup" class="form-control"></select>
+                        </div>
+
+                        <div class="col-lg-1 pad_">
+                            <label class=" style_pading_lepel2 ">@SystemResource.App_Quantity</label>
+                        </div>
+                        <div class="col-lg-3">
+                            <select id="drp_Qty" class="form-control">
+                                <option value="0">@SystemResource.App_All</option>
+                                <option value="1">متوفر في الفرع الحالي</option>
+                                @*<option value="2">متوفر في الشركة</option>
+                                    <option value="3">غير متوفر في الفرع الحالي</option>
+                                    <option value="4">غير متوفر في الشركة</option>*@
+
+                            </select>
+                        </div>
+
+                        <div class="col-lg-2 float-left ">
+                            <button type="button" class="btn btn-info" id="btnsrePopup">
+                                @SystemResource.App_Show  <span class="glyphicon glyphicon-save "></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-2 pad_">
+                            <label class=" style_pading_lepel2 ">الاسم يحتوى علي </label>
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <input type="text" id="Likedesc" class=" form-control" />
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <select id="drpcontaindesc" class="form-control">
+                                <option value="0">في البداية</option>
+                                <option value="1">يحتوي علي</option>
+                                <option value="2">فى النهاية</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <label class=" style_pading_lepel2 ">الكود يحتوى علي </label>
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <input type="text" id="Likecode" class=" form-control" />
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <select id="drpcontaincode" class="form-control">
+                                <option value="0">في البداية</option>
+                                <option value="1">يحتوي علي</option>
+                                <option value="2">فى النهاية</option>
+                            </select>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 display_none" id="divGridShow">
+                    <input type="text" class="  form-control  col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4" placeholder="@SystemResource.App_Search" id="txtSearch" />
+                    <table id="divpopupGrid"></table>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
 </body>
 </html>

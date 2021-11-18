@@ -145,8 +145,8 @@ var sysInternal_Comm = (function () {
     }
     return sysInternal_Comm;
 }());
-sysInternal_Comm.slected_MemberID = 0;
-sysInternal_Comm.period_ID = 0;
+sysInternal_Comm.VatNatID = 0;
+sysInternal_Comm.Itemid = 0;
 var SystemSession = (function () {
     function SystemSession() {
         this.CurrentPrivileges = new UserPrivilege();

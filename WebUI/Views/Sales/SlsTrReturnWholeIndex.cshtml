@@ -77,7 +77,7 @@
         });
     });
 </script>
-<div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 borderred">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 margingred  borderred">
     <div id="div_hedr">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12">
             <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager">@SystemResource.App_Cutomer</label>
@@ -155,29 +155,25 @@
                 </button>
             </div>
 
-
             <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1" style="float: left !important;left: 0.7%;">
-                <input id="SlsInvType" name="" value="1" type="text" class="form-control  text_Display display_none">
+                <input id="SlsInvType" name="" value="2" type="text" class="form-control  text_Display display_none">
             </div>
 
         </div>
-        <div class="col-lg-12  col-md-12 col-sm-12 col-xl-12 col-xs-12">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12">
+            <label class="col-lg-1 col-sm-1 col-xs-4  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager"> من رقم</label>
+            <div class="col-lg-1 col-md-2 col-sm-2 col-xl-2 col-xs-2">
+                <input id="fromNum" name="" value="0" type="number" class="form-control  text_Display ">
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6" style="border: solid 1px;border-radius: 13px;">
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4">
-                    <button id="btnPrintNew" type="button" class="  btn btn-custon-four   primary-btn-cl "><span class="adminpro-icon adminpro-paint-roller"></span> @SystemResource.printinvoicefromto  </button>
-                </div>
-                <label class="col-lg-2 col-sm-2 col-xs-2  marginstenig pading_lep  pading_2 "> @SystemResource.fromnum</label>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
-                    <input id="fromNum" name="" value="0" type="number" class="form-control  text_Display ">
-                </div>
 
-                <label class="col-lg-2 col-sm-2 col-xs-2  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager"> @SystemResource.tonum  </label>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
-                    <input id="ToNum" name="" value="0" type="number" class="form-control  text_Display ">
-                </div>
+            <label class="col-lg-1 col-sm-1 col-xs-4  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager"> الي رقم</label>
+            <div class="col-lg-1 col-md-2 col-sm-2 col-xl-2 col-xs-2">
+                <input id="ToNum" name="" value="0" type="number" class="form-control  text_Display ">
             </div>
+            <div class="col-lg-1 col-md-2 col-sm-2 col-xl-2 col-xs-2">
+                <button id="btnPrintNew" type="button" class="  btn btn-custon-four btndefolt primary-btn-cl "><span class="adminpro-icon adminpro-paint-roller"></span>          طباعة الفوتير من الي      </button>
+            </div>
+
         </div>
 
         <div class="form-group display_none " id="divShow">
@@ -218,7 +214,7 @@
                 </button>
                 @* mona*@
                 <button id="btnPrintTransaction" type="button" class="btn btn-warning ">
-                    <span class="glyphicon glyphicon-save"></span> @SystemResource.App_Print
+                    <span class="glyphicon glyphicon-save"></span> @SystemResource.Print_Report
                 </button>
             </div>
         </div>
@@ -240,10 +236,9 @@
             <div class="col-lg-2 col-md-3 col-sm-3 col-xl-3 col-xs-3">
                 <input type="date" class="form-control" disabled name="" id="txtInvoiceDate" style="font-size: 16px !important;">
             </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1">
-             </div>
+
             <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  marginstenig pading_lep  pading_2 textcentr_padingSlsTrReturn  ">  @SystemResource.App_approved  </label>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1" style=" left: 4%;">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1" style=" left: 3%;">
                 <input type="checkbox" class="checkbox" id="chkActive" disabled name="CUSTOM2" />
             </div>
         </div>
@@ -288,17 +283,20 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12">
             <div id="divFreeSalesman">
                 <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 marginstenig pading_lep  pading_2 textcentr_padingSlsTrReturn">  @SystemResource.App_Salesman </label>
-                <div class="col-lg-5 col-md-3 col-sm-3 col-xl-3 col-xs-3">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3">
                     <select id='ddlFreeSalesman' class="form-control" style='width: 100%;border-radius: 30px;'></select>
                 </div>
             </div>
 
-            <label class="col-lg-1 col-md-2 col-sm-2 col-xs-4 marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager text-end">  @SystemResource.App_TaxType   </label>
+            <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 marginstenig pading_lep  pading_2 textcentr_padingSlsTrReturn">  @SystemResource.App_TaxType   </label>
             <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
                 <select id="ddlTaxTypeHeader" disabled="disabled" name="" class="form-control" style="width: 100%;border-radius: 30px;">
                     <option value="null">@SystemResource.Choosetax</option>
                 </select>
-            </div> 
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
+
+            </div>
             <div class="display_none" id="DivCashBox2">
                 <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 marginstenig pading_lep  pading_2 textcentr_padingSlsTrReturn">  @SystemResource.App_PaidMoney  </label>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
@@ -319,20 +317,20 @@
                     <span class="">@SystemResource.serial</span>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0">
-                    <span class="">@SystemResource.App_Code  </span>
+                    <span class="">الكود  </span>
 
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
-                    <span class="">@SystemResource.App_Name</span>
+                    <span class="">الاسم</span>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1">
-                    <span class="">@SystemResource.Itm_Item</span>
+                    <span class="">الوحده</span>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0">
                     <span class="">@SystemResource.App_soldQty </span>
 
                 </div>
-                <div class="col-lg-1  p-0" style="text-align: center;">
+                <div class="col-lg-1  " style="text-align: center;">
                     <span class="">@SystemResource.App_returnQty</span>
 
                 </div>
@@ -340,16 +338,16 @@
                     <span class="">@SystemResource.App_Price</span>
 
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0 ">
-                    <span class="">@SystemResource.discountpercentage</span>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  ">
+                    <span class="">% نسبة الخصم</span>
 
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0 ">
-                    <span class=""> @SystemResource.Discount </span>
+                    <span class="">الخصم </span>
 
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  ">
-                    <span class=""> @SystemResource.Priceafterdiscount </span>
+                    <span class="">السعر بعد الخصم</span>
 
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  ">
@@ -389,20 +387,21 @@
                 </div>
 
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
-                    <label class="col-lg-5 col-md-5 col-sm-5 col-xl-5 col-xs-5  marginstenig pading_lep  pading_2 text-center ">@SystemResource.Discount</label>
+                    <label class="col-lg-5 col-md-5 col-sm-5 col-xl-5 col-xs-5  marginstenig pading_lep  pading_2 text-center ">الخصم</label>
                     <input type="text" class="form-control input-sm col-xs-7" disabled name="ItemDiscountTotal" id="txtTotalDiscount">
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4 p-0">
-                    <label class="col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4 marginstenig pading_lep  pading_2 "> @SystemResource.Totalafterdiscount</label>
+                    <label class="col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4 marginstenig pading_lep  pading_2 ">اجمالي بعد الخصم</label>
                     <input type="text" class="form-control input-sm col-lg-3" disabled name="ItemTotal" id="txtTotal">
 
                     <label class="col-lg-2 col-md-2 col-sm-5 col-xl-5 col-xs-5  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager2">@SystemResource.App_Tax</label>
                     <input type="text" class="form-control input-sm col-lg-3" disabled name="VatAmount" id="txtTax">
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2 p-0">
-                    <label class="col-lg-5 col-md-5 col-sm-5 col-xl-5 col-xs-5  marginstenig pading_lep  pading_2 text-center">@SystemResource.Itm_Diff</label>
-                    
+                    <label class="col-lg-5 col-md-5 col-sm-5 col-xl-5 col-xs-5  marginstenig pading_lep  pading_2 text-center">الفرق</label>
+                    @*<input id="txtDiscountPrcnt" name="" type="number" class="form-control input-sm  col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3">*@
+                    @*<label class=" pading_lep centeralign col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">%</label>*@
                     <input id="txtDiscountValue" disabled name="" type="number" class="form-control input-sm col-lg-7">
                 </div>
 

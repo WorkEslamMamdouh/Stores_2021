@@ -122,6 +122,12 @@ namespace Inv.DAL.Domain
     {
     }
 
+    public partial class I_Sls_TR_InvoiceItems : SecurityandUpdateFlagClass
+    {
+    }
+
+    
+
     public partial class G_COMPANY : SecurityandUpdateFlagClass
     {
     }
