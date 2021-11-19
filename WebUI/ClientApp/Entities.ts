@@ -3911,6 +3911,7 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.CUSTOMER_NAME = "";
         this.statusDesciption = "";
         this.IsCashDesciption = "";
+        this.returnTypeDesciption = "";
     }
     public TrNo: number;
     public RefNO: string;
@@ -4011,6 +4012,7 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public CUSTOMER_NAME: string;
     public statusDesciption: string;
     public IsCashDesciption: string;
+    public returnTypeDesciption: string;
 }
 class IQ_GetSlsInvoiceItem extends SecurityClass {
     constructor() {

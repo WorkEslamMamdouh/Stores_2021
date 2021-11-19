@@ -127,14 +127,8 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Sales/SlsTrSalesIndex.cshtml");
         }
-        public ActionResult SlsTrReturnIndex()
-        {
-            return View("~/Views/Sales/SlsTrReturnIndex.cshtml");
-        }
-        public ActionResult SlsTrSalesManagerIndex()
-        {
-            return View("~/Views/Sale/SlsTrSalesManagerIndex.cshtml");
-        }
+       
+       
         public ActionResult PurchasesIndex()
         {
             return View("~/Views/Purchases/PurchasesIndex.cshtml");
@@ -144,6 +138,22 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Stock/CategoriesIndex.cshtml");
         }
+
+
+        public ActionResult SlsTrSalesManagerIndex()
+        {
+            return View("~/Views/Sales/SlsTrSalesManagerIndex.cshtml");
+        }
+        public ActionResult SlsTrReturnIndex()
+        {
+            return View("~/Views/Sales/SlsTrReturnIndex.cshtml");
+        } 
+        public ActionResult SlsTrShowPriceIndex()
+        {
+            return View("~/Views/Sales/SlsTrShowPriceIndex.cshtml");
+        }
+       
+
 
 
         public ActionResult ItemsIndex()
@@ -159,6 +169,12 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Generalsetting/SupplierIndex.cshtml");
         }
+
+        public ActionResult AccDefSalesmenIndex()
+        {
+            return View("~/Views/Generalsetting/AccDefSalesmenIndex.cshtml");
+        }
+
         public ActionResult CUSTOMERSIndex()
         {
             return View("~/Views/Generalsetting/CUSTOMERSIndex.cshtml");

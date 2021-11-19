@@ -2383,6 +2383,7 @@ var IQ_GetSlsInvoiceStatistic = /** @class */ (function (_super) {
         _this.CUSTOMER_NAME = "";
         _this.statusDesciption = "";
         _this.IsCashDesciption = "";
+        _this.returnTypeDesciption = "";
         return _this;
     }
     return IQ_GetSlsInvoiceStatistic;

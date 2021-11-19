@@ -442,7 +442,6 @@ var StkDefUnitGroup;
         }
     }
     function Assign() {
-        ;
         MasterModel = new UnitGroup();
         var StatusFlag;
         for (var i = 0; i < CountGrid; i++) {

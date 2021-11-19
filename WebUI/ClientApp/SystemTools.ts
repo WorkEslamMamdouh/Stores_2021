@@ -706,23 +706,33 @@
                         divpopupGrid.SelectedIndex = 1;
                         divpopupGrid.OnRowDoubleClicked = () => {
 
-                            sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);
+                            var OnHand = Details.filter(x => x.ItemID == Number(divpopupGrid.SelectedKey))
+                          
+                            if (OnHand[0].StoreQty == 0) {
+                                DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                                $('#Popupitem').modal('hide');
+                                return false
+                            }
 
+                        
+
+                            sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);
                             OnSearchSelected();
                             $('#Popupitem').modal('hide');
 
                         }
                         divpopupGrid.PrimaryKey = "ItemID";
+                        divpopupGrid.SelectedItem = "StoreQty";
                         divpopupGrid.Columns = [
                             { title: "ID", name: "ItemID", type: "text", width: "2%", visible: false },
-                            { title: 'رقم الصنف', name: "ItemCode", type: "text", width: "10%" },
+                            { title: 'رقم الصنف', name: "ItemCode", type: "text", width: "20%" },
                             { title: 'الوصف', name: (lang == "ar" ? "DescA" : "DescL"), type: "text", width: "35%" },
                             { title: 'الفئة', name: (lang == "ar" ? "cat_DescA" : "Cat_DescE"), type: "text", width: "12%" },
-                            { title: 'الصنف الرئيسي', name: (lang == "ar" ? "fm_DescA" : "fm_DescE"), type: "text", width: "14%" },
-                            { title: 'الوحدة الرئيسية', name: (lang == "ar" ? "uom_DescA" : "Uom_DescE"), type: "text", width: "16%" },
-                            { title: 'الكمية في الشركة ', name: "CompQty", type: "text", width: "13%" },
-                            { title: 'الكمية  في الفرع ', name: "BranchQty", type: "text", width: "13%" },
-                            { title: 'الكمية  في المستودع ', name: "StoreQty", type: "text", width: "13%" },
+                            { title: 'الصنف الرئيسي', name: (lang == "ar" ? "fm_DescA" : "fm_DescE"), type: "text", width: "%" },
+                            { title: 'الوحدة الرئيسية', name: (lang == "ar" ? "uom_DescA" : "Uom_DescE"), type: "text", width: "11%" },
+                            //{ title: 'الكمية في الشركة ', name: "CompQty", type: "text", width: "13%" },
+                            //{ title: 'الكمية  في الفرع ', name: "BranchQty", type: "text", width: "13%" },
+                            { title: 'الكمية  في المستودع ', name: "StoreQty", type: "text", width: "10%" },
 
 
                         ];
@@ -733,10 +743,79 @@
                 }
             });
 
+
+
         };
-        //------------------------------------------------------------------------------- 
+        //--------------------------------------Display_Show-----------------------------------------
+        let catId = $('#drpPaymentType').val();
+        let ItemFamilyID = $('#drpitem_family').val();
+        let uomgrpid = $('#drp_UnitGroup').val();
+        let qtytype = Number($('#drp_Qty').val());
+        let LikeDesc = $('#Likedesc').val();
+        let LikeCode = $('#Likecode').val();
+        let containdesc = $('#drpcontaindesc').val();
+        let containcode = $('#drpcontaincode').val();
+
+        Ajax.Callsync({
+            type: "Get",
+            url: this.apiUrl("StkDefItems", "GetAll_Item_Proc"),
+            data: {
+                CompCode: this.SysSession.CurrentEnvironment.CompCode, FinYear: this.SysSession.CurrentEnvironment.CurrentYear, Branch: BranchCode, storeCode: Storeid, catid: catId, ItemFamilyID: ItemFamilyID, uomgrpid: uomgrpid, qtytype: qtytype, LikeDesc: LikeDesc, LikeCode: LikeCode, containdesc: containdesc, containcode: containcode, UserCode: this.SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + this.SysSession.CurrentEnvironment.Token
+            },
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess) {
+                    Details = result.Response as Array<IProc_GetItemQtyList>;
+
+                    let res: any = GetResourceList("");
+                    divpopupGrid.ElementName = "divpopupGrid";
+                    divpopupGrid.Paging = true;
+                    divpopupGrid.PageSize = 10;
+                    divpopupGrid.Sorting = true;
+                    divpopupGrid.InsertionMode = JsGridInsertionMode.Binding;
+                    divpopupGrid.Editing = false;
+                    divpopupGrid.Inserting = false;
+                    divpopupGrid.SelectedIndex = 1;
+                    divpopupGrid.OnRowDoubleClicked = () => {
+
+                        var OnHand = Details.filter(x => x.ItemID == Number(divpopupGrid.SelectedKey))
+
+                        if (OnHand[0].StoreQty == 0) {
+                            DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                            $('#Popupitem').modal('hide');
+                            return false
+                        }
 
 
+
+                        sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);
+                        OnSearchSelected();
+                        $('#Popupitem').modal('hide');
+
+                    }
+                    divpopupGrid.PrimaryKey = "ItemID";
+                    divpopupGrid.SelectedItem = "StoreQty";
+                    divpopupGrid.Columns = [
+                        { title: "ID", name: "ItemID", type: "text", width: "2%", visible: false },
+                        { title: 'رقم الصنف', name: "ItemCode", type: "text", width: "20%" },
+                        { title: 'الوصف', name: (lang == "ar" ? "DescA" : "DescL"), type: "text", width: "35%" },
+                        { title: 'الفئة', name: (lang == "ar" ? "cat_DescA" : "Cat_DescE"), type: "text", width: "12%" },
+                        { title: 'الصنف الرئيسي', name: (lang == "ar" ? "fm_DescA" : "fm_DescE"), type: "text", width: "%" },
+                        { title: 'الوحدة الرئيسية', name: (lang == "ar" ? "uom_DescA" : "Uom_DescE"), type: "text", width: "11%" },
+                        //{ title: 'الكمية في الشركة ', name: "CompQty", type: "text", width: "13%" },
+                        //{ title: 'الكمية  في الفرع ', name: "BranchQty", type: "text", width: "13%" },
+                        { title: 'الكمية  في المستودع ', name: "StoreQty", type: "text", width: "10%" },
+
+
+                    ];
+                    divpopupGrid.DataSource = Details;
+                    divpopupGrid.Bind();
+                    $('#divGridShow').removeClass('display_none');
+                }
+            }
+        });
+
+        //---------------------------------------------------------------------------------
 
     }
 

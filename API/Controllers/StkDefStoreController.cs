@@ -28,7 +28,7 @@ namespace Inv.API.Controllers
         {
             if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
             {
-                var AccDefCustomerList = StkDefStoreService.GetAll().ToList();
+                var AccDefCustomerList = StkDefStoreService.GetAll(x => x.COMP_CODE == CompCode && x.BRA_CODE == BranchCode).ToList();
 
                 return Ok(new BaseResponse(AccDefCustomerList));
             }

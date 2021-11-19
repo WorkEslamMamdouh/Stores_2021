@@ -1187,6 +1187,7 @@
     <Content Include="Views\Sales\SlsTrReturnWholeIndex.cshtml" />
     <Content Include="Views\Sales\SlsTrSalesWholeIndex.cshtml" />
     <Content Include="Views\Sales\SlsTrShowPriceIndex.cshtml" />
+    <Content Include="Views\Generalsetting\AccDefSalesmenIndex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1208,6 +1209,7 @@
     <TypeScriptCompile Include="ClientApp\App.ts" />
     <TypeScriptCompile Include="ClientApp\ClientGeneralTools.ts" />
     <TypeScriptCompile Include="ClientApp\CollectionReports\Clientaccstat.ts" />
+    <TypeScriptCompile Include="ClientApp\Generalsetting\AccDefSalesmen.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\CUSTOMERS.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\Catch_Receipt.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\Supplier.ts" />
@@ -1226,6 +1228,8 @@
     <TypeScriptCompile Include="ClientApp\Reports\Salesinventory.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSales.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesManager.ts" />
+    <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesReturn.ts" />
+    <TypeScriptCompile Include="ClientApp\Sales\SlsTrShowPrice.ts" />
     <TypeScriptCompile Include="ClientApp\Shared.ts" />
     <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefCategory.ts" />
     <TypeScriptCompile Include="ClientApp\StkDefinition\StkDefItems.ts" />

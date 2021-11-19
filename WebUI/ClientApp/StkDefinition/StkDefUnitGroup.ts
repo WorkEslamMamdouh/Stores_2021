@@ -553,8 +553,7 @@ namespace StkDefUnitGroup {
 
     }
     function Assign() {
-       
-         ;
+        
         MasterModel = new UnitGroup();
         var StatusFlag: String;
         for (var i = 0; i < CountGrid; i++) {

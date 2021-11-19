@@ -749,12 +749,14 @@ namespace HomeComponent {
         $("#btnCategories").click(() => { OpenPage(Modules.Categories); })
         $("#btnItems").click(() => { OpenPage(Modules.Items); })
         $("#btnSupplier").click(() => { OpenPage(Modules.Supplier); })
+        $("#btnAccDefSalesmen").click(() => { OpenPage(Modules.AccDefSalesmen); })
         $("#btnCUSTOMERS").click(() => { OpenPage(Modules.CUSTOMERS); })
         $("#btnCatch_Receipt").click(() => { OpenPage(Modules.Catch_Receipt); })    
         $("#btnSalesinventory").click(() => { OpenPage(Modules.Salesinventory); })
         $("#btnfamilly_Cat").click(() => { OpenPage(Modules.familly_Cat); })
         $("#btnIncome_expenses").click(() => { OpenPage(Modules.Income_expenses); })
         $("#btnSlsTrSalesManager").click(() => { OpenPage(Modules.SlsTrSalesManager); })
+        $("#btnSlsTrShowPrice").click(() => { OpenPage(Modules.SlsTrShowPrice); })
 
 
         $("#btnStkDefItems").click(() => { OpenPage(Modules.StkDefItems); })

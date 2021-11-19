@@ -310,8 +310,7 @@ namespace StkDefCategory {
             Model = new I_D_Category();
 
             StatusFlag = $("#txt_StatusFlag" + i).val();
-            $("#txt_StatusFlag" + i).val("");
-            debugger;
+        
 
 
             if (StatusFlag == "i")

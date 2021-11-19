@@ -944,8 +944,8 @@ var StkDefItemsNew;
             },
             { title: 'الكمية الافتتاحية', name: "StartQty", type: "number", width: "10%" },
             { title: 'الكمية الحالية', name: "OnhandQty", type: "number", width: "10%" },
-            { title: 'محول اليه', name: "OnRoadQty", type: "number", width: "10%" },
-            { title: 'تحت الطلب ', name: "OnOrderQty", type: "number", width: "10%" },
+            //{ title: 'محول اليه', name: "OnRoadQty", type: "number", width: "10%" },
+            //{ title: 'تحت الطلب ', name: "OnOrderQty", type: "number", width: "10%" },
         ];
     }
     function btnUpdate3_onclick() {
@@ -1020,14 +1020,16 @@ var StkDefItemsNew;
             Modelyearqty.CompCode = Number(data_Taple1[i].CompCode);
             Modelyearqty.LOCATION = data_Taple1[i].LOCATION;
             Modelyearqty.LOCATION2 = data_Taple1[i].LOCATION2;
-            Modelyearqty.OnhandQty = Number(data_Taple1[i].OnhandQty);
             Modelyearqty.BookQty = Number(data_Taple1[i].BookQty);
             Modelyearqty.OnRoadQty = Number(data_Taple1[i].OnRoadQty);
             Modelyearqty.OnOrderQty = Number(data_Taple1[i].OnOrderQty);
             Modelyearqty.ReOrderQty = Number(data_Taple1[i].ReOrderQty);
             Modelyearqty.MinQty = Number(data_Taple1[i].MinQty);
             Modelyearqty.MaxQty = Number(data_Taple1[i].MaxQty);
-            Modelyearqty.StartQty = Number(data_Taple1[i].StartQty);
+            Modelyearqty.StartQty = Number(data_Taple1[i].MaxQty);
+            Modelyearqty.OnhandQty = Number(data_Taple1[i].MaxQty);
+            //Modelyearqty.StartQty = Number(data_Taple1[i].StartQty);
+            //Modelyearqty.OnhandQty = Number(data_Taple1[i].OnhandQty); 
             Modelyearqty.StartLocalCost = Number(data_Taple1[i].StartLocalCost);
             Modelyearqty.LocalCost = Number(data_Taple1[i].LocalCost);
             Modelyearqty.CreatedAt = data_Taple1[i].CreatedAt;

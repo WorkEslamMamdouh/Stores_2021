@@ -140,8 +140,7 @@ namespace Inv.API.Controllers
         [HttpPost, AllowAnonymous]
         public IHttpActionResult InsertInvoiceMasterDetail([FromBody]SlsInvoiceMasterDetails obj)
         {
-            if (ModelState.IsValid && UserControl.CheckUser(obj.Token, obj.UserCode))
-            {
+           
                 using (var dbTransaction = db.Database.BeginTransaction())
                 {
                     try
@@ -188,8 +187,7 @@ namespace Inv.API.Controllers
                         return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
                     }
                 }
-            }
-            return BadRequest(ModelState);
+         
         }
 
         [HttpPost, AllowAnonymous]

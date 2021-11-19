@@ -233,33 +233,6 @@ var StkDefItemType;
     function Update() {
         Assign();
         //debugger;
-        if (BilldDetail.filter(function (x) { return x.FamilyCode == ""; }).length > 0) {
-            if (SysSession.CurrentEnvironment.ScreenLanguage == "ar") {
-                MessageBox.Show("يجب ادخال الكود", "");
-            }
-            else {
-                MessageBox.Show("Please, Enter The Code!", "");
-            }
-            return;
-        }
-        if (Details.filter(function (x) { return x.DescA == ""; }).length > 0) {
-            if (SysSession.CurrentEnvironment.ScreenLanguage == "ar") {
-                MessageBox.Show("يجب ادخال الوصف باعربي", "");
-            }
-            else {
-                MessageBox.Show("please, Enter The Arabic Description!", "");
-            }
-            return;
-        }
-        if (Details.filter(function (x) { return x.CatID == 0; }).length > 0) {
-            if (SysSession.CurrentEnvironment.ScreenLanguage == "ar") {
-                MessageBox.Show("يجب ادخال  الفئة", "");
-            }
-            else {
-                MessageBox.Show("Please, Enter The Category!", "");
-            }
-            return;
-        }
         Detail_Model[0].Token = "HGFD-" + SysSession.CurrentEnvironment.Token;
         Detail_Model[0].UserCode = SysSession.CurrentEnvironment.UserCode;
         //debugger;
@@ -293,7 +266,6 @@ var StkDefItemType;
         for (var i = 0; i < CountGrid; i++) {
             Model = new I_ItemFamily();
             StatusFlag = $("#txt_StatusFlag" + i).val();
-            $("#txt_StatusFlag" + i).val("");
             //debugger;
             if (StatusFlag == "i") {
                 Model.StatusFlag = StatusFlag.toString();

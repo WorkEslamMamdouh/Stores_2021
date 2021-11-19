@@ -19,12 +19,14 @@ var Modules = {
     Items: "Items",
     Purchases: "Purchases",
     Supplier: "Supplier",
+    AccDefSalesmen: "AccDefSalesmen",
     CUSTOMERS: "CUSTOMERS",  
     Catch_Receipt: "Catch_Receipt",    
     Salesinventory: "Salesinventory",
     familly_Cat: "familly_Cat",
     Income_expenses: "Income_expenses",
     SlsTrSalesManager: "SlsTrSalesManager",
+    SlsTrShowPrice: "SlsTrShowPrice",
 
 
     
