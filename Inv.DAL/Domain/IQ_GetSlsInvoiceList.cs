@@ -12,7 +12,7 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class I_Sls_TR_Invoice
+    public partial class IQ_GetSlsInvoiceList
     {
         public int InvoiceID { get; set; }
         public Nullable<int> TrNo { get; set; }
@@ -25,7 +25,6 @@ namespace Inv.DAL.Domain
         public Nullable<int> SlsInvType { get; set; }
         public Nullable<int> SlsInvSrc { get; set; }
         public Nullable<int> CashBoxID { get; set; }
-        public Nullable<int> CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerMobileNo { get; set; }
         public Nullable<int> SalesmanId { get; set; }
@@ -55,6 +54,11 @@ namespace Inv.DAL.Domain
         public string UpdatedBy { get; set; }
         public Nullable<int> CompCode { get; set; }
         public Nullable<int> BranchCode { get; set; }
+        public string Slsm_Code { get; set; }
+        public string Slsm_DescA { get; set; }
+        public string Slsm_DescE { get; set; }
+        public string Box_DescA { get; set; }
+        public string Box_DescE { get; set; }
         public string DocNo { get; set; }
         public string DocUUID { get; set; }
         public Nullable<System.TimeSpan> TrTime { get; set; }
@@ -96,5 +100,9 @@ namespace Inv.DAL.Domain
         public Nullable<decimal> ItemDiscountTotal { get; set; }
         public Nullable<decimal> ItemVatTotal { get; set; }
         public Nullable<decimal> RoundingAmount { get; set; }
+        public Nullable<int> CustomerId { get; set; }
+        public string CustomerCODE { get; set; }
+        public string CUSTOMER_NAME { get; set; }
+        public string NAMEE { get; set; }
     }
 }

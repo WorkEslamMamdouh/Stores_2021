@@ -18,10 +18,10 @@ namespace Inv.API.Controllers
     public class SlsTrSalesController : BaseController
     {
         private readonly ISlsInvoiceItemsService SlsInvoiceItemsService;
-        private readonly ISlsTRInvoiceService SlsTrSalesService;
+        private readonly IISlsTRInvoiceService SlsTrSalesService;
         private readonly G_USERSController UserControl;
 
-        public SlsTrSalesController(ISlsTRInvoiceService _ISlsTrSalesService, G_USERSController _Control, ISlsInvoiceItemsService _ISlsInvoiceItemsService)
+        public SlsTrSalesController(IISlsTRInvoiceService _ISlsTrSalesService, G_USERSController _Control, ISlsInvoiceItemsService _ISlsInvoiceItemsService)
         {
             this.SlsTrSalesService = _ISlsTrSalesService;
             this.SlsInvoiceItemsService = _ISlsInvoiceItemsService;
@@ -215,7 +215,7 @@ namespace Inv.API.Controllers
         {
             if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
             {
-                string s = "select * from  where TrType = 0 andIQ_GetSlsInvoiceStatistic BranchCode = " + BranchCode + " and CompCode = " + CompCode + "and SlsInvSrc = 1 and TrDate >=' " + StartDate + "' and TrDate <= ' " + EndDate + " ' ";
+                string s = "select * from IQ_GetSlsInvoiceStatistic where TrType = 0 and BranchCode = " + BranchCode + " and CompCode = " + CompCode + "and SlsInvSrc = 1 and TrDate >=' " + StartDate + "' and TrDate <= ' " + EndDate + " ' ";
                 string condition = "";
                 if (CustId != 0 && CustId != null)
                     condition = condition + " and CustomerId =" + CustId;

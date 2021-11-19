@@ -249,6 +249,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\AccDefSalesMenController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\Close_Day.cs" />
     <Compile Include="Controllers\CustomerController.cs" />

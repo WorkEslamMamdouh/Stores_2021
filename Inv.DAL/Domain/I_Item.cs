@@ -14,14 +14,6 @@ namespace Inv.DAL.Domain
     
     public partial class I_Item
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public I_Item()
-        {
-            this.I_ItemStore = new HashSet<I_ItemStore>();
-            this.I_ItemYear = new HashSet<I_ItemYear>();
-            this.I_Sls_TR_InvoiceItems = new HashSet<I_Sls_TR_InvoiceItems>();
-        }
-    
         public int ItemID { get; set; }
         public string ItemCode { get; set; }
         public Nullable<int> CompCode { get; set; }
@@ -46,13 +38,5 @@ namespace Inv.DAL.Domain
         public Nullable<int> LastBarCodeSeq { get; set; }
         public string BarCodePrefix { get; set; }
         public Nullable<int> FirstYear { get; set; }
-    
-        public virtual I_ItemFamily I_ItemFamily { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<I_ItemStore> I_ItemStore { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<I_ItemYear> I_ItemYear { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<I_Sls_TR_InvoiceItems> I_Sls_TR_InvoiceItems { get; set; }
     }
 }

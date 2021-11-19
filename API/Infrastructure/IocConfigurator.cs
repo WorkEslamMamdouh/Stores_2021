@@ -41,6 +41,9 @@ using Inv.BLL.Services.StkDefItemType;
 using Inv.BLL.Services.ItemDef;
 using Inv.BLL.Services.VatNature;
 using Inv.BLL.Services.GenVatType;
+using Inv.BLL.Services.AccDefSalesMen;
+using Inv.BLL.Services.SlsInvoiceItems;
+using Inv.BLL.Services.ISlsTRInvoice;
 
 namespace Inv.API.Infrastructure
 {
@@ -89,6 +92,9 @@ namespace Inv.API.Infrastructure
             container.RegisterType<IItemDefService, ItemDefService>();
             container.RegisterType<IVatNatureService, VatNatureService>();
             container.RegisterType<IGenVatTypeService, GenVatTypeService>();
+            container.RegisterType<IAccDefSalesMenService, AccDefSalesMenService>();
+            container.RegisterType<ISlsInvoiceItemsService, SlsInvoiceItemsService>();
+            container.RegisterType<IISlsTRInvoiceService, ISlsTRInvoiceService>();
         }
     }
 }

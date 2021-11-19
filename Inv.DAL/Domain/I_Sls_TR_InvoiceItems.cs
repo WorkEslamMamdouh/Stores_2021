@@ -58,8 +58,5 @@ namespace Inv.DAL.Domain
         public Nullable<int> VatNatID { get; set; }
         public Nullable<decimal> UnitpriceWithVat { get; set; }
         public Nullable<decimal> NetUnitPriceWithVat { get; set; }
-    
-        public virtual I_Item I_Item { get; set; }
-        public virtual I_Sls_TR_Invoice I_Sls_TR_Invoice { get; set; }
     }
 }

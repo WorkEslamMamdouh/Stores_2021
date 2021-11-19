@@ -63,6 +63,10 @@ namespace Inv.DAL.Domain
 
 
 
+    public partial class I_Sls_D_Salesman : SecurityandUpdateFlagClass
+    {
+
+    } 
     public partial class G_USERS : SecurityClass_G_USERS
     {
 

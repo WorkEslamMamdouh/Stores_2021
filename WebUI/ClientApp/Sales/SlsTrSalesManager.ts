@@ -48,7 +48,7 @@ namespace SlsTrSalesManager {
     var CashboxDetails: Array<A_RecPay_D_CashBox> = new Array<A_RecPay_D_CashBox>();
     var PriceInvDetails: Array<IQ_GetSlsInvoiceStatistic> = new Array<IQ_GetSlsInvoiceStatistic>();
     var PriceInvitemsDetails: Array<IQ_GetSlsInvoiceItem> = new Array<IQ_GetSlsInvoiceItem>();
-    var CustDetails: Array<A_Rec_D_Customer> = new Array<A_Rec_D_Customer>();
+    var CustDetails: Array<CUSTOMER> = new Array<CUSTOMER>();
     var DetailsVatNature: Array<G_VatNature> = new Array<G_VatNature>();
     var StateDetailsAr: Array<string> = new Array<string>();
     var StateDetailsEn: Array<string> = new Array<string>();
@@ -436,12 +436,12 @@ namespace SlsTrSalesManager {
     }
     function txtCustomerCode_onchange() {
         if (txtCustomerCode.value != "") {
-            var custObjct = CustDetails.filter(s => s.CustomerCODE == txtCustomerCode.value);
+            var custObjct: Array<CUSTOMER>  = CustDetails.filter(s => s.CustomerCODE == txtCustomerCode.value);
             if (custObjct.length > 0) {
-                txtInvoiceCustomerName.value = lang == "ar" ? custObjct[0].NAMEA : custObjct[0].NAMEE;
+                txtInvoiceCustomerName.value = lang == "ar" ? custObjct[0].CUSTOMER_NAME : custObjct[0].NAMEE;
                 txtCustomerCode.value = custObjct[0].CustomerCODE;
-                txtCustomerMobile.value = custObjct[0].MOBILE;
-                CustomerId = custObjct[0].CustomerId;
+                txtCustomerMobile.value = custObjct[0].PHONE;
+                CustomerId = custObjct[0].CUSTOMER_ID;
             } else {
                 txtCustomerCode.value = "";
                 txtInvoiceCustomerName.value = "";
@@ -642,17 +642,12 @@ namespace SlsTrSalesManager {
             ddlType.value = "1";
         } else {
             var custID = CustomerId;
-            var customer = CustDetails.filter(s => s.CustomerId == custID);
-            vatType = customer[0].VATType;
+            var customer = CustDetails.filter(s => s.CUSTOMER_ID == custID);
+            /*vatType = customer[0].VATType;*/
             txtCustomerCode.value = customer[0].CustomerCODE;
-            txtInvoiceCustomerName.value = customer[0].NAMEA.toString();
-            txtCustomerMobile.value = customer[0].MOBILE;
-            if (SysSession.CurrentEnvironment.UserType != 1 && SysSession.CurrentEnvironment.UserType != 3) {
-                ddlSalesman.value = customer[0].SalesmanId == null ? 'null' : customer[0].SalesmanId.toString();
-                if (ddlSalesman.value == '') {
-                    ddlSalesman.value = 'null';
-                }
-            }
+            txtInvoiceCustomerName.value = customer[0].CUSTOMER_NAME.toString();
+            txtCustomerMobile.value = customer[0].PHONE;
+            
 
         }
 
@@ -776,7 +771,7 @@ namespace SlsTrSalesManager {
     function Check_CreditLimit_Custom(net: number) {
 
         var custID = CustomerId;
-        var custom1 = CustDetails.filter(s => s.CustomerId == custID);
+        var custom1 = CustDetails.filter(s => s.CUSTOMER_ID == custID);
 
         var Isbalance = Number((Number(custom1[0].Openbalance) + Number(custom1[0].Debit) - Number(custom1[0].Credit)).toFixed(2));
 
@@ -1281,21 +1276,21 @@ namespace SlsTrSalesManager {
 
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("AccDefCustomer", "GetAll"),
+            url: sys.apiUrl("Customer", "GetAll"),
             data: {
-                CompCode: compcode, BranchCode: BranchCode, AccountType: 1, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
+                CompCode: compcode, BranchCode: BranchCode
             },
             success: (d) => {
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
 
-                    CustDetails = result.Response as Array<A_Rec_D_Customer>;
+                    CustDetails = result.Response as Array<CUSTOMER>;
                     if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {//ddlInvoiceCustomer
-                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CustomerId", "NAMEE", "Select customer");
+                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CUSTOMER_ID", "NAMEE", "Select customer");
 
                     }
                     else {
-                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CUSTOMER_ID", "CUSTOMER_NAME", "اختر العميل");
 
                     }
                 }
@@ -1473,8 +1468,9 @@ namespace SlsTrSalesManager {
         BindStatisticGridData();
     }
     function BindStatisticGridData() {
-        var startDate = DateFormatRep(txtStartDate.value).toString();
-        var endDate = DateFormatRep(txtEndDate.value).toString();
+        debugger
+        var startDate =  txtStartDate.value ;
+        var endDate =  txtEndDate.value ;
         var customerId = 0;
         var status = 0;
         var ddlSalesmanFilterValue = 0;
@@ -1594,8 +1590,8 @@ namespace SlsTrSalesManager {
 
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
 
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             } else {
                 $('#txtInvoiceCustomerName').prop("value", "");
@@ -1607,6 +1603,8 @@ namespace SlsTrSalesManager {
 
 
             }
+
+          
 
             var ddlSalesmanValue = InvoiceStatisticsModel[0].SalesmanId.toString();
             $('#ddlSalesman').prop("value", ddlSalesmanValue);
@@ -1622,15 +1620,17 @@ namespace SlsTrSalesManager {
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
 
-                if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
-                    $("#Div_Money").removeClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
-
-                }
-                else {
-                    $("#Div_Money").addClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
-                }
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
+                //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+               
+                //}
+                //else {
+                //    $("#Div_Money").addClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
+                //}
 
                 TypeFlag = true;
             } else {
@@ -2801,8 +2801,8 @@ namespace SlsTrSalesManager {
             if (InvoiceStatisticsModel[0].CustomerId != null) {
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
 
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             } else {
                 $('#txtInvoiceCustomerName').prop("value", "");
@@ -2826,16 +2826,17 @@ namespace SlsTrSalesManager {
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-
-                if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
-                    $("#Div_Money").removeClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
-
-                }
-                else {
-                    $("#Div_Money").addClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
-                }
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount); 
+                //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+                
+                //}
+                //else {
+                //    $("#Div_Money").addClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
+                //}
                 TypeFlag = true;
             } else {
                 $('#ddlType').prop("value", "0");
@@ -2943,8 +2944,8 @@ namespace SlsTrSalesManager {
             if (InvoiceStatisticsModel[0].CustomerId != null) {
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
 
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             } else {
                 $('#txtInvoiceCustomerName').prop("value", "");
@@ -2968,6 +2969,10 @@ namespace SlsTrSalesManager {
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
 
                 TypeFlag = true;
             } else {

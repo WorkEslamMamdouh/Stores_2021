@@ -79,32 +79,31 @@
         <EntityTypeShape EntityType="POS2021Model.I_D_UOM" Width="1.5" PointX="15.375" PointY="28.75" />
         <EntityTypeShape EntityType="POS2021Model.I_G_ItemType" Width="1.5" PointX="24.375" PointY="28.75" />
         <EntityTypeShape EntityType="POS2021Model.I_G_StockMethods" Width="1.5" PointX="3.375" PointY="29.75" />
-        <EntityTypeShape EntityType="POS2021Model.I_Item" Width="1.5" PointX="27.625" PointY="32.125" />
         <EntityTypeShape EntityType="POS2021Model.I_ItemBatch" Width="1.5" PointX="5.375" PointY="29.75" />
-        <EntityTypeShape EntityType="POS2021Model.I_ItemFamily" Width="1.5" PointX="25.375" PointY="32.625" />
         <EntityTypeShape EntityType="POS2021Model.I_ItemSpecsValue" Width="1.5" PointX="7.375" PointY="29.75" />
-        <EntityTypeShape EntityType="POS2021Model.I_ItemStore" Width="1.5" PointX="29.875" PointY="31.125" />
         <EntityTypeShape EntityType="POS2021Model.I_ItemStoreBatch" Width="1.5" PointX="30.375" PointY="0.75" />
-        <EntityTypeShape EntityType="POS2021Model.I_ItemYear" Width="1.5" PointX="29.875" PointY="48.125" />
         <EntityTypeShape EntityType="POS2021Model.I_ItemYearUom" Width="1.5" PointX="30.375" PointY="4.75" />
-        <EntityTypeShape EntityType="POS2021Model.I_Sls_TR_Invoice" Width="1.5" PointX="30.625" PointY="12.875" />
-        <EntityTypeShape EntityType="POS2021Model.I_Sls_TR_InvoiceItems" Width="1.5" PointX="32.875" PointY="30.375" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetItemCategory" Width="1.5" PointX="17.375" PointY="30.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetItemStore" Width="1.5" PointX="32.375" PointY="0.75" />
-        <EntityTypeShape EntityType="POS2021Model.IQ_GetItemStoreInfo" Width="1.5" PointX="7.375" PointY="32.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_GetItemStoreInfo" Width="1.875" PointX="7.375" PointY="32.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetItemYearUom" Width="1.5" PointX="19.375" PointY="32.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceItem" Width="1.5" PointX="21.375" PointY="32.75" />
-        <AssociationConnector Association="POS2021Model.FK_I_Item_I_ItemFamily" />
-        <AssociationConnector Association="POS2021Model.FK_I_ItemStore_I_Item" />
-        <AssociationConnector Association="POS2021Model.FK_I_ItemYear_I_Item" />
-        <AssociationConnector Association="POS2021Model.FK_I_Sls_TR_InvoiceItems_I_Item" />
-        <AssociationConnector Association="POS2021Model.FK_I_Sls_TR_InvoiceItems_I_Sls_TR_Invoice" />
         <EntityTypeShape EntityType="POS2021Model.G_STORE" Width="1.5" PointX="33.375" PointY="8.75" />
         <EntityTypeShape EntityType="POS2021Model.G_VatNature" Width="1.5" PointX="30.375" PointY="8.75" />
         <EntityTypeShape EntityType="POS2021Model.GQ_GetStore" Width="1.5" PointX="33.375" PointY="14.75" />
         <EntityTypeShape EntityType="POS2021Model.A_CCDT_Types" Width="1.5" PointX="33.375" PointY="21.75" />
         <EntityTypeShape EntityType="POS2021Model.A_D_VAT_TYPE" Width="1.5" PointX="33.375" PointY="24.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="POS2021Model.I_Item" Width="1.5" PointX="29.375" PointY="24.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_ItemFamily" Width="1.5" PointX="26.375" PointY="29.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_ItemStore" Width="1.5" PointX="30.375" PointY="11.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_ItemYear" Width="1.5" PointX="30.375" PointY="18.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Sls_D_Salesman" Width="1.5" PointX="31.375" PointY="28.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Sls_TR_Invoice" Width="1.5" PointX="28.375" PointY="31.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Sls_TR_InvoiceItems" Width="1.5" PointX="23.375" PointY="32.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_GetSalesMan" Width="1.5" PointX="33.375" PointY="28.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceList" Width="1.5" PointX="3.375" PointY="34.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceStatistic" Width="1.5" PointX="35.375" PointY="0.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

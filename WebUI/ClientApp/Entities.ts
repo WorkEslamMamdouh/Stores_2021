@@ -3812,8 +3812,6 @@ class I_Sls_TR_InvoiceItems extends SecurityClass {
 class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     constructor() {
         super();
-
-        this.InvoiceID = 0;
         this.TrNo = 0;
         this.RefNO = "";
         this.RefTrID = 0;
@@ -3824,7 +3822,6 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.SlsInvType = 0;
         this.SlsInvSrc = 0;
         this.CashBoxID = 0;
-        this.CustomerId = 0;
         this.CustomerName = "";
         this.CustomerMobileNo = "";
         this.SalesmanId = 0;
@@ -3857,24 +3854,21 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.Slsm_Code = "";
         this.Slsm_DescA = "";
         this.Slsm_DescE = "";
-        this.Cus_Code = "";
-        this.Cus_NameA = "";
-        this.Cus_NameE = "";
         this.Box_DescA = "";
         this.Box_DescE = "";
         this.DocNo = "";
         this.DocUUID = "";
         this.TrTime = "";
         this.InvoiceTypeCode = 0;
-        this.InvoiceTransCode = 0;
         this.TaxNotes = "";
         this.TaxCurrencyID = 0;
+        this.InvoiceTransCode = 0;
         this.InvoiceCurrenyID = 0;
         this.ContractNo = "";
         this.PurchaseorderNo = "";
         this.GlobalInvoiceCounter = 0;
-        this.PrevInvoiceHash
         this.QRCode
+        this.PrevInvoiceHash
         this.CryptographicStamp
         this.DeliveryDate = "";
         this.DeliveryEndDate = "";
@@ -3903,6 +3897,8 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.ItemDiscountTotal = 0;
         this.ItemVatTotal = 0;
         this.RoundingAmount = 0;
+        this.CustomerId = 0;
+        this.InvoiceID = 0;
         this.Line_Count = 0;
         this.Item_Count = 0;
         this.Tot_Qty = 0;
@@ -3910,11 +3906,12 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
         this.Tot_VAT = 0;
         this.Tot_Net = 0;
         this.tot_RetQty = 0;
+        this.CustomerCODE = "";
+        this.NAMEE = "";
+        this.CUSTOMER_NAME = "";
         this.statusDesciption = "";
         this.IsCashDesciption = "";
-        this.returnTypeDesciption = "";
     }
-    public InvoiceID: number;
     public TrNo: number;
     public RefNO: string;
     public RefTrID: number;
@@ -3925,7 +3922,6 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public SlsInvType: number;
     public SlsInvSrc: number;
     public CashBoxID: number;
-    public CustomerId: number;
     public CustomerName: string;
     public CustomerMobileNo: string;
     public SalesmanId: number;
@@ -3958,24 +3954,21 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public Slsm_Code: string;
     public Slsm_DescA: string;
     public Slsm_DescE: string;
-    public Cus_Code: string;
-    public Cus_NameA: string;
-    public Cus_NameE: string;
     public Box_DescA: string;
     public Box_DescE: string;
     public DocNo: string;
     public DocUUID: string;
     public TrTime: string;
     public InvoiceTypeCode: number;
-    public InvoiceTransCode: number;
     public TaxNotes: string;
     public TaxCurrencyID: number;
+    public InvoiceTransCode: number;
     public InvoiceCurrenyID: number;
     public ContractNo: string;
     public PurchaseorderNo: string;
     public GlobalInvoiceCounter: number;
-    public PrevInvoiceHash: any;
     public QRCode: any;
+    public PrevInvoiceHash: any;
     public CryptographicStamp: any;
     public DeliveryDate: string;
     public DeliveryEndDate: string;
@@ -4004,6 +3997,8 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public ItemDiscountTotal: number;
     public ItemVatTotal: number;
     public RoundingAmount: number;
+    public CustomerId: number;
+    public InvoiceID: number;
     public Line_Count: number;
     public Item_Count: number;
     public Tot_Qty: number;
@@ -4011,9 +4006,11 @@ class IQ_GetSlsInvoiceStatistic extends SecurityClass {
     public Tot_VAT: number;
     public Tot_Net: number;
     public tot_RetQty: number;
+    public CustomerCODE: string;
+    public NAMEE: string;
+    public CUSTOMER_NAME: string;
     public statusDesciption: string;
     public IsCashDesciption: string;
-    public returnTypeDesciption: string;
 }
 class IQ_GetSlsInvoiceItem extends SecurityClass {
     constructor() {
@@ -4151,7 +4148,6 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
         this.SlsInvType = 0;
         this.SlsInvSrc = 0;
         this.CashBoxID = 0;
-        this.CustomerId = 0;
         this.CustomerName = "";
         this.CustomerMobileNo = "";
         this.SalesmanId = 0;
@@ -4184,9 +4180,6 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
         this.Slsm_Code = "";
         this.Slsm_DescA = "";
         this.Slsm_DescE = "";
-        this.Cus_Code = "";
-        this.Cus_NameA = "";
-        this.Cus_NameE = "";
         this.Box_DescA = "";
         this.Box_DescE = "";
         this.DocNo = "";
@@ -4230,7 +4223,10 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
         this.ItemDiscountTotal = 0;
         this.ItemVatTotal = 0;
         this.RoundingAmount = 0;
-
+        this.CustomerId = 0;
+        this.CustomerCODE = "";
+        this.CUSTOMER_NAME = "";
+        this.NAMEE = "";
     }
     public InvoiceID: number;
     public TrNo: number;
@@ -4243,7 +4239,6 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
     public SlsInvType: number;
     public SlsInvSrc: number;
     public CashBoxID: number;
-    public CustomerId: number;
     public CustomerName: string;
     public CustomerMobileNo: string;
     public SalesmanId: number;
@@ -4276,9 +4271,6 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
     public Slsm_Code: string;
     public Slsm_DescA: string;
     public Slsm_DescE: string;
-    public Cus_Code: string;
-    public Cus_NameA: string;
-    public Cus_NameE: string;
     public Box_DescA: string;
     public Box_DescE: string;
     public DocNo: string;
@@ -4322,6 +4314,10 @@ class IQ_GetSlsInvoiceList extends SecurityClass {
     public ItemDiscountTotal: number;
     public ItemVatTotal: number;
     public RoundingAmount: number;
+    public CustomerId: number;
+    public CustomerCODE: string;
+    public CUSTOMER_NAME: string;
+    public NAMEE: string;
 }
 class I_TR_OperationItems extends SecurityClass {
     constructor() {

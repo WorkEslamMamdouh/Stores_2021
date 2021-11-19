@@ -101,16 +101,10 @@ namespace Inv.DAL.Domain
         public virtual DbSet<I_D_UOM> I_D_UOM { get; set; }
         public virtual DbSet<I_G_ItemType> I_G_ItemType { get; set; }
         public virtual DbSet<I_G_StockMethods> I_G_StockMethods { get; set; }
-        public virtual DbSet<I_Item> I_Item { get; set; }
         public virtual DbSet<I_ItemBatch> I_ItemBatch { get; set; }
-        public virtual DbSet<I_ItemFamily> I_ItemFamily { get; set; }
         public virtual DbSet<I_ItemSpecsValue> I_ItemSpecsValue { get; set; }
-        public virtual DbSet<I_ItemStore> I_ItemStore { get; set; }
         public virtual DbSet<I_ItemStoreBatch> I_ItemStoreBatch { get; set; }
-        public virtual DbSet<I_ItemYear> I_ItemYear { get; set; }
         public virtual DbSet<I_ItemYearUom> I_ItemYearUom { get; set; }
-        public virtual DbSet<I_Sls_TR_Invoice> I_Sls_TR_Invoice { get; set; }
-        public virtual DbSet<I_Sls_TR_InvoiceItems> I_Sls_TR_InvoiceItems { get; set; }
         public virtual DbSet<IQ_GetItemCategory> IQ_GetItemCategory { get; set; }
         public virtual DbSet<IQ_GetItemStore> IQ_GetItemStore { get; set; }
         public virtual DbSet<IQ_GetItemStoreInfo> IQ_GetItemStoreInfo { get; set; }
@@ -121,6 +115,16 @@ namespace Inv.DAL.Domain
         public virtual DbSet<GQ_GetStore> GQ_GetStore { get; set; }
         public virtual DbSet<A_CCDT_Types> A_CCDT_Types { get; set; }
         public virtual DbSet<A_D_VAT_TYPE> A_D_VAT_TYPE { get; set; }
+        public virtual DbSet<I_Item> I_Item { get; set; }
+        public virtual DbSet<I_ItemFamily> I_ItemFamily { get; set; }
+        public virtual DbSet<I_ItemStore> I_ItemStore { get; set; }
+        public virtual DbSet<I_ItemYear> I_ItemYear { get; set; }
+        public virtual DbSet<I_Sls_D_Salesman> I_Sls_D_Salesman { get; set; }
+        public virtual DbSet<I_Sls_TR_Invoice> I_Sls_TR_Invoice { get; set; }
+        public virtual DbSet<I_Sls_TR_InvoiceItems> I_Sls_TR_InvoiceItems { get; set; }
+        public virtual DbSet<IQ_GetSalesMan> IQ_GetSalesMan { get; set; }
+        public virtual DbSet<IQ_GetSlsInvoiceList> IQ_GetSlsInvoiceList { get; set; }
+        public virtual DbSet<IQ_GetSlsInvoiceStatistic> IQ_GetSlsInvoiceStatistic { get; set; }
     
         [DbFunction("InvEntities", "GFun_Companies")]
         public virtual IQueryable<GFun_Companies_Result> GFun_Companies(string userCode)

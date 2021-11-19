@@ -14,12 +14,6 @@ namespace Inv.DAL.Domain
     
     public partial class I_ItemFamily
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public I_ItemFamily()
-        {
-            this.I_Item = new HashSet<I_Item>();
-        }
-    
         public int ItemFamilyID { get; set; }
         public string FamilyCode { get; set; }
         public Nullable<int> CompCode { get; set; }
@@ -42,8 +36,5 @@ namespace Inv.DAL.Domain
         public string UpdatedBy { get; set; }
         public Nullable<int> LastBarCodeSeq { get; set; }
         public string BarCodePrefix { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<I_Item> I_Item { get; set; }
     }
 }

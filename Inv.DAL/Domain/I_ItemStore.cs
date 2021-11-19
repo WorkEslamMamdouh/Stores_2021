@@ -37,7 +37,5 @@ namespace Inv.DAL.Domain
         public Nullable<System.DateTime> UpdatedAt { get; set; }
         public string UpdatedBy { get; set; }
         public Nullable<int> StoreId { get; set; }
-    
-        public virtual I_Item I_Item { get; set; }
     }
 }

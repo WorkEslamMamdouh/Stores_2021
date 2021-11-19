@@ -14,11 +14,11 @@ var SlsTrSalesManager;
     var Screen_name = '';
     var InvoiceType = 0; // 1:Retail invoice , 2: Wholesale invoice            
     var SlsInv = $('#SlsInvType').val();
-    if (SlsInv == "1") {
+    if (SlsInv == "1") { //  1:Retail invoice 
         InvoiceType = 1;
         (lang == "ar" ? Screen_name = 'فواتير التجزئه' : Screen_name = 'Retail invoice');
     }
-    else {
+    else { //2: Wholesale invoice 
         InvoiceType = 2;
         (lang == "ar" ? Screen_name = 'فواتير الجمله' : Screen_name = 'Wholesale invoice');
     }
@@ -383,10 +383,10 @@ var SlsTrSalesManager;
         if (txtCustomerCode.value != "") {
             var custObjct = CustDetails.filter(function (s) { return s.CustomerCODE == txtCustomerCode.value; });
             if (custObjct.length > 0) {
-                txtInvoiceCustomerName.value = lang == "ar" ? custObjct[0].NAMEA : custObjct[0].NAMEE;
+                txtInvoiceCustomerName.value = lang == "ar" ? custObjct[0].CUSTOMER_NAME : custObjct[0].NAMEE;
                 txtCustomerCode.value = custObjct[0].CustomerCODE;
-                txtCustomerMobile.value = custObjct[0].MOBILE;
-                CustomerId = custObjct[0].CustomerId;
+                txtCustomerMobile.value = custObjct[0].PHONE;
+                CustomerId = custObjct[0].CUSTOMER_ID;
             }
             else {
                 txtCustomerCode.value = "";
@@ -422,6 +422,7 @@ var SlsTrSalesManager;
                     CanAdd = Validation_Grid(i);
                     if (CanAdd == false) {
                         return false;
+                        //break;
                     }
                 }
             }
@@ -477,6 +478,7 @@ var SlsTrSalesManager;
         if (Number(txt_Tax_Discount.value) > 100) {
             txt_Tax_Discount.value = '100';
             Errorinput(txt_Tax_Discount);
+            //return
         }
         Discount = Number(txt_Tax_Discount.value);
         var Disc = txt_Tax_Discount.value;
@@ -508,7 +510,7 @@ var SlsTrSalesManager;
         Tax_Net_Total();
     }
     function Check_on_user_type() {
-        if (SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3) {
+        if (SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3) { //Salesman
             var SalesId_1 = SysSession.CurrentEnvironment.SalesManID;
             SalesmanDetails = SalesmanDetails.filter(function (s) { return s.SalesmanId == SalesId_1; });
         }
@@ -528,17 +530,11 @@ var SlsTrSalesManager;
         }
         else {
             var custID = CustomerId;
-            var customer = CustDetails.filter(function (s) { return s.CustomerId == custID; });
-            vatType = customer[0].VATType;
+            var customer = CustDetails.filter(function (s) { return s.CUSTOMER_ID == custID; });
+            /*vatType = customer[0].VATType;*/
             txtCustomerCode.value = customer[0].CustomerCODE;
-            txtInvoiceCustomerName.value = customer[0].NAMEA.toString();
-            txtCustomerMobile.value = customer[0].MOBILE;
-            if (SysSession.CurrentEnvironment.UserType != 1 && SysSession.CurrentEnvironment.UserType != 3) {
-                ddlSalesman.value = customer[0].SalesmanId == null ? 'null' : customer[0].SalesmanId.toString();
-                if (ddlSalesman.value == '') {
-                    ddlSalesman.value = 'null';
-                }
-            }
+            txtInvoiceCustomerName.value = customer[0].CUSTOMER_NAME.toString();
+            txtCustomerMobile.value = customer[0].PHONE;
         }
         if (NewAdd == true) {
             if (CountItems > 0) {
@@ -557,7 +553,7 @@ var SlsTrSalesManager;
         //AddNewRow();
     }
     function ddlType_onchange() {
-        if (ddlType.value == "1") {
+        if (ddlType.value == "1") { //نقدي 
             //if (SysSession.CurrentEnvironment.ScreenLanguage == "ar") {
             //    txtInvoiceCustomerName.value = "عميل نقدي عام";
             //    txtCustomerMobile.value = "";
@@ -576,7 +572,7 @@ var SlsTrSalesManager;
             vatType = SysSession.CurrentEnvironment.I_Control[0].DefSlsVatType; //From Session
             TypeFlag = true;
         }
-        else {
+        else { //علي الحساب
             $('#ddlCashBox').prop('selectedIndex', 0);
             $('#ddlCashBox').attr('disabled', 'disabled');
             txtInvoiceCustomerName.value = "";
@@ -588,6 +584,7 @@ var SlsTrSalesManager;
             $("#txtCustomerMobile").removeAttr("disabled");
             TypeFlag = false;
             $("#Div_Money").addClass("display_none");
+            //fillddlCustomer();
         }
         if (CountItems > 0) {
             DisplayMassage("من فضلك اعادة ادخال  بيانات الفاتورة مره أخري", "Please re-enter the billing information again", MessageType.Worning);
@@ -636,7 +633,7 @@ var SlsTrSalesManager;
     }
     function Check_CreditLimit_Custom(net) {
         var custID = CustomerId;
-        var custom1 = CustDetails.filter(function (s) { return s.CustomerId == custID; });
+        var custom1 = CustDetails.filter(function (s) { return s.CUSTOMER_ID == custID; });
         var Isbalance = Number((Number(custom1[0].Openbalance) + Number(custom1[0].Debit) - Number(custom1[0].Credit)).toFixed(2));
         var res = Number((net + Isbalance).toFixed(2));
         if (custom1[0].CreditLimit > 0) {
@@ -723,7 +720,7 @@ var SlsTrSalesManager;
         }
     }
     function btnBack_onclick() {
-        if (NewAdd == true) {
+        if (NewAdd == true) { //add
             $("#DivInvoiceDetails").addClass("display_none");
             $("#cotrolDiv").removeClass("disabledDiv");
             $("#txtCustomerCode").attr("disabled", "disabled");
@@ -751,7 +748,7 @@ var SlsTrSalesManager;
             $("#btnSave").addClass("display_none");
             ddlStore.disabled = true;
         }
-        else {
+        else { //Edit
             Grid_RowDoubleClicked();
             $("#cotrolDiv").removeClass("disabledDiv");
             $("#txtCustomerCode").attr("disabled", "disabled");
@@ -876,8 +873,8 @@ var SlsTrSalesManager;
         $("#btnpriceSrch").removeAttr("disabled");
         btnCustomerSrch.disabled = false;
         btnpriceSrch.disabled = false;
-        if (InvoiceType == 1) {
-            if (SysSession.CurrentEnvironment.RetailInvoicePayment == 0) {
+        if (InvoiceType == 1) { //Retail 
+            if (SysSession.CurrentEnvironment.RetailInvoicePayment == 0) { //Cash
                 ddlType.value = '1';
                 ddlType.disabled = true;
                 $("#Div_Money").removeClass("display_none");
@@ -886,7 +883,7 @@ var SlsTrSalesManager;
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
                 $("#txtCustomerMobile").removeAttr("disabled");
             }
-            else if (SysSession.CurrentEnvironment.RetailInvoicePayment == 1) {
+            else if (SysSession.CurrentEnvironment.RetailInvoicePayment == 1) { //Credit
                 ddlType.value = '0';
                 ddlType.disabled = true;
                 $("#Div_Money").addClass("display_none");
@@ -895,7 +892,7 @@ var SlsTrSalesManager;
                 $("#txtInvoiceCustomerName").val("");
                 $('#ddlCashBox').prop('selectedIndex', 0);
             }
-            else {
+            else { //Both
                 ddlType.disabled = false;
                 $("#Div_Money").removeClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
@@ -904,8 +901,8 @@ var SlsTrSalesManager;
                 $("#txtCustomerMobile").removeAttr("disabled");
             }
         }
-        else if (InvoiceType == 2) {
-            if (SysSession.CurrentEnvironment.WholeInvoicePayment == 0) {
+        else if (InvoiceType == 2) { //Wholesale 
+            if (SysSession.CurrentEnvironment.WholeInvoicePayment == 0) { //Cash
                 ddlType.value = '1';
                 ddlType.disabled = true;
                 $("#Div_Money").removeClass("display_none");
@@ -914,7 +911,7 @@ var SlsTrSalesManager;
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
                 $("#txtCustomerMobile").removeAttr("disabled");
             }
-            else if (SysSession.CurrentEnvironment.WholeInvoicePayment == 1) {
+            else if (SysSession.CurrentEnvironment.WholeInvoicePayment == 1) { //Credit
                 ddlType.value = '0';
                 ddlType.disabled = true;
                 $("#Div_Money").addClass("display_none");
@@ -923,7 +920,7 @@ var SlsTrSalesManager;
                 $("#txtInvoiceCustomerName").val("");
                 $('#ddlCashBox').prop('selectedIndex', 0);
             }
-            else {
+            else { //Both
                 ddlType.disabled = false;
                 $("#Div_Money").removeClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
@@ -932,7 +929,7 @@ var SlsTrSalesManager;
                 $("#txtCustomerMobile").removeAttr("disabled");
             }
         }
-        else {
+        else { //Both
         }
     }
     function btnShow_onclick() {
@@ -994,29 +991,29 @@ var SlsTrSalesManager;
         $("#btnAddDetails").removeClass("display_none");
         checkValidation();
         NewAdd = false;
-        if (Selecteditem[0].SlsInvType == 1) {
-            if (SysSession.CurrentEnvironment.RetailInvoicePayment == 0) {
+        if (Selecteditem[0].SlsInvType == 1) { //Retail 
+            if (SysSession.CurrentEnvironment.RetailInvoicePayment == 0) { //Cash      
                 ddlType.disabled = true;
             }
-            else if (SysSession.CurrentEnvironment.RetailInvoicePayment == 1) {
-                ddlType.disabled = true;
-            }
-            else {
-                ddlType.disabled = false;
-            }
-        }
-        else if (Selecteditem[0].SlsInvType == 2) {
-            if (SysSession.CurrentEnvironment.WholeInvoicePayment == 0) {
-                ddlType.disabled = true;
-            }
-            else if (SysSession.CurrentEnvironment.WholeInvoicePayment == 1) {
+            else if (SysSession.CurrentEnvironment.RetailInvoicePayment == 1) { //Credit        
                 ddlType.disabled = true;
             }
             else {
                 ddlType.disabled = false;
             }
         }
-        else {
+        else if (Selecteditem[0].SlsInvType == 2) { //Wholesale 
+            if (SysSession.CurrentEnvironment.WholeInvoicePayment == 0) { //Cash       
+                ddlType.disabled = true;
+            }
+            else if (SysSession.CurrentEnvironment.WholeInvoicePayment == 1) { //Credit         
+                ddlType.disabled = true;
+            }
+            else {
+                ddlType.disabled = false;
+            }
+        }
+        else { //Both
         }
         SysSession.CurrentEnvironment.I_Control[0].IvoiceDateEditable == true ? $('#txtInvoiceDate').removeAttr("disabled") : $('#txtInvoiceDate').attr("disabled", "disabled");
     }
@@ -1049,19 +1046,19 @@ var SlsTrSalesManager;
     function fillddlCustomer() {
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("AccDefCustomer", "GetAll"),
+            url: sys.apiUrl("Customer", "GetAll"),
             data: {
-                CompCode: compcode, BranchCode: BranchCode, AccountType: 1, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
+                CompCode: compcode, BranchCode: BranchCode
             },
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess) {
                     CustDetails = result.Response;
-                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
-                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CustomerId", "NAMEE", "Select customer");
+                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") { //ddlInvoiceCustomer
+                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CUSTOMER_ID", "NAMEE", "Select customer");
                     }
                     else {
-                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        DocumentActions.FillCombowithdefult(CustDetails, ddlCustomer, "CUSTOMER_ID", "CUSTOMER_NAME", "اختر العميل");
                     }
                 }
             }
@@ -1227,8 +1224,9 @@ var SlsTrSalesManager;
         BindStatisticGridData();
     }
     function BindStatisticGridData() {
-        var startDate = DateFormatRep(txtStartDate.value).toString();
-        var endDate = DateFormatRep(txtEndDate.value).toString();
+        debugger;
+        var startDate = txtStartDate.value;
+        var endDate = txtEndDate.value;
         var customerId = 0;
         var status = 0;
         var ddlSalesmanFilterValue = 0;
@@ -1337,8 +1335,8 @@ var SlsTrSalesManager;
             StoreID = Selecteditem[0].StoreId;
             if (InvoiceStatisticsModel[0].CustomerId != null) {
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
@@ -1360,14 +1358,16 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-                if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
-                    $("#Div_Money").removeClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
-                }
-                else {
-                    $("#Div_Money").addClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
-                }
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
+                //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+                //}
+                //else {
+                //    $("#Div_Money").addClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
+                //}
                 TypeFlag = true;
             }
             else {
@@ -1816,14 +1816,14 @@ var SlsTrSalesManager;
         //    Errorinput(btnCustomerSrch);
         //    return false
         //}
-        if (InvoiceType == 1) {
+        if (InvoiceType == 1) { //Retail  
             if ((CustomerId == 0 || txtCustomerCode.value.trim() == "") && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
                 return false;
             }
         }
-        if (InvoiceType == 2) {
+        if (InvoiceType == 2) { //Wholesale   
             if (CustomerId == 0 && SysSession.CurrentEnvironment.WholeInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
@@ -1891,6 +1891,8 @@ var SlsTrSalesManager;
                 TaxCount += Number($("#txtTax" + i).val());
                 TaxCount = Number(TaxCount.toFixed(2).toString());
                 NetCount += Number($("#txtTotAfterTax" + i).val());
+                //NetCount = Number(NetCount.toFixed(2).toString());
+                //NetCount = (Number(NetCount.toFixed(2)) - Number(txtDiscountValue.value));
             }
         }
         txtItemCount.value = CountItems.toString();
@@ -1917,7 +1919,9 @@ var SlsTrSalesManager;
         if (searchbutmemreport.value != "") {
             var search_1 = searchbutmemreport.value.toLowerCase();
             SearchDetails = SlsInvoiceStatisticsDetails.filter(function (x) { return x.TrNo.toString().search(search_1) >= 0 || x.CustomerName.toLowerCase().search(search_1) >= 0
-                || x.Slsm_DescA.toLowerCase().search(search_1) >= 0 || x.Slsm_DescE.toLowerCase().search(search_1) >= 0; } /*|| x.PortName.toLowerCase().search(search) >= 0*/);
+                || x.Slsm_DescA.toLowerCase().search(search_1) >= 0 || x.Slsm_DescE.toLowerCase().search(search_1) >= 0; } /*|| x.PortName.toLowerCase().search(search) >= 0*/
+            /*  || x.CustomerCODE.toString().search(search) >= 0  || x.CreditLimit.toString().search(search) >= 0 || x.Emp_NameA.toString().search(search) >= 0
+              || x.ContactMobile.toString().search(search) >= 0 /*|| x.DueAmount.toString().search(search) >= 0 */ /*|| x.DaysDiff.toString().search(search) >= 0*/ );
             Grid.DataSource = SearchDetails;
             Grid.Bind();
         }
@@ -1928,14 +1932,14 @@ var SlsTrSalesManager;
     }
     function ValidationHeader() {
         debugger;
-        if (InvoiceType == 1) {
+        if (InvoiceType == 1) { //Retail  
             if ((CustomerId == 0 && txtCustomerCode.value.trim() == "") && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
                 return false;
             }
         }
-        if (InvoiceType == 2) {
+        if (InvoiceType == 2) { //Wholesale   
             if (CustomerId == 0 && SysSession.CurrentEnvironment.WholeInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
@@ -2064,16 +2068,26 @@ var SlsTrSalesManager;
         InvoiceModel.BranchCode = Number(BranchCode);
         var InvoiceNumber = Number(lblInvoiceNumber.value);
         InvoiceModel.TrNo = InvoiceNumber;
-        if (NewAdd != true) {
+        if (NewAdd != true) { //update
             InvoiceModel.CreatedAt = InvoiceStatisticsModel[0].CreatedAt;
             InvoiceModel.CreatedBy = InvoiceStatisticsModel[0].CreatedBy;
             InvoiceModel.SlsInvType = InvoiceStatisticsModel[0].SlsInvType; //  retail      or WholeSale
             InvoiceModel.DocNo = InvoiceStatisticsModel[0].DocNo;
             InvoiceModel.DocUUID = InvoiceStatisticsModel[0].DocUUID;
             InvoiceModel.TrTime = InvoiceStatisticsModel[0].TrTime;
+            //InvoiceModel.PaymentMeansTypeCode = InvoiceStatisticsModel[0].PaymentMeansTypeCode //  Cash or   Credit
         }
-        else {
+        else { //insert
             InvoiceModel.SlsInvType = InvoiceType; //  retail  or WholeSale      
+            //if (InvoiceType == 1) {       //Retail  
+            //    InvoiceModel.PaymentMeansTypeCode = SysSession.CurrentEnvironment.RetailInvoicePayment//  retail 
+            //}
+            //else if (InvoiceType == 2) {  //Wholesale   
+            //    InvoiceModel.PaymentMeansTypeCode = SysSession.CurrentEnvironment.WholeInvoicePayment//  Wholesale   
+            //}
+            //else {                        //Both
+            //    InvoiceModel.PaymentMeansTypeCode = 3
+            //}
         }
         InvoiceModel.TrType = 0; //0 invoice 1 return
         InvoiceModel.SlsInvSrc = 1; // 1 from store 2 from van  
@@ -2267,6 +2281,7 @@ var SlsTrSalesManager;
                     DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued ", MessageType.Succeed);
                     success_insert();
                     IsSuccess = true;
+                    //DownloadInvoicePdf();
                 }
                 else {
                     IsSuccess = false;
@@ -2304,8 +2319,8 @@ var SlsTrSalesManager;
             StoreID = Selecteditem[0].StoreId;
             if (InvoiceStatisticsModel[0].CustomerId != null) {
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
@@ -2329,14 +2344,16 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-                if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
-                    $("#Div_Money").removeClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
-                }
-                else {
-                    $("#Div_Money").addClass("display_none");
-                    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
-                }
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
+                //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+                //}
+                //else {
+                //    $("#Div_Money").addClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID == null ? 'null' : InvoiceStatisticsModel[0].CashBoxID);
+                //}
                 TypeFlag = true;
             }
             else {
@@ -2430,8 +2447,8 @@ var SlsTrSalesManager;
             StoreID = Selecteditem[0].StoreId;
             if (InvoiceStatisticsModel[0].CustomerId != null) {
                 CustomerId = InvoiceStatisticsModel[0].CustomerId;
-                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].Cus_Code);
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].Cus_NameA);
+                $('#txtCustomerCode').prop("value", InvoiceStatisticsModel[0].CustomerCODE);
+                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
@@ -2453,6 +2470,10 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
+                $("#Div_Money").removeClass("display_none");
+                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
+                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
+                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
                 TypeFlag = true;
             }
             else {

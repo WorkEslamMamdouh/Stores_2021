@@ -12,9 +12,8 @@ namespace Inv.DAL.Domain
     using System;
     using System.Collections.Generic;
     
-    public partial class I_Sls_TR_Invoice
+    public partial class IQ_GetSlsInvoiceStatistic
     {
-        public int InvoiceID { get; set; }
         public Nullable<int> TrNo { get; set; }
         public string RefNO { get; set; }
         public Nullable<int> RefTrID { get; set; }
@@ -25,7 +24,6 @@ namespace Inv.DAL.Domain
         public Nullable<int> SlsInvType { get; set; }
         public Nullable<int> SlsInvSrc { get; set; }
         public Nullable<int> CashBoxID { get; set; }
-        public Nullable<int> CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerMobileNo { get; set; }
         public Nullable<int> SalesmanId { get; set; }
@@ -55,19 +53,24 @@ namespace Inv.DAL.Domain
         public string UpdatedBy { get; set; }
         public Nullable<int> CompCode { get; set; }
         public Nullable<int> BranchCode { get; set; }
+        public string Slsm_Code { get; set; }
+        public string Slsm_DescA { get; set; }
+        public string Slsm_DescE { get; set; }
+        public string Box_DescA { get; set; }
+        public string Box_DescE { get; set; }
         public string DocNo { get; set; }
         public string DocUUID { get; set; }
         public Nullable<System.TimeSpan> TrTime { get; set; }
         public Nullable<int> InvoiceTypeCode { get; set; }
-        public Nullable<int> InvoiceTransCode { get; set; }
         public string TaxNotes { get; set; }
         public Nullable<int> TaxCurrencyID { get; set; }
+        public Nullable<int> InvoiceTransCode { get; set; }
         public Nullable<int> InvoiceCurrenyID { get; set; }
         public string ContractNo { get; set; }
         public string PurchaseorderNo { get; set; }
         public Nullable<int> GlobalInvoiceCounter { get; set; }
-        public string PrevInvoiceHash { get; set; }
         public string QRCode { get; set; }
+        public string PrevInvoiceHash { get; set; }
         public string CryptographicStamp { get; set; }
         public Nullable<System.DateTime> DeliveryDate { get; set; }
         public Nullable<System.DateTime> DeliveryEndDate { get; set; }
@@ -96,5 +99,17 @@ namespace Inv.DAL.Domain
         public Nullable<decimal> ItemDiscountTotal { get; set; }
         public Nullable<decimal> ItemVatTotal { get; set; }
         public Nullable<decimal> RoundingAmount { get; set; }
+        public Nullable<int> CustomerId { get; set; }
+        public int InvoiceID { get; set; }
+        public Nullable<int> Line_Count { get; set; }
+        public Nullable<int> Item_Count { get; set; }
+        public Nullable<decimal> Tot_Qty { get; set; }
+        public Nullable<decimal> Tot_Amount { get; set; }
+        public Nullable<decimal> Tot_VAT { get; set; }
+        public Nullable<decimal> Tot_Net { get; set; }
+        public Nullable<decimal> tot_RetQty { get; set; }
+        public string CustomerCODE { get; set; }
+        public string NAMEE { get; set; }
+        public string CUSTOMER_NAME { get; set; }
     }
 }

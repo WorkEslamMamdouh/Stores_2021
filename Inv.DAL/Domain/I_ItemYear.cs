@@ -19,7 +19,5 @@ namespace Inv.DAL.Domain
         public Nullable<int> FinYear { get; set; }
         public Nullable<decimal> StarGlobalCost { get; set; }
         public Nullable<decimal> GlobalCost { get; set; }
-    
-        public virtual I_Item I_Item { get; set; }
     }
 }
