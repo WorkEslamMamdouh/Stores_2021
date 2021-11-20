@@ -42,6 +42,31 @@ namespace Inv.WebUI.Controllers
             var result = Shared.JsonObject(obj);
             return result;
         }
+
+
+        public ActionResult LogCust()
+        {
+            return View();
+        }
+
+        public ActionResult CustHome()
+        {
+            return View();
+        }
+        public JsonResult CustHome_()
+        {
+
+            var obj = new
+            {
+                url = Url.Action("CustHome", "Home")
+
+            };
+            var result = Shared.JsonObject(obj);
+            return result;
+        }
+
+
+
         public ActionResult HomeIndexPackage()
         {
 
@@ -104,18 +129,29 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Tools/USERS/USERSIndex.cshtml");
         }
-        public ActionResult AdminBarIndex()
-        {
-            return View("~/Views/AdminSetting/AdminBarIndex.cshtml");
-        }
+      
         public ActionResult ClientaccstatIndex()
         {
             return View("~/Views/CollectionReports/ClientaccstatIndex.cshtml");
         }
 
+        public ActionResult AdminBarIndex()
+        {
+            return View("~/Views/AdminSetting/AdminBarIndex.cshtml");
+        }
         public ActionResult AdminCompIndex()
         {
             return View("~/Views/AdminSetting/AdminCompIndex.cshtml");
+        }
+
+
+        public ActionResult CustomerViews1()
+        {
+            return View("~/Views/CustomerViews/CustomerViews1Index.cshtml");
+        }
+        public ActionResult CustomerViews2()
+        {
+            return View("~/Views/CustomerViews/CustomerViews2Index.cshtml");
         }
 
 

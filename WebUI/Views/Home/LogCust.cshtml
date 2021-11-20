@@ -2,17 +2,17 @@
 
 @{
     ViewBag.Title = "Admin";
-    Layout = "~/Views/Shared/AdminLayout.cshtml";
+    Layout = "~/Views/Shared/CustLayout.cshtml";
 }
 
 <style>
     .body {
-        background-image: url('../../images/Background/imgadmin.jpeg');
+        background-image: url('../../images/Background/Shop.jpg');
     }
 </style>
 
 
-<input type="hidden" id="OnLogged" name="name" value="@Url.Action("AdminHome_","Home")" />
+<input type="hidden" id="OnLogged" name="name" value="@Url.Action("CustHome_","Home")" />
 <input type="hidden" id="GetAPIUrl" name="name" value="@System.Configuration.ConfigurationManager.AppSettings["ServiceUrl"]" />
 
 <link href="~/Style_design/StyleSheet1.css" rel="stylesheet" />
@@ -27,10 +27,10 @@
             <div class="col-xs-10 p-0 login-form-2">
                 <form>
                     <div class="form-group">
-                        <input id="txtUserName" type="text" class="form-control" />
+                        <input id="txtUserName" type="text" class="form-control"  placeholder="رمز الدخول" />
                     </div>
                     <div class="form-group">
-                        <input id="txtUserPassword" type="password" class="form-control" />
+                        <input id="txtUserPassword" type="password" class="form-control"  placeholder="كود العميل" />
                     </div>
                     <div class="form-group">
                         <button id="btnLogin" class="btnSubmit" value="Login">Login</button>
@@ -43,7 +43,7 @@
 
         </div>
         <div class="col-xs-3" style="font-weight: bold;position: absolute;top:33%;right: 52%;color: #ff8013;">
-            <h1>ESL@M</h1>
+            <h1>Shoping</h1>
         </div>
     </div>
 </div>
@@ -52,4 +52,6 @@
     $('#btnclosefooter').addClass("display_none");
 
 </script>
-<script src="~/ClientApp/Pages/LoginAdmin.js"></script>
+@*<script src="~/ClientApp/Pages/LoginAdmin.js"></script>*@
+
+<script src="~/ClientApp/Pages/LoginCust.js"></script>

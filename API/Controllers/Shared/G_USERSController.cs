@@ -67,13 +67,19 @@ namespace Inv.API.Controllers
             //catch (Exception e) {
             //    var t = e.Message;
             //}
-            if (UserCode == "clear" && Password =="clear")
+            //-----------------------------------------------------------------------------Clear-----------------
+            if (UserCode == "clear" && Password == "clear")
             {
                 string quer = "New_Data_Bes";
-                 db.Database.ExecuteSqlCommand(quer);
+                db.Database.ExecuteSqlCommand(quer);
                 return Ok(new BaseResponse(100));
             }
 
+
+           
+
+
+            //-----------------------------------------------------------------------------G_USERSS-----------------
             var usr = G_USERSService.GetAll(x => x.USER_CODE == UserCode).ToList();
             if (usr.Count == 0)
             {
@@ -96,11 +102,50 @@ namespace Inv.API.Controllers
             }
             else
             {
-                return Ok(new BaseResponse(Nusr));  // error in pass or active 
+                 
+                    return Ok(new BaseResponse(Nusr));  // error in pass or active  
+
             }
 
 
         }
+
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult CUSTOMERLogin(string UserCode, string Password) 
+        {
+            G_USERS Nusr = new G_USERS();
+            //try {
+            //    var ussr1 = G_USERSService.GetAll().ToList();
+            //    var ussr = G_USERSService.GetAll(x => x.USER_CODE == UserCode).ToList();
+
+            //}
+            //catch (Exception e) {
+            //    var t = e.Message;
+            //}
+            //-----------------------------------------------------------------------------CUSTOMER-----------------
+
+            string query = "select * from CUSTOMER where CustomerCODE ='" + Password + "' and CUSTOMER_ADDRES_2 = '" + UserCode + "'";
+
+            var Cust = db.Database.SqlQuery<CUSTOMER>(query).ToList();
+
+            if (Cust.Count > 0)
+            {
+                string Guid = UserTools.GenerateGuid();
+                string EnGuid = "HGFD-" + UserTools.Encrypt(Guid, "Business-Systems");
+                
+                return Ok(new BaseResponse(Cust));
+            }
+            else
+            {
+                return Ok(new BaseResponse(Cust));  // error in pass or active 
+
+            }
+
+        }
+
+
+
         [HttpGet, AllowAnonymous]
 
         public Boolean CheckUser(string Guid, string uCode)
@@ -170,7 +215,7 @@ namespace Inv.API.Controllers
 
         }
         [HttpPost, AllowAnonymous]
-        public IHttpActionResult Insert([FromBody]G_USERS USER)
+        public IHttpActionResult Insert([FromBody] G_USERS USER)
         {
             if (ModelState.IsValid && CheckUser(USER.Token, USER.UserCode))
             {
@@ -313,7 +358,7 @@ namespace Inv.API.Controllers
                     {
 
 
-                     
+
 
                         if (USER.G_USERS.Flag_Mastr == "i")
                         {
@@ -387,7 +432,7 @@ namespace Inv.API.Controllers
         }
 
         [HttpGet, AllowAnonymous]
-        public IHttpActionResult GetUSER(int CompCode, int? Status, int? UserType) 
+        public IHttpActionResult GetUSER(int CompCode, int? Status, int? UserType)
         {
             string s = "select * from G_USERS where CompCode = " + CompCode + " and 1=1";
             string condition = "";
