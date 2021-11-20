@@ -24,6 +24,7 @@ var LoginComponent;
     var compData = Array();
     var SystemEnv: SystemEnvironment = new SystemEnvironment();
     var SysSession: SystemSession = GetSystemSession();
+    var G_BRANCHService: Array<G_BRANCH> = new Array<G_BRANCH>();
 
     function InitalizeComponent() {
         txtUserName = document.getElementById("txtUserName");
@@ -119,11 +120,94 @@ var LoginComponent;
                     var result = res.Response as Array<CUSTOMER>;
                     if (result.length > 0) {
                         debugger
-                        SystemEnv.Token = "HGFD-T+zTLBi1GWkWA1P36uiB4UJjB5qkuYN63Fuo+WxiH/rRXEQ825IIkQ=="; 
+                        //SystemEnv.Token = "HGFD-T+zTLBi1GWkWA1P36uiB4UJjB5qkuYN63Fuo+WxiH/rRXEQ825IIkQ=="; 
                       
-                        document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
+                        //document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
                         
-                         OnLogged();
+                        //OnLogged();
+                        let compCode = result[0].CompCode;
+                        let BranchCode = result[0].BranchCode;
+
+                        $.ajax({
+                            type: "GET",
+                            url: sys.apiUrl("I_Control", "GetAll"),
+                            data: { Compcode: compCode },
+                            async: false,
+                            success: (d) => {
+                                let res = d as BaseResponse;
+                                if (res.IsSuccess) {
+                                    var CompanyService = res.Response as I_Control;
+                                    if (CompanyService != null) {
+
+                                        debugger
+                                        SystemEnv.I_Control = CompanyService;
+                                        SystemEnv.CompCode = compCode.toString();
+                                        SystemEnv.BranchCode = BranchCode.toString(); 
+                                        SystemEnv.IsBiLingual = true;
+                                        SystemEnv.Language ="ar";
+                                        SystemEnv.ScreenLanguage = "ar";
+                                        SystemEnv.SystemCode = 'I';
+                                        SystemEnv.SubSystemCode = 'I';
+                                        SystemEnv.UserCode = txtUserName.value; 
+                                        SystemEnv.NationalityID = CompanyService[0].NationalityID;
+                                        SystemEnv.CurrentYear = '2021';
+                                        SystemEnv.CustomerId = result[0].CUSTOMER_ID;
+                                        SystemEnv.CustomerCode = result[0].CustomerCODE;
+                                        SystemEnv.CustomerPhone = result[0].PHONE;
+                                        SystemEnv.Debit = result[0].Debit;
+                                        SystemEnv.CUSTOMER_ADDRES = result[0].CUSTOMER_ADDRES;
+                                        SystemEnv.CUSTOMER_NAME = result[0].CUSTOMER_NAME;
+
+                                     
+                                        $.ajax({
+                                            type: "GET",
+                                            url: sys.apiUrl("GBranch", "GetBranch"),
+                                            data: { CompCode: Number(compCode), BRA_CODE: Number(BranchCode) },
+                                            async: true,
+                                            success: (d) => {
+                                                let res = d as BaseResponse;
+                                                if (res.IsSuccess) {
+                                                    G_BRANCHService = res.Response as Array<G_BRANCH>;
+                                                    if (G_BRANCHService != null) {
+
+
+
+
+
+                                                        //SystemEnv.NationalityID = G_BRANCHService[0].NationalityID;
+
+                                                        SystemEnv.SlsInvType = G_BRANCHService[0].SlsInvType;
+                                                        SystemEnv.WholeInvoiceTransCode = G_BRANCHService[0].WholeInvoiceTransCode;
+                                                        SystemEnv.RetailInvoicePayment = G_BRANCHService[0].RetailInvoicePayment;
+                                                        SystemEnv.WholeInvoicePayment = G_BRANCHService[0].WholeInvoicePayment;
+                                                        SystemEnv.ServiceInvoiceTransCode = G_BRANCHService[0].ServiceInvoiceTransCode;
+                                                        SystemEnv.ReturnTypeCode = G_BRANCHService[0].ReturnTypeCode;
+                                                        SystemEnv.InvoiceTypeCode = G_BRANCHService[0].InvoiceTypeCode;
+                                                        SystemEnv.RetailInvoiceTransCode = G_BRANCHService[0].RetailInvoiceTransCode;
+
+
+                                                    } else {
+                                                        var msg = SystemEnv.ScreenLanguage == "ar" ? "غير مصرح لك الدخول الفرع" : "You are not allowed to login";
+                                                        MessageBox.Show(msg, "");
+                                                    }
+                                                }
+                                            }
+                                        });
+
+
+
+
+                                        document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
+                                        OnLogged();
+                                    } else {
+                                        var msg = SystemEnv.ScreenLanguage == "ar" ? "غير مصرح لك الدخول للنظام" : "You are not allowed to login";
+                                        MessageBox.Show(msg, "");
+
+                                    }
+                                }
+                            }
+                        });
+
 
                      }
                     else {  // Error in user or pass or active 

@@ -23,6 +23,7 @@ var LoginComponent;
     var compData = Array();
     var SystemEnv = new SystemEnvironment();
     var SysSession = GetSystemSession();
+    var G_BRANCHService = new Array();
     function InitalizeComponent() {
         txtUserName = document.getElementById("txtUserName");
         txtUserPassword = document.getElementById("txtUserPassword");
@@ -112,9 +113,76 @@ var LoginComponent;
                     var result = res.Response;
                     if (result.length > 0) {
                         debugger;
-                        SystemEnv.Token = "HGFD-T+zTLBi1GWkWA1P36uiB4UJjB5qkuYN63Fuo+WxiH/rRXEQ825IIkQ==";
-                        document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
-                        OnLogged();
+                        //SystemEnv.Token = "HGFD-T+zTLBi1GWkWA1P36uiB4UJjB5qkuYN63Fuo+WxiH/rRXEQ825IIkQ=="; 
+                        //document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
+                        //OnLogged();
+                        var compCode_1 = result[0].CompCode;
+                        var BranchCode_1 = result[0].BranchCode;
+                        $.ajax({
+                            type: "GET",
+                            url: sys.apiUrl("I_Control", "GetAll"),
+                            data: { Compcode: compCode_1 },
+                            async: false,
+                            success: function (d) {
+                                var res = d;
+                                if (res.IsSuccess) {
+                                    var CompanyService = res.Response;
+                                    if (CompanyService != null) {
+                                        debugger;
+                                        SystemEnv.I_Control = CompanyService;
+                                        SystemEnv.CompCode = compCode_1.toString();
+                                        SystemEnv.BranchCode = BranchCode_1.toString();
+                                        SystemEnv.IsBiLingual = true;
+                                        SystemEnv.Language = "ar";
+                                        SystemEnv.ScreenLanguage = "ar";
+                                        SystemEnv.SystemCode = 'I';
+                                        SystemEnv.SubSystemCode = 'I';
+                                        SystemEnv.UserCode = txtUserName.value;
+                                        SystemEnv.NationalityID = CompanyService[0].NationalityID;
+                                        SystemEnv.CurrentYear = '2021';
+                                        SystemEnv.CustomerId = result[0].CUSTOMER_ID;
+                                        SystemEnv.CustomerCode = result[0].CustomerCODE;
+                                        SystemEnv.CustomerPhone = result[0].PHONE;
+                                        SystemEnv.Debit = result[0].Debit;
+                                        SystemEnv.CUSTOMER_ADDRES = result[0].CUSTOMER_ADDRES;
+                                        SystemEnv.CUSTOMER_NAME = result[0].CUSTOMER_NAME;
+                                        $.ajax({
+                                            type: "GET",
+                                            url: sys.apiUrl("GBranch", "GetBranch"),
+                                            data: { CompCode: Number(compCode_1), BRA_CODE: Number(BranchCode_1) },
+                                            async: true,
+                                            success: function (d) {
+                                                var res = d;
+                                                if (res.IsSuccess) {
+                                                    G_BRANCHService = res.Response;
+                                                    if (G_BRANCHService != null) {
+                                                        //SystemEnv.NationalityID = G_BRANCHService[0].NationalityID;
+                                                        SystemEnv.SlsInvType = G_BRANCHService[0].SlsInvType;
+                                                        SystemEnv.WholeInvoiceTransCode = G_BRANCHService[0].WholeInvoiceTransCode;
+                                                        SystemEnv.RetailInvoicePayment = G_BRANCHService[0].RetailInvoicePayment;
+                                                        SystemEnv.WholeInvoicePayment = G_BRANCHService[0].WholeInvoicePayment;
+                                                        SystemEnv.ServiceInvoiceTransCode = G_BRANCHService[0].ServiceInvoiceTransCode;
+                                                        SystemEnv.ReturnTypeCode = G_BRANCHService[0].ReturnTypeCode;
+                                                        SystemEnv.InvoiceTypeCode = G_BRANCHService[0].InvoiceTypeCode;
+                                                        SystemEnv.RetailInvoiceTransCode = G_BRANCHService[0].RetailInvoiceTransCode;
+                                                    }
+                                                    else {
+                                                        var msg = SystemEnv.ScreenLanguage == "ar" ? "غير مصرح لك الدخول الفرع" : "You are not allowed to login";
+                                                        MessageBox.Show(msg, "");
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        document.cookie = "Inv1_systemProperties=" + JSON.stringify(SystemEnv).toString() + ";expires=Fri, 31 Dec 2030 23:59:59 GMT;path=/";
+                                        OnLogged();
+                                    }
+                                    else {
+                                        var msg = SystemEnv.ScreenLanguage == "ar" ? "غير مصرح لك الدخول للنظام" : "You are not allowed to login";
+                                        MessageBox.Show(msg, "");
+                                    }
+                                }
+                            }
+                        });
                     }
                     else { // Error in user or pass or active 
                         Errorinput(txtUserName);

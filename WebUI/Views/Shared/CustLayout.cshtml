@@ -74,11 +74,12 @@
     <div id="btnclosefooter" class="display_none">
         <i id="chevron" style="font-size: 27px" class="glyphicon glyphicon-chevron-right"></i>
         <i class=" glefbtnclosefooter" style="font-size: 25px"> اعدادات </i>
-
+        <input type="hidden" id="GetActionUrl" name="name" value="@Url.Action("GetActionUrl","ClientTools")" />
+        <input type="hidden" id="GetAPIUrl" name="name" value="@System.Configuration.ConfigurationManager.AppSettings["ServiceUrl"]" />
     </div>
     <div id="footer" class="stfooter">
-        <div  id="displaydiv" class="col-lg-12 display_none" style="top: 3px">
-                 </button>
+        <div id="displaydiv" class="col-lg-12 display_none" style="top: 3px">
+            </button>
             <a href="/Home/AdminBarIndex">
                 <span class="glyphicon glyphicon-floppy-saved">
                     <button id="" type="button" class="btn btn-success   ">
@@ -234,5 +235,113 @@
 
         });
     </script>
+
+    <div class="modal fade" id="Popupitem" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 borderred">
+                <button type="button" class="close col-xs-1" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="col-xs-12">
+                    <div class="col-lg-12">
+
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" pading_2 ">@SystemResource.APP_Category</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <select id="drpPaymentType" class="form-control"></select>
+                        </div>
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" pading_2 ">@SystemResource.App_Type</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <select id="drpitem_family" class="form-control"><option value="0">@SystemResource.App_Type</option></select>
+                        </div>
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" pading_2 ">@SystemResource.Itm_ItemCode</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <input id="ItemCodePopup" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" style_pading_lepel2 "> مجموعات</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <select id="drp_UnitGroup" class="form-control"></select>
+                        </div>
+
+                        <div class="col-lg-1 pad_ display_none">
+                            <label class=" style_pading_lepel2 ">@SystemResource.App_Quantity</label>
+                        </div>
+                        <div class="col-lg-3 display_none">
+                            <select id="drp_Qty" class="form-control">
+                                <option value="0">@SystemResource.App_All</option>
+                                <option value="1">متوفر في الفرع الحالي</option>
+                                @*<option value="2">متوفر في الشركة</option>
+                                    <option value="3">غير متوفر في الفرع الحالي</option>
+                                    <option value="4">غير متوفر في الشركة</option>*@
+
+                            </select>
+                        </div>
+
+                       
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="col-lg-2 pad_">
+                            <label class=" style_pading_lepel2 ">الاسم يحتوى علي </label>
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <input type="text" id="Likedesc" class=" form-control" />
+                        </div>
+                        <div class="col-lg-2 pad_">
+                            <select id="drpcontaindesc" class="form-control">
+                                <option value="0">في البداية</option>
+                                <option value="1">يحتوي علي</option>
+                                <option value="2">فى النهاية</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-2 float-left ">
+                            <button type="button" class="btn btn-info" id="btnsrePopup">
+                               بحث <span class="glyphicon glyphicon-save "></span>
+                            </button>
+                        </div>
+                        <div class="col-lg-2 pad_ display_none">
+                            <label class=" style_pading_lepel2 ">الكود يحتوى علي </label>
+                        </div>
+                        <div class="col-lg-2 pad_ display_none">
+                            <input type="text" id="Likecode" class=" form-control" />
+                        </div>
+                        <div class="col-lg-2 pad_ display_none">
+                            <select id="drpcontaincode" class="form-control">
+                                <option value="0">في البداية</option>
+                                <option value="1">يحتوي علي</option>
+                                <option value="2">فى النهاية</option>
+                            </select>
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 col-xs-12 display_none" id="divGridShow">
+                    <input type="text" class="  form-control  col-lg-4 col-md-4 col-sm-4 col-xl-4 col-xs-4" placeholder="@SystemResource.App_Search" id="txtSearch" />
+                    <table id="divpopupGrid"></table>
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+
+
 </body>
 </html>

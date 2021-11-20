@@ -222,6 +222,12 @@ class SystemEnvironment {
     public RetailInvoicePayment: number;
     public WholeInvoicePayment: number;
     public ServiceInvoiceTransCode: number;
+    public CustomerId: number;
+    public Debit: number;
+    public CustomerCode: string;
+    public CustomerPhone: string;
+    public CUSTOMER_ADDRES: string;
+    public CUSTOMER_NAME: string;
 
      }
 class sysInternal_Comm {

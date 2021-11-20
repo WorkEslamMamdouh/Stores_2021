@@ -462,6 +462,7 @@ var SystemTools = /** @class */ (function () {
     };
     SystemTools.prototype.ShowItems = function (BranchCode, Storeid, Desc, Code, Mode, OnSearchSelected) {
         var _this = this;
+        debugger;
         $('#Popupitem').modal('show');
         $('#Likedesc').val(Desc);
         $('#Likecode').val(Code);

@@ -108,6 +108,7 @@ namespace SlsTrSalesManager {
     var btn_Exit_Approveprice: HTMLButtonElement;
     var btnCustomerSrch: HTMLButtonElement;
     var btnpriceSrch: HTMLButtonElement;
+    var btnOrderSrch: HTMLButtonElement;
 
     //print buttons     
     var btnPrintTrview: HTMLButtonElement;
@@ -241,6 +242,7 @@ namespace SlsTrSalesManager {
         btn_Exit_Approveprice = document.getElementById("btn_Exit_Approveprice") as HTMLButtonElement;
         btnCustomerSrch = document.getElementById("btnCustomerSrch") as HTMLButtonElement;
         btnpriceSrch = document.getElementById("btnpriceSrch") as HTMLButtonElement;
+        btnOrderSrch = document.getElementById("btnOrderSrch") as HTMLButtonElement;
         //print 
         btnPrintTrview = document.getElementById("btnPrintTrview") as HTMLButtonElement;
         btnPrintTrPDF = document.getElementById("btnPrintTrPDF") as HTMLButtonElement;
@@ -266,6 +268,7 @@ namespace SlsTrSalesManager {
         btn_Exit_Approveprice.onclick = btn_Exit_Approveprice_onclick;
         btnCustomerSrch.onclick = btnCustomerSrch_onclick;
         btnpriceSrch.onclick = btnpriceSrch_onclick;
+        btnOrderSrch.onclick = btnOrderSrch_onclick;
         txt_Tax_Discount.onkeyup = txt_Tax_Discount_onchange;
         txt_Tax_total_Discount.onkeyup = txt_Tax_Discount_onchange;
         txt_Tax_total_AfterDiscount.onkeyup = Tax_Total_onchange;
@@ -351,6 +354,7 @@ namespace SlsTrSalesManager {
 
             let id = SearchGrid.SearchDataGrid.SelectedKey;
             Invpriceshow(id);
+        
 
             //-----------------------------------------------  function Price;
         });
@@ -442,6 +446,153 @@ namespace SlsTrSalesManager {
         });
 
     }
+
+
+    function btnOrderSrch_onclick() {
+
+
+        let sys: SystemTools = new SystemTools();
+        sys.FindKey(Modules.SlsTrSalesManager, "btnpriceSrch", "CompCode=" + compcode + "and BranchCode=" + BranchCode + " and TrType = 3  and SlsInvSrc = 1 ", () => {
+
+
+            let id = SearchGrid.SearchDataGrid.SelectedKey; 
+            InvOrderCust(id);
+
+            //-----------------------------------------------  function Price;
+        });
+    }
+    function InvOrderCust(id: number) {
+        debugger
+        $("#div_Data").html("");
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetOrderCustById"),
+            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess) {
+                    PriceInvDetails = result.Response as Array<IQ_GetSlsInvoiceStatistic>;
+
+                    $('#txtPriceshow').val(PriceInvDetails[0].TrNo);
+                    $('#ddlStore').val(PriceInvDetails[0].StoreId);
+                    $('#ddlSalesman').val(PriceInvDetails[0].SalesmanId);
+                    $('#ddlType').val(PriceInvDetails[0].IsCash == false ? 0 : 1);
+                    $('#ddlCashBox').val(PriceInvDetails[0].CashBoxID == null ? 'null' : PriceInvDetails[0].CashBoxID);
+                    $('#txtCustomerCode').val(PriceInvDetails[0].CustomerId)
+                    $('#txtInvoiceCustomerName').val(PriceInvDetails[0].CustomerName)
+                    $('#txtCustomerMobile').val(PriceInvDetails[0].CustomerMobileNo)
+                    $('#txtCashMoney').val(PriceInvDetails[0].CashAmount);
+                    $('#txtCardMoney').val(PriceInvDetails[0].CardAmount);
+                    $('#txtTotalbefore').val(PriceInvDetails[0].TotalAmount);
+                    $('#txtTotalDiscount').val(PriceInvDetails[0].ItemDiscountTotal);
+                    $('#txtTotal').val(PriceInvDetails[0].ItemTotal);
+                    $('#txtTax').val(PriceInvDetails[0].VatAmount);
+                    $('#txtDiscountValue').val(PriceInvDetails[0].RoundingAmount);
+                    $('#txtNet').val(PriceInvDetails[0].Tot_Net);
+                    $('#txtItemCount').val(PriceInvDetails[0].Line_Count);
+                    $('#txtPackageCount').val(PriceInvDetails[0].Tot_Qty);
+                    $('#txt_Remarks').val(PriceInvDetails[0].Remark);
+                    CustomerId = PriceInvDetails[0].CustomerId;
+                }
+            }
+        });
+
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("SlsTrSales", "GetOrderCustitemsById"),
+            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess) {
+                    PriceInvitemsDetails = result.Response as Array<IQ_GetSlsInvoiceItem>;
+                    CountGrid = PriceInvitemsDetails.length;
+                    CountItems = 0;
+                    let GetItemInfo: Array<Iproc_GetItemInfo_Result> = new Array<Iproc_GetItemInfo_Result>();
+                    for (var i = 0; i < CountGrid; i++) {
+
+                        flagprice = 1;
+                        BuildControls(i);
+                        $("#txtSerial" + i).val(PriceInvitemsDetails[i].Serial);
+                        $("#txt_ItemID" + i).val(PriceInvitemsDetails[i].ItemID);
+                        $('#txtServiceCode' + i).attr('disabled', 'disabled');
+                        $('#txtServiceName' + i).attr('disabled', 'disabled');
+                        NumCnt = i
+                        let ItemCode = '';
+                        let ItemID = PriceInvitemsDetails[i].ItemID;
+                        let Mode = InvoiceType;
+                        var Storeid = Number($("#ddlStore").val());
+                        Ajax.Callsync({
+                            type: "Get",
+                            url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
+                            data: {
+                                CompCode: compcode, FinYear: Finyear, ItemCode: ItemCode, ItemID: ItemID, storeid: Storeid, Mode: Mode, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
+                            },
+                            success: (d) => {
+                                let result = d as BaseResponse;
+                                if (result.IsSuccess) {
+                                    GetItemInfo = result.Response as Array<Iproc_GetItemInfo_Result>;
+                                    if (GetItemInfo.length > 0) {
+
+
+
+
+                                        $('#ddlTypeuom' + NumCnt + '').html('');
+                                        for (var i = 0; i < GetItemInfo.length; i++) {
+                                            $('#ddlTypeuom' + NumCnt + '').append('<option  data-OnhandQty="' + GetItemInfo[i].OnhandQty + '" data-UnitPrice="' + GetItemInfo[i].UnitPrice + '" data-MinPrice="' + GetItemInfo[i].MinPrice + '" data-Rate="' + GetItemInfo[i].Rate + '" value="' + GetItemInfo[i].uomid + '">' + (lang == "ar" ? GetItemInfo[i].u_DescA : GetItemInfo[i].u_DescE) + '</option>');
+                                        }
+
+                                        $('#txtServiceName' + NumCnt + '').val((lang == "ar" ? GetItemInfo[0].It_DescA : GetItemInfo[0].it_DescE));
+                                        $('#txtServiceCode' + NumCnt + '').val(GetItemInfo[0].ItemCode);
+                                        $('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
+                                        $('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
+                                        $('#txtQuantity' + NumCnt + '').val('1');
+
+                                        Tax_Rate = GetItemInfo[0].VatPrc;
+                                        Tax_Type_Model = GetVat(GetItemInfo[0].VatNatID, Tax_Rate, vatType);
+
+                                        Tax_Rate = Tax_Type_Model.Prc
+                                        VatPrc = Tax_Rate;
+                                        $("#txtTax_Rate" + NumCnt).attr('Data-VatNatID', Tax_Type_Model.Nature);
+
+                                        $('#txtServiceName' + NumCnt + '').attr('disabled', 'disabled');
+                                        $('#txtServiceCode' + NumCnt + '').attr('disabled', 'disabled');
+
+                                        totalRow(NumCnt);
+
+                                    }
+                                    else {
+                                        $('#ddlTypeuom' + NumCnt + '').append('<option value="null">اختر الوحده</option>');
+                                        $('#txtServiceName' + NumCnt + '').val('');
+                                        $('#txtServiceCode' + NumCnt + '').val('');
+                                        $('#txtPrice' + NumCnt + '').val('0');
+                                        $('#txtNetUnitPrice' + NumCnt + '').val('0');
+                                        $('#txtQuantity' + NumCnt + '').val('1');
+                                        $('#txtServiceName' + NumCnt + '').removeAttr('disabled');
+                                        $('#txtServiceCode' + NumCnt + '').removeAttr('disabled');
+                                    }
+
+                                }
+                            }
+                        });
+
+                       
+                        $("#btn_minus" + i).removeClass("display_none");
+                        $("#btn_minus" + i).removeAttr("disabled");
+                        $("#txt_StatusFlag" + i).val("i");
+
+                        CountItems = CountItems + 1;
+                        txtItemCount.value = CountItems.toString();
+                    }
+                    ComputeTotals();
+                }
+
+            }
+
+        });
+
+    }
+
+
     function txtCustomerCode_onchange() {
         if (txtCustomerCode.value != "") {
             var custObjct: Array<CUSTOMER> = CustDetails.filter(s => s.CustomerCODE == txtCustomerCode.value);
@@ -713,6 +864,7 @@ namespace SlsTrSalesManager {
             txtCustomerCode.value = "";
             CustomerId = 0;
             $("#btnpriceSrch").removeAttr("disabled");
+            $("#btnOrderSrch").removeAttr("disabled");
             $("#txtCustomerCode").removeAttr("disabled");
             $("#btnCustomerSrch").removeAttr("disabled");
             $("#txtCustomerMobile").removeAttr("disabled");
@@ -1081,6 +1233,7 @@ namespace SlsTrSalesManager {
         $("#txtSupply_end_Date").removeAttr("disabled");
         $("#txtTerms_of_Payment").removeAttr("disabled");
         $("#btnpriceSrch").removeAttr("disabled");
+        $("#btnOrderSrch").removeAttr("disabled");
         btnCustomerSrch.disabled = false;
         btnpriceSrch.disabled = false;
 
@@ -1696,6 +1849,7 @@ namespace SlsTrSalesManager {
         $("#txtPriceshow").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
         $("#btnpriceSrch").removeAttr("disabled");
+        $("#btnOrderSrch").attr("disabled", "disabled");
 
         ddlSalesman.disabled = true;
 
@@ -2939,6 +3093,7 @@ namespace SlsTrSalesManager {
         btndiv_1_onclick();
         $("#btnCustomerSrch").attr("disabled", "disabled");
         $("#btnpriceSrch").attr("disabled", "disabled");
+        $("#btnOrderSrch").attr("disabled", "disabled");
     }
     function success() {
         $("#cotrolDiv").removeClass("disabledDiv");

@@ -28,13 +28,11 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAll(int CompCode, string UserCode, string Token)
         {
-            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
-            {
+          
                 var category = StkDefCategoryService.GetAll(x => x.CompCode == CompCode).ToList();
 
                 return Ok(new BaseResponse(category));
-            }
-            return BadRequest(ModelState);
+          
         }
         public IHttpActionResult GetAllCat(int CompCode,int CatID , string UserCode, string Token)
         {

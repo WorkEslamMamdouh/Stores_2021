@@ -565,6 +565,7 @@
 
 
     public ShowItems(BranchCode: number, Storeid: number, Desc: string, Code: string, Mode: string, OnSearchSelected: () => void) {
+        debugger
         $('#Popupitem').modal('show');
         $('#Likedesc').val(Desc);
         $('#Likecode').val(Code);
@@ -578,7 +579,7 @@
         var detailunitgrp: Array<I_D_UnitGroup> = new Array<I_D_UnitGroup>();
         var CategoryDetails: Array<I_D_Category> = new Array<I_D_Category>();
         let lang = this.SysSession.CurrentEnvironment.ScreenLanguage;
-
+       
         Ajax.Callsync({
             type: "Get",
             url: this.apiUrl("StkDefCategory", "GetAll"),

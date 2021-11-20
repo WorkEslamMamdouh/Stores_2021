@@ -31,17 +31,11 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllUnitGroup(int CompCode, string UserCode, string Token)
         {
-            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
-            {
+            
                 var UnitGroupList = I_D_UnitGroupService.GetAll(x => x.CompCode == CompCode).ToList();
 
                 return Ok(new BaseResponse(UnitGroupList));
-            }
-
-
-            return BadRequest(ModelState);
-
-
+            
         }
 
         [HttpGet, AllowAnonymous]

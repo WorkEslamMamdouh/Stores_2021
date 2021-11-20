@@ -125,7 +125,7 @@ namespace Inv.API.Controllers
             //}
             //-----------------------------------------------------------------------------CUSTOMER-----------------
 
-            string query = "select * from CUSTOMER where CustomerCODE ='" + Password + "' and CUSTOMER_ADDRES_2 = '" + UserCode + "'";
+            string query = "select * from CUSTOMER where CustomerCODE ='" + Password + "' and CUSTOMER_ADDRES_2 = '" + UserCode + "' and STATUS = 1";
 
             var Cust = db.Database.SqlQuery<CUSTOMER>(query).ToList();
 

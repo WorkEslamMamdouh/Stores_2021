@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    SlsTrSalesManager.InitalizeComponent();
+    CustomerView.InitalizeComponent();
 });
-var SlsTrSalesManager;
-(function (SlsTrSalesManager) {
+var CustomerView;
+(function (CustomerView) {
     //system varables
+    var TrType = 2;
     var SysSession = GetSystemSession();
     var compcode;
     var BranchCode;
@@ -14,14 +15,8 @@ var SlsTrSalesManager;
     var Screen_name = '';
     var InvoiceType = 0; // 1:Retail invoice , 2: Wholesale invoice            
     var SlsInv = $('#SlsInvType').val();
-    if (SlsInv == "1") { //  1:Retail invoice 
-        InvoiceType = 1;
-        (lang == "ar" ? Screen_name = 'فواتير التجزئه' : Screen_name = 'Retail invoice');
-    }
-    else { //2: Wholesale invoice 
-        InvoiceType = 2;
-        (lang == "ar" ? Screen_name = 'فواتير الجمله' : Screen_name = 'Wholesale invoice');
-    }
+    InvoiceType = 1;
+    (lang == "ar" ? Screen_name = 'عرض سعر' : Screen_name = 'Retail invoice');
     //ddl
     var btnPrintNew;
     var btndiv_1;
@@ -34,12 +29,8 @@ var SlsTrSalesManager;
     var ddlSalesman;
     var ddlType;
     var ddlCashBox;
-    var flagprice = 0;
     // Arrays
-    var Display_D_UOM = new Array();
     var CashboxDetails = new Array();
-    var PriceInvDetails = new Array();
-    var PriceInvitemsDetails = new Array();
     var CustDetails = new Array();
     var DetailsVatNature = new Array();
     var StateDetailsAr = new Array();
@@ -96,15 +87,14 @@ var SlsTrSalesManager;
     var btn_Approveprice;
     var btn_Exit_Approveprice;
     var btnCustomerSrch;
-    var btnpriceSrch;
-    var btnOrderSrch;
     //print buttons     
     var btnPrintTrview;
     var btnPrintTrPDF;
     var btnPrintTrEXEL;
     var btnPrintTransaction;
-    //var btnPrintInvoicePrice: HTMLButtonElement;
+    var btnPrintInvoicePrice;
     var btnPrintslip;
+    var IsNew;
     // giedView
     var Grid = new JsGrid();
     //global    
@@ -127,13 +117,12 @@ var SlsTrSalesManager;
     var NewAdd = true;
     var AutherizeFlag = false;
     var flag_PriceWithVAT = (SysSession.CurrentEnvironment.I_Control[0].SalesPriceWithVAT);
-    var btnPrint;
+    //var btnPrint: HTMLInputElement;
     var Tax_Rate = 0;
     var Tax_Type_Model = new Tax_Type();
     var NumCnt = 0;
     var CustType;
     var CustomerId = 0;
-    var invoicePriceID = 0;
     var html = "";
     //------------------------------------------------------ Main Region------------------------
     function InitalizeComponent() {
@@ -163,13 +152,12 @@ var SlsTrSalesManager;
         txtTotal.value = CountTotal.toString();
         txtTax.value = TaxCount.toString();
         txtNet.value = NetCount.toString();
-        //FillddlCashBox();
+        FillddlCashBox();
         GetTypeCust();
-        flagprice = 0;
     }
-    SlsTrSalesManager.InitalizeComponent = InitalizeComponent;
+    CustomerView.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
-        btnPrint = document.getElementById("btnPrint");
+        // btnPrint = document.getElementById("btnPrint") as HTMLInputElement;
         // Drop down lists
         ddlStore = document.getElementById("ddlStore");
         ddlCustomer = document.getElementById("ddlCustomer");
@@ -217,8 +205,6 @@ var SlsTrSalesManager;
         btn_Approveprice = document.getElementById("btn_Approveprice");
         btn_Exit_Approveprice = document.getElementById("btn_Exit_Approveprice");
         btnCustomerSrch = document.getElementById("btnCustomerSrch");
-        btnpriceSrch = document.getElementById("btnpriceSrch");
-        btnOrderSrch = document.getElementById("btnOrderSrch");
         //print 
         btnPrintTrview = document.getElementById("btnPrintTrview");
         btnPrintTrPDF = document.getElementById("btnPrintTrPDF");
@@ -226,7 +212,7 @@ var SlsTrSalesManager;
         btnPrintTransaction = document.getElementById("btnPrintTransaction");
         btnPrintslip = document.getElementById("btnPrintslip");
         ////
-        //btnPrintInvoicePrice = document.getElementById("btnPrintInvoicePrice") as HTMLButtonElement;
+        btnPrintInvoicePrice = document.getElementById("btnPrintInvoicePrice");
     }
     function InitializeEvents() {
         txtDiscountValue.onkeyup = txtDiscountValue_onchange;
@@ -241,8 +227,6 @@ var SlsTrSalesManager;
         btn_Approveprice.onclick = btn_Approveprice_onclick;
         btn_Exit_Approveprice.onclick = btn_Exit_Approveprice_onclick;
         btnCustomerSrch.onclick = btnCustomerSrch_onclick;
-        btnpriceSrch.onclick = btnpriceSrch_onclick;
-        btnOrderSrch.onclick = btnOrderSrch_onclick;
         txt_Tax_Discount.onkeyup = txt_Tax_Discount_onchange;
         txt_Tax_total_Discount.onkeyup = txt_Tax_Discount_onchange;
         txt_Tax_total_AfterDiscount.onkeyup = Tax_Total_onchange;
@@ -251,11 +235,11 @@ var SlsTrSalesManager;
         btnPrintTrview.onclick = function () { PrintReport(1); };
         btnPrintTrPDF.onclick = function () { PrintReport(2); };
         btnPrintTrEXEL.onclick = function () { PrintReport(3); };
-        btnPrint.onclick = function () { PrintReport(4); };
+        //btnPrint.onclick = () => { PrintReport(4); }
         btnPrintTransaction.onclick = PrintTransaction;
         btnPrintslip.onclick = btnPrintslip_onclick;
         ////
-        //btnPrintInvoicePrice.onclick = btnPrintInvoicePrice_onclick;
+        btnPrintInvoicePrice.onclick = btnPrintInvoicePrice_onclick;
         searchbutmemreport.onkeyup = _SearchBox_Change;
         txtCustomerCode.onchange = txtCustomerCode_onchange;
         btnPrintNew.onclick = btnPrintNew_onclick;
@@ -264,27 +248,21 @@ var SlsTrSalesManager;
     }
     function GetTypeCust() {
         var Transcode = 0;
-        var Iscredit = 0;
-        var SlsType = "S";
-        if (InvoiceType == 1) {
+        if (InvoiceType == 1)
             Transcode = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
-            SlsType = 'R';
-            Iscredit = SysSession.CurrentEnvironment.RetailInvoicePayment;
-        }
-        else if (InvoiceType == 2) {
+        else
             Transcode = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
-            Iscredit = SysSession.CurrentEnvironment.WholeInvoicePayment;
-            SlsType = 'W';
-        }
+        var Iscredit = SysSession.CurrentEnvironment.RetailInvoicePayment;
+        var SlsType = InvoiceType == 1 ? 'R' : InvoiceType == 2 ? 'W' : 'S';
         CustType = SetCustomerType(Transcode, Iscredit, SlsType);
     }
     function btnCustomerSrch_onclick() {
         var Credit = '';
         if (ddlType.value == "0") {
-            Credit = " and IsCreditCustomer = 1";
+            Credit = "and IsCreditCustomer = 1";
         }
         else {
-            Credit = " and IsCreditCustomer = 0";
+            Credit = "and IsCreditCustomer = 0";
         }
         var sys = new SystemTools();
         //sys.FindKey(Modules.Sales_Services, "btnCustomerSrch", "CompCode=" + compcode + "and BranchCode=" + BranchCode + " and ISPersonal ='" + CustType.IsPersonal + "' and SalesInvoiceNature = " + CustType.SalesInvoiceNature + "", () => {
@@ -292,220 +270,14 @@ var SlsTrSalesManager;
         //cond = "CompCode=" + compcode + " and ISPersonal ='" + CustType.IsPersonal + "'" + Credit;
         cond = "CompCode=" + compcode + " and SalesInvoiceNature = " + CustType.SalesInvoiceNature + Credit;
         if (CustType.IsPersonal != null)
-            cond = cond + " and ISPersonal ='" + CustType.IsPersonal + "'";
+            cond = cond + "and ISPersonal ='" + CustType.IsPersonal + "'";
         if (SysSession.CurrentEnvironment.I_Control[0].IsLocalBranchCustomer == true) {
-            cond = cond + " and BranchCode=" + BranchCode;
+            cond = cond + "and BranchCode=" + BranchCode;
         }
         sys.FindKey(Modules.Catch_Receipt, "btnCustomerSearch", "", function () {
             var id = SearchGrid.SearchDataGrid.SelectedKey;
             CustomerId = id;
             ddlInvoiceCustomer_onchange();
-        });
-    }
-    function btnpriceSrch_onclick() {
-        var sys = new SystemTools();
-        sys.FindKey(Modules.SlsTrSalesManager, "btnpriceSrch", "CompCode=" + compcode + "and BranchCode=" + BranchCode + " and TrType = 2  and SlsInvSrc = 1 ", function () {
-            var id = SearchGrid.SearchDataGrid.SelectedKey;
-            Invpriceshow(id);
-            //-----------------------------------------------  function Price;
-        });
-    }
-    function Invpriceshow(id) {
-        debugger;
-        $("#div_Data").html("");
-        Ajax.Callsync({
-            type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetPriceshowById"),
-            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
-            success: function (d) {
-                var result = d;
-                if (result.IsSuccess) {
-                    PriceInvDetails = result.Response;
-                    $('#txtPriceshow').val(PriceInvDetails[0].TrNo);
-                    $('#ddlStore').val(PriceInvDetails[0].StoreId);
-                    $('#ddlSalesman').val(PriceInvDetails[0].SalesmanId);
-                    $('#ddlType').val(PriceInvDetails[0].IsCash == false ? 0 : 1);
-                    $('#ddlCashBox').val(PriceInvDetails[0].CashBoxID == null ? 'null' : PriceInvDetails[0].CashBoxID);
-                    $('#txtCustomerCode').val(PriceInvDetails[0].CustomerId);
-                    $('#txtInvoiceCustomerName').val(PriceInvDetails[0].CustomerName);
-                    $('#txtCustomerMobile').val(PriceInvDetails[0].CustomerMobileNo);
-                    $('#txtCashMoney').val(PriceInvDetails[0].CashAmount);
-                    $('#txtCardMoney').val(PriceInvDetails[0].CardAmount);
-                    $('#txtTotalbefore').val(PriceInvDetails[0].TotalAmount);
-                    $('#txtTotalDiscount').val(PriceInvDetails[0].ItemDiscountTotal);
-                    $('#txtTotal').val(PriceInvDetails[0].ItemTotal);
-                    $('#txtTax').val(PriceInvDetails[0].VatAmount);
-                    $('#txtDiscountValue').val(PriceInvDetails[0].RoundingAmount);
-                    $('#txtNet').val(PriceInvDetails[0].Tot_Net);
-                    $('#txtItemCount').val(PriceInvDetails[0].Line_Count);
-                    $('#txtPackageCount').val(PriceInvDetails[0].Tot_Qty);
-                    $('#txt_Remarks').val(PriceInvDetails[0].Remark);
-                    CustomerId = PriceInvDetails[0].CustomerId;
-                }
-            }
-        });
-        Ajax.Callsync({
-            type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetPriceshowitemsById"),
-            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
-            success: function (d) {
-                var result = d;
-                if (result.IsSuccess) {
-                    PriceInvitemsDetails = result.Response;
-                    CountGrid = PriceInvitemsDetails.length;
-                    CountItems = 0;
-                    for (var i = 0; i < CountGrid; i++) {
-                        flagprice = 1;
-                        BuildControls(i);
-                        $('#txtServiceCode' + i).attr('disabled', 'disabled');
-                        $('#txtServiceName' + i).attr('disabled', 'disabled');
-                        $('#txtServiceCode' + i).val(PriceInvitemsDetails[i].it_itemCode);
-                        $("#txtServiceName" + i).val(PriceInvitemsDetails[i].it_DescA);
-                        $("#txt_ItemID" + i).val(PriceInvitemsDetails[i].ItemID);
-                        $("#txtSerial" + i).val(PriceInvitemsDetails[i].Serial);
-                        $('#txtQuantity' + i).val(PriceInvitemsDetails[i].SoldQty);
-                        //$('#txtQuantity' + i).val(PriceInvitemsDetails[i].StockSoldQty);
-                        $("#txtNetUnitPrice" + i).val(PriceInvitemsDetails[i].NetUnitPrice);
-                        $("#txtPrice" + i).val(PriceInvitemsDetails[i].Unitprice);
-                        //$("#txtPrice" + i).val(PriceInvitemsDetails[i].UnitpriceWithVat);
-                        $("#txtDiscountPrc" + i).val(PriceInvitemsDetails[i].DiscountPrc);
-                        $("#txtDiscountAmount" + i).val(PriceInvitemsDetails[i].DiscountAmount);
-                        $("#ddlTypeuom" + i).val(PriceInvitemsDetails[i].UomID);
-                        $("#txtTotal" + i).val(PriceInvitemsDetails[i].ItemTotal);
-                        $("#txtTotAfterTax" + i).val(PriceInvitemsDetails[i].NetAfterVat);
-                        //$("#txtPrice" + i).val(PriceInvitemsDetails[i].NetUnitPriceWithVat);
-                        //$("#txtPrice" + i).val(PriceInvitemsDetails[i].BaseQtyPrice); 
-                        $("#txtTax_Rate" + i).val(PriceInvitemsDetails[i].VatPrc);
-                        $("#txtTax_Rate" + i).attr('data-VatNatID =' + PriceInvitemsDetails[i].VatNatID + '');
-                        $("#txtTax" + i).val(PriceInvitemsDetails[i].VatAmount);
-                        $("#txtReturnQuantity" + i).val(PriceInvitemsDetails[i].TotRetQty);
-                        $("#btn_minus" + i).removeClass("display_none");
-                        $("#btn_minus" + i).removeAttr("disabled");
-                        $("#txt_StatusFlag" + i).val("i");
-                        CountItems = CountItems + 1;
-                        txtItemCount.value = CountItems.toString();
-                    }
-                    ComputeTotals();
-                }
-            }
-        });
-    }
-    function btnOrderSrch_onclick() {
-        var sys = new SystemTools();
-        sys.FindKey(Modules.SlsTrSalesManager, "btnpriceSrch", "CompCode=" + compcode + "and BranchCode=" + BranchCode + " and TrType = 3  and SlsInvSrc = 1 ", function () {
-            var id = SearchGrid.SearchDataGrid.SelectedKey;
-            InvOrderCust(id);
-            //-----------------------------------------------  function Price;
-        });
-    }
-    function InvOrderCust(id) {
-        debugger;
-        $("#div_Data").html("");
-        Ajax.Callsync({
-            type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetOrderCustById"),
-            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
-            success: function (d) {
-                var result = d;
-                if (result.IsSuccess) {
-                    PriceInvDetails = result.Response;
-                    $('#txtPriceshow').val(PriceInvDetails[0].TrNo);
-                    $('#ddlStore').val(PriceInvDetails[0].StoreId);
-                    $('#ddlSalesman').val(PriceInvDetails[0].SalesmanId);
-                    $('#ddlType').val(PriceInvDetails[0].IsCash == false ? 0 : 1);
-                    $('#ddlCashBox').val(PriceInvDetails[0].CashBoxID == null ? 'null' : PriceInvDetails[0].CashBoxID);
-                    $('#txtCustomerCode').val(PriceInvDetails[0].CustomerId);
-                    $('#txtInvoiceCustomerName').val(PriceInvDetails[0].CustomerName);
-                    $('#txtCustomerMobile').val(PriceInvDetails[0].CustomerMobileNo);
-                    $('#txtCashMoney').val(PriceInvDetails[0].CashAmount);
-                    $('#txtCardMoney').val(PriceInvDetails[0].CardAmount);
-                    $('#txtTotalbefore').val(PriceInvDetails[0].TotalAmount);
-                    $('#txtTotalDiscount').val(PriceInvDetails[0].ItemDiscountTotal);
-                    $('#txtTotal').val(PriceInvDetails[0].ItemTotal);
-                    $('#txtTax').val(PriceInvDetails[0].VatAmount);
-                    $('#txtDiscountValue').val(PriceInvDetails[0].RoundingAmount);
-                    $('#txtNet').val(PriceInvDetails[0].Tot_Net);
-                    $('#txtItemCount').val(PriceInvDetails[0].Line_Count);
-                    $('#txtPackageCount').val(PriceInvDetails[0].Tot_Qty);
-                    $('#txt_Remarks').val(PriceInvDetails[0].Remark);
-                    CustomerId = PriceInvDetails[0].CustomerId;
-                }
-            }
-        });
-        Ajax.Callsync({
-            type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetOrderCustitemsById"),
-            data: { InvId: id, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
-            success: function (d) {
-                var result = d;
-                if (result.IsSuccess) {
-                    PriceInvitemsDetails = result.Response;
-                    CountGrid = PriceInvitemsDetails.length;
-                    CountItems = 0;
-                    var GetItemInfo_1 = new Array();
-                    for (var i = 0; i < CountGrid; i++) {
-                        flagprice = 1;
-                        BuildControls(i);
-                        $("#txtSerial" + i).val(PriceInvitemsDetails[i].Serial);
-                        $("#txt_ItemID" + i).val(PriceInvitemsDetails[i].ItemID);
-                        $('#txtServiceCode' + i).attr('disabled', 'disabled');
-                        $('#txtServiceName' + i).attr('disabled', 'disabled');
-                        NumCnt = i;
-                        var ItemCode = '';
-                        var ItemID = PriceInvitemsDetails[i].ItemID;
-                        var Mode = InvoiceType;
-                        var Storeid = Number($("#ddlStore").val());
-                        Ajax.Callsync({
-                            type: "Get",
-                            url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
-                            data: {
-                                CompCode: compcode, FinYear: Finyear, ItemCode: ItemCode, ItemID: ItemID, storeid: Storeid, Mode: Mode, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
-                            },
-                            success: function (d) {
-                                var result = d;
-                                if (result.IsSuccess) {
-                                    GetItemInfo_1 = result.Response;
-                                    if (GetItemInfo_1.length > 0) {
-                                        $('#ddlTypeuom' + NumCnt + '').html('');
-                                        for (var i = 0; i < GetItemInfo_1.length; i++) {
-                                            $('#ddlTypeuom' + NumCnt + '').append('<option  data-OnhandQty="' + GetItemInfo_1[i].OnhandQty + '" data-UnitPrice="' + GetItemInfo_1[i].UnitPrice + '" data-MinPrice="' + GetItemInfo_1[i].MinPrice + '" data-Rate="' + GetItemInfo_1[i].Rate + '" value="' + GetItemInfo_1[i].uomid + '">' + (lang == "ar" ? GetItemInfo_1[i].u_DescA : GetItemInfo_1[i].u_DescE) + '</option>');
-                                        }
-                                        $('#txtServiceName' + NumCnt + '').val((lang == "ar" ? GetItemInfo_1[0].It_DescA : GetItemInfo_1[0].it_DescE));
-                                        $('#txtServiceCode' + NumCnt + '').val(GetItemInfo_1[0].ItemCode);
-                                        $('#txtPrice' + NumCnt + '').val(GetItemInfo_1[0].UnitPrice);
-                                        $('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo_1[0].UnitPrice);
-                                        $('#txtQuantity' + NumCnt + '').val('1');
-                                        Tax_Rate = GetItemInfo_1[0].VatPrc;
-                                        Tax_Type_Model = GetVat(GetItemInfo_1[0].VatNatID, Tax_Rate, vatType);
-                                        Tax_Rate = Tax_Type_Model.Prc;
-                                        VatPrc = Tax_Rate;
-                                        $("#txtTax_Rate" + NumCnt).attr('Data-VatNatID', Tax_Type_Model.Nature);
-                                        $('#txtServiceName' + NumCnt + '').attr('disabled', 'disabled');
-                                        $('#txtServiceCode' + NumCnt + '').attr('disabled', 'disabled');
-                                        totalRow(NumCnt);
-                                    }
-                                    else {
-                                        $('#ddlTypeuom' + NumCnt + '').append('<option value="null">اختر الوحده</option>');
-                                        $('#txtServiceName' + NumCnt + '').val('');
-                                        $('#txtServiceCode' + NumCnt + '').val('');
-                                        $('#txtPrice' + NumCnt + '').val('0');
-                                        $('#txtNetUnitPrice' + NumCnt + '').val('0');
-                                        $('#txtQuantity' + NumCnt + '').val('1');
-                                        $('#txtServiceName' + NumCnt + '').removeAttr('disabled');
-                                        $('#txtServiceCode' + NumCnt + '').removeAttr('disabled');
-                                    }
-                                }
-                            }
-                        });
-                        $("#btn_minus" + i).removeClass("display_none");
-                        $("#btn_minus" + i).removeAttr("disabled");
-                        $("#txt_StatusFlag" + i).val("i");
-                        CountItems = CountItems + 1;
-                        txtItemCount.value = CountItems.toString();
-                    }
-                    ComputeTotals();
-                }
-            }
         });
     }
     function txtCustomerCode_onchange() {
@@ -660,10 +432,16 @@ var SlsTrSalesManager;
         else {
             var custID = CustomerId;
             var customer = CustDetails.filter(function (s) { return s.CUSTOMER_ID == custID; });
-            /*vatType = customer[0].VATType;*/
+            //vatType = customer[0].VATType;
             txtCustomerCode.value = customer[0].CustomerCODE;
             txtInvoiceCustomerName.value = customer[0].CUSTOMER_NAME.toString();
             txtCustomerMobile.value = customer[0].PHONE;
+            //if (SysSession.CurrentEnvironment.UserType != 1 && SysSession.CurrentEnvironment.UserType != 3) {
+            //    ddlSalesman.value = customer[0].SalesmanId == null ? 'null' : customer[0].SalesmanId.toString();
+            //    if (ddlSalesman.value == '') {
+            //        ddlSalesman.value = 'null';
+            //    }
+            //}
         }
         //if (NewAdd == true) {
         //    if (CountItems > 0) {
@@ -698,7 +476,7 @@ var SlsTrSalesManager;
             $("#txtCustomerCode").removeAttr("disabled");
             //SysSession.CurrentEnvironment.UserType == 2 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlCashBox').prop('selectedIndex', 1), $("#Div_Money").removeClass("display_none")) : $('#ddlCashBox').prop('selectedIndex', 0); $('#ddlCashBox').attr('disabled', 'disabled');
             vatType = SysSession.CurrentEnvironment.I_Control[0].DefSlsVatType; //From Session
-            $("#Div_Money").removeClass("display_none");
+            //$("#Div_Money").removeClass("display_none")
             TypeFlag = true;
         }
         else { //علي الحساب
@@ -707,8 +485,6 @@ var SlsTrSalesManager;
             txtInvoiceCustomerName.value = "";
             txtCustomerCode.value = "";
             CustomerId = 0;
-            $("#btnpriceSrch").removeAttr("disabled");
-            $("#btnOrderSrch").removeAttr("disabled");
             $("#txtCustomerCode").removeAttr("disabled");
             $("#btnCustomerSrch").removeAttr("disabled");
             $("#txtCustomerMobile").removeAttr("disabled");
@@ -716,6 +492,7 @@ var SlsTrSalesManager;
             $("#Div_Money").addClass("display_none");
             //fillddlCustomer();
         }
+        $("#Div_Money").addClass("display_none");
         //if (CountItems > 0) {
         //    DisplayMassage("من فضلك اعادة ادخال  بيانات الفاتورة مره أخري", "Please re-enter the billing information again", MessageType.Worning);
         //}
@@ -803,7 +580,6 @@ var SlsTrSalesManager;
     }
     //------------------------------------------------------ Buttons Region------------------------
     function btnSave_onclick() {
-        debugger;
         if (!SysSession.CurrentPrivileges.AddNew)
             return;
         if (!ValidationHeader())
@@ -835,14 +611,12 @@ var SlsTrSalesManager;
                 Open_poup_Pass();
             }
             else if (NewAdd == true) {
-                InvoiceModel.PurchaseorderNo = $('#txtPriceshow').val();
                 InvoiceModel.CreatedAt = DateTimeFormat(Date().toString());
                 InvoiceModel.CreatedBy = SysSession.CurrentEnvironment.UserCode;
                 MasterDetailsModel.I_Sls_TR_Invoice = InvoiceModel;
                 insert();
             }
             else {
-                InvoiceModel.PurchaseorderNo = $('#txtPriceshow').val();
                 InvoiceModel.UpdatedBy = SysSession.CurrentEnvironment.UserCode;
                 InvoiceModel.UpdatedAt = DateTimeFormat(Date().toString());
                 MasterDetailsModel.I_Sls_TR_Invoice = InvoiceModel;
@@ -862,7 +636,6 @@ var SlsTrSalesManager;
             $("#cotrolDiv").removeClass("disabledDiv");
             $("#txtCustomerCode").attr("disabled", "disabled");
             $("#txtCustomerMobile").attr("disabled", "disabled");
-            $("#txtPriceshow").attr("disabled", "disabled");
             $("#ddlType").attr("disabled", "disabled");
             $("#chkActive").attr("disabled", "disabled");
             $("#txt_Remarks").attr("disabled", "disabled");
@@ -877,8 +650,8 @@ var SlsTrSalesManager;
             $("#txtSupply_end_Date").attr("disabled", "disabled");
             $("#txtTerms_of_Payment").attr("disabled", "disabled");
             $("#txtDiscountValue").attr("disabled", "disabled");
+            $("#btnPrintInvoicePrice").removeClass("display_none");
             $("#div_btnPrint").removeClass("display_none");
-            $("#txtPriceshow").val("");
             $("#btnUpdate").removeClass("display_none");
             $("#btnPrintTransaction").removeClass("display_none");
             $("#btnBack").addClass("display_none");
@@ -890,7 +663,6 @@ var SlsTrSalesManager;
             $("#cotrolDiv").removeClass("disabledDiv");
             $("#txtCustomerCode").attr("disabled", "disabled");
             $("#txtCustomerMobile").attr("disabled", "disabled");
-            $("#txtPriceshow").attr("disabled", "disabled");
             $("#ddlType").attr("disabled", "disabled");
             $("#chkActive").attr("disabled", "disabled");
             $("#txt_Remarks").attr("disabled", "disabled");
@@ -905,6 +677,7 @@ var SlsTrSalesManager;
             $("#txtSupply_end_Date").attr("disabled", "disabled");
             $("#txtTerms_of_Payment").attr("disabled", "disabled");
             $("#txtDiscountValue").attr("disabled", "disabled");
+            $("#btnPrintInvoicePrice").removeClass("display_none");
             $("#div_btnPrint").removeClass("display_none");
             $("#btnUpdate").removeClass("display_none");
             $("#btnPrintTransaction").removeClass("display_none");
@@ -914,6 +687,7 @@ var SlsTrSalesManager;
         }
     }
     function btnAdd_onclick() {
+        IsNew = true;
         var InvTransCode;
         if (InvoiceType == 1)
             InvTransCode = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
@@ -950,9 +724,6 @@ var SlsTrSalesManager;
         $('#txtCreatedAt').prop("value", "");
         $('#txtUpdatedBy').prop("value", "");
         $('#txtUpdatedAt').prop("value", "");
-        $('#txtPriceshow').prop("value", "");
-        $('#txtCashMoney').prop("value", "0");
-        $('#txtCardMoney').prop("value", "0");
         if (SysSession.CurrentEnvironment.ScreenLanguage == "ar") {
             txtInvoiceCustomerName.value = "عميل نقدي عام";
             txtCustomerMobile.value = "";
@@ -975,6 +746,7 @@ var SlsTrSalesManager;
         $("#btnAddDetails").removeClass("display_none");
         $("#btnUpdate").addClass("display_none");
         $("#btnPrintTransaction").addClass("display_none");
+        $("#btnPrintInvoicePrice").addClass("display_none");
         $("#div_btnPrint").addClass("display_none");
         $("#btnBack").removeClass("display_none");
         $("#btnSave").removeClass("display_none");
@@ -988,8 +760,7 @@ var SlsTrSalesManager;
         //chkActive.disabled = !SysSession.CurrentPrivileges.CUSTOM1;
         $('#txtCreatedBy').prop("value", SysSession.CurrentEnvironment.UserCode);
         $('#txtCreatedAt').prop("value", DateTimeFormat(Date().toString()));
-        SysSession.CurrentEnvironment.UserType == 2 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlCashBox').prop('selectedIndex', 1), $("#Div_Money").removeClass("display_none")) : $('#ddlCashBox').prop('selectedIndex', 0);
-        $('#ddlCashBox').attr('disabled', 'disabled');
+        //SysSession.CurrentEnvironment.UserType == 2 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlCashBox').prop('selectedIndex', 1), $("#Div_Money").removeClass("display_none")) : $('#ddlCashBox').prop('selectedIndex', 0); $('#ddlCashBox').attr('disabled', 'disabled');
         SysSession.CurrentEnvironment.I_Control[0].IvoiceDateEditable == true ? $('#txtInvoiceDate').removeAttr("disabled") : $('#txtInvoiceDate').attr("disabled", "disabled");
         btndiv_1_onclick();
         $('#txt_Tax_Discount').val("0");
@@ -1010,15 +781,13 @@ var SlsTrSalesManager;
         $("#txtDate_of_supply").removeAttr("disabled");
         $("#txtSupply_end_Date").removeAttr("disabled");
         $("#txtTerms_of_Payment").removeAttr("disabled");
-        $("#btnpriceSrch").removeAttr("disabled");
-        $("#btnOrderSrch").removeAttr("disabled");
         btnCustomerSrch.disabled = false;
-        btnpriceSrch.disabled = false;
         if (InvoiceType == 1) { //Retail 
             if (SysSession.CurrentEnvironment.RetailInvoicePayment == 0) { //Cash
                 ddlType.value = '1';
                 ddlType.disabled = true;
-                $("#Div_Money").removeClass("display_none");
+                //$("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
                 $("#txtCardMoney").removeAttr("disabled");
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
@@ -1035,7 +804,8 @@ var SlsTrSalesManager;
             }
             else { //Both
                 ddlType.disabled = false;
-                $("#Div_Money").removeClass("display_none");
+                //$("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
                 $("#txtCardMoney").removeAttr("disabled");
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
@@ -1046,7 +816,8 @@ var SlsTrSalesManager;
             if (SysSession.CurrentEnvironment.WholeInvoicePayment == 0) { //Cash
                 ddlType.value = '1';
                 ddlType.disabled = true;
-                $("#Div_Money").removeClass("display_none");
+                //$("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
                 $("#txtCardMoney").removeAttr("disabled");
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
@@ -1063,7 +834,8 @@ var SlsTrSalesManager;
             }
             else { //Both
                 ddlType.disabled = false;
-                $("#Div_Money").removeClass("display_none");
+                //$("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $("#txtCashMoney").removeAttr("disabled");
                 $("#txtCardMoney").removeAttr("disabled");
                 $("#txtInvoiceCustomerName").removeAttr("disabled");
@@ -1073,6 +845,7 @@ var SlsTrSalesManager;
         else { //Both
         }
         AddNewRow();
+        $("#Div_Money").addClass("display_none");
     }
     function btnShow_onclick() {
         InitializeGrid();
@@ -1081,6 +854,7 @@ var SlsTrSalesManager;
         $("#cotrolDiv").removeClass("disabledDiv");
     }
     function btnUpdate_onclick() {
+        NewAdd = false;
         if (!SysSession.CurrentPrivileges.EDIT)
             return;
         $("#cotrolDiv").attr("disabled", "disabled").off('click');
@@ -1088,6 +862,7 @@ var SlsTrSalesManager;
         Show = false;
         $("#btnUpdate").addClass("display_none");
         $("#btnPrintTransaction").addClass("display_none");
+        $("#btnPrintInvoicePrice").addClass("display_none");
         $("#div_btnPrint").addClass("display_none");
         $("#btnBack").removeClass("display_none");
         $("#btnSave").removeClass("display_none");
@@ -1366,7 +1141,6 @@ var SlsTrSalesManager;
         BindStatisticGridData();
     }
     function BindStatisticGridData() {
-        debugger;
         var startDate = txtStartDate.value;
         var endDate = txtEndDate.value;
         var customerId = 0;
@@ -1393,7 +1167,7 @@ var SlsTrSalesManager;
         }
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoiceReviewStatistic"),
+            url: sys.apiUrl("SlsTrSales", "GetAllSlsInvoicepriceshow"),
             data: { CompCode: compcode, BranchCode: BranchCode, IsCash: IsCash, StartDate: startDate, EndDate: endDate, Status: status, CustId: customerId, SalesMan: ddlSalesmanFilterValue, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token },
             success: function (d) {
                 var result = d;
@@ -1464,12 +1238,11 @@ var SlsTrSalesManager;
         if (InvoiceStatisticsModel.length) {
             txtItemCount.value = InvoiceStatisticsModel[0].Line_Count.toString();
             txtPackageCount.value = InvoiceStatisticsModel[0].Tot_Qty.toString();
-            txtTotal.value = InvoiceStatisticsModel[0].TotalAmount.toString();
+            //txtTotal.value = InvoiceStatisticsModel[0].ItemTotal.toString();
             txtTax.value = InvoiceStatisticsModel[0].VatAmount.toString();
             txtNet.value = InvoiceStatisticsModel[0].NetAfterVat == null ? '' : InvoiceStatisticsModel[0].NetAfterVat.toString();
             txtDiscountValue.value = InvoiceStatisticsModel[0].RoundingAmount.toString();
             txt_Remarks.value = InvoiceStatisticsModel[0].Remark.toString();
-            $('#txtPriceshow').val(InvoiceStatisticsModel[0].PurchaseorderNo);
             ComputeTotals();
             GlobalinvoiceID = InvoiceStatisticsModel[0].InvoiceID;
             lblInvoiceNumber.value = InvoiceStatisticsModel[0].TrNo.toString();
@@ -1482,7 +1255,7 @@ var SlsTrSalesManager;
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
+                $('#txtInvoiceCustomerName').prop("value", "");
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
                 $('#txtCustomerCode').prop("value", "");
                 CustomerId = 0;
@@ -1500,11 +1273,14 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-                $("#Div_Money").removeClass("display_none");
+                //$("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
                 $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
                 $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
                 //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+                //    $("#Div_Money").removeClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
                 //}
                 //else {
                 //    $("#Div_Money").addClass("display_none");
@@ -1547,14 +1323,10 @@ var SlsTrSalesManager;
         $("#ddlSalesman").attr("disabled", "disabled");
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
-        $("#txtPriceshow").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
-        $("#btnpriceSrch").removeAttr("disabled");
-        $("#btnOrderSrch").attr("disabled", "disabled");
         ddlSalesman.disabled = true;
         txtInvoiceDate.disabled = true;
         btnCustomerSrch.disabled = true;
-        btnpriceSrch.disabled = true;
         txtCustomerCode.disabled = true;
         txtCustomerMobile.disabled = true;
         ddlSalesman.disabled = true;
@@ -1580,6 +1352,8 @@ var SlsTrSalesManager;
         $('#txtDate_of_supply').val(DeliveryDate);
         var DeliveryEndDate = DateFormat(InvoiceStatisticsModel[0].DeliveryEndDate);
         $('#txtSupply_end_Date').val(DeliveryEndDate);
+        txtTotal.value = Selecteditem[0].TotalAmount.toString();
+        txtTotalbefore.value = Selecteditem[0].ItemTotal.toString();
         NewAdd = false;
         btndiv_1_onclick();
     }
@@ -1606,7 +1380,7 @@ var SlsTrSalesManager;
             '<div class=" col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number"  id="txtDiscountPrc' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="0.5"></div>' +
             '<div class=" col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number"  id="txtDiscountAmount' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="0.5"></div>' +
             '<div class=" col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number" disabled id="txtNetUnitPrice' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="0.5"></div>' +
-            '<div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6 div_gridcontrol_slsmanger_ts">' +
+            '<div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6" style="position:absolute; right:97%">' +
             '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
             '<input id="txtTotal' + cnt + '" type="text" class="form-control input-sm right2" disabled /></div>' +
             '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
@@ -1618,31 +1392,6 @@ var SlsTrSalesManager;
             '</div></div></div>' +
             '<input id="txt_StatusFlag' + cnt + '" name = " " type = "hidden" class="form-control"/><input id="txt_ItemID' + cnt + '" name = " " type = "hidden" class="form-control"/><input id="txt_ID' + cnt + '" name = " " type = "hidden" class="form-control" />';
         $("#div_Data").append(html);
-        if (flagprice == 1) {
-            var ItemCode = PriceInvitemsDetails[cnt].it_itemCode;
-            var ItemID = PriceInvitemsDetails[cnt].ItemID;
-            var Storeid = ddlStore.value;
-            var Mode = InvoiceType;
-            Ajax.Callsync({
-                type: "Get",
-                url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
-                data: {
-                    CompCode: compcode, FinYear: Finyear, ItemCode: ItemCode, ItemID: ItemID, storeid: Storeid, Mode: Mode, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
-                },
-                success: function (d) {
-                    var result = d;
-                    if (result.IsSuccess) {
-                        var GetItemInfo = result.Response;
-                        if (GetItemInfo.length > 0) {
-                            $('#ddlTypeuom' + cnt + '').html('');
-                            for (var i = 0; i < GetItemInfo.length; i++) {
-                                $('#ddlTypeuom' + cnt + '').append('<option value="' + GetItemInfo[i].uomid + '">' + (lang == "ar" ? GetItemInfo[i].u_DescA : GetItemInfo[i].u_DescE) + '</option>');
-                            }
-                        }
-                    }
-                }
-            });
-        }
         //Search Region
         //// First Search
         $('#btnSearchService' + cnt).click(function (e) {
@@ -1788,23 +1537,19 @@ var SlsTrSalesManager;
             totalRow(cnt);
         });
         $("#txtPrice" + cnt).on('keyup', function () {
-            if ($("#txt_StatusFlag" + cnt).val() != "i")
+            if ($("#txt_StatusFlag" + cnt).val() != "i") {
                 $("#txt_StatusFlag" + cnt).val("u");
-            var txtQuantityValue = $("#txtQuantity" + cnt).val();
-            var txtPriceValue = $("#txtNetUnitPrice" + cnt).val();
-            $('#txtTax_Rate' + cnt).val(Tax_Rate);
-            var total = Number(txtQuantityValue) * Number(txtPriceValue);
-            VatPrc = $("#txtTax_Rate" + cnt).val();
-            var vatAmount = Number(total) * VatPrc / 100;
-            $("#txtTax" + cnt).val(vatAmount.toFixed(2));
-            var total = Number(txtQuantityValue) * Number(txtPriceValue);
-            $("#txtTotal" + cnt).val(total.toFixed(2));
+            }
+            var total = Number($("#txtQuantity" + cnt).val()) * Number($("#txtPrice" + cnt).val());
+            var vatAmount = (Number(total) * Number($("#txtTax_Rate" + cnt).val())) / 100;
             var totalAfterVat = Number(vatAmount.toFixed(2)) + Number(total.toFixed(2));
+            $('#txtTax_Rate' + cnt).val(Tax_Rate);
+            VatPrc = $("#txtTax_Rate" + cnt).val();
+            $("#txtTax" + cnt).val(vatAmount.toFixed(2));
+            $("#txtTotal" + cnt).val(total.toFixed(2));
             $("#txtTotAfterTax" + cnt).val(totalAfterVat.toFixed(2));
-            var txtPrice = Number($("#txtPrice" + cnt).val());
-            var txtDiscountPrc = Number($("#txtDiscountPrc" + cnt).val());
-            $("#txtDiscountAmount" + cnt).val(((txtDiscountPrc * txtPrice) / 100).toFixed(2));
-            $("#txtNetUnitPrice" + cnt).val((txtPrice - ((txtDiscountPrc * txtPrice) / 100)));
+            $("#txtDiscountAmount" + cnt).val(((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100).toFixed(2));
+            $("#txtNetUnitPrice" + cnt).val((Number($("#txtPrice" + cnt).val()) - ((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100)));
             ComputeTotals();
         });
         $("#txtDiscountPrc" + cnt).on('keyup', function () {
@@ -1841,7 +1586,6 @@ var SlsTrSalesManager;
             DeleteRow(cnt);
             // alert('delete');
         });
-        flagprice = 0;
         return;
     }
     function totalRow(cnt) {
@@ -1898,12 +1642,6 @@ var SlsTrSalesManager;
         $("#txtTotAfterTax" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].NetAfterVat.toFixed(2));
         $("#InvoiceItemID" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].InvoiceItemID);
         $("#txt_ItemID" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].ItemID);
-        filldlltypeuom(cnt);
-        $('#ddlTypeuom' + cnt + '').val(SlsInvoiceItemsDetails[cnt].UomID == null ? 'null' : SlsInvoiceItemsDetails[cnt].UomID);
-        //$('#ddlTypeuom' + cnt + '').html('');
-        //$('#ddlTypeuom' + cnt + '').append('<option  data-OnhandQty="' + SlsInvoiceItemsDetails[cnt].StockSoldQty + '" data-UnitPrice="' + SlsInvoiceItemsDetails[cnt].Unitprice + '" data-MinPrice=" " data-Rate=" " value="' + SlsInvoiceItemsDetails[cnt].UomID + '">' + (lang == "ar" ? SlsInvoiceItemsDetails[cnt].Uom_DescA : SlsInvoiceItemsDetails[cnt].Uom_DescE) + '</option>');
-    }
-    function filldlltypeuom(cnt) {
         var Storeid = Number($("#ddlStore").val());
         var ItemCode = '';
         var ItemID = SlsInvoiceItemsDetails[cnt].ItemID;
@@ -1928,10 +1666,12 @@ var SlsTrSalesManager;
                 }
             }
         });
+        $('#ddlTypeuom' + cnt + '').val(SlsInvoiceItemsDetails[cnt].UomID == null ? 'null' : SlsInvoiceItemsDetails[cnt].UomID);
+        //$('#ddlTypeuom' + cnt + '').html('');
+        //$('#ddlTypeuom' + cnt + '').append('<option  data-OnhandQty="' + SlsInvoiceItemsDetails[cnt].StockSoldQty + '" data-UnitPrice="' + SlsInvoiceItemsDetails[cnt].Unitprice + '" data-MinPrice=" " data-Rate=" " value="' + SlsInvoiceItemsDetails[cnt].UomID + '">' + (lang == "ar" ? SlsInvoiceItemsDetails[cnt].Uom_DescA : SlsInvoiceItemsDetails[cnt].Uom_DescE) + '</option>');
     }
     function validationitem(id, idRow) {
         for (var i = 0; i < CountGrid; i++) {
-            debugger;
             if ($("#txt_StatusFlag" + i).val() != "d" && $("#txt_StatusFlag" + i).val() != "m") {
                 if ($("#txt_ItemID" + i + "").val() == id && $("#txt_ItemID" + i + "").val() != idRow) {
                     DisplayMassage("الصنف موجود من قبل", "Item found before", MessageType.Error);
@@ -1966,7 +1706,7 @@ var SlsTrSalesManager;
         //    return false
         //}
         if (InvoiceType == 1) { //Retail  
-            if ((CustomerId == 0 || txtCustomerCode.value.trim() == "") && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
+            if (CustomerId == 0 && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
                 return false;
@@ -2027,8 +1767,7 @@ var SlsTrSalesManager;
         TaxCount = 0;
         NetCount = 0;
         for (var i = 0; i < CountGrid; i++) {
-            var flagvalue = $("#txt_StatusFlag" + i).val();
-            if (flagvalue != "d" && flagvalue != "m") {
+            if ($("#txt_StatusFlag" + i).val() != "d" && $("#txt_StatusFlag" + i).val() != "m") {
                 PackageCount += Number($("#txtQuantity" + i).val());
                 PackageCount = Number(PackageCount.toFixed(2).toString());
                 Totalbefore += (Number($("#txtQuantity" + i).val()) * Number($("#txtPrice" + i).val()));
@@ -2040,7 +1779,7 @@ var SlsTrSalesManager;
                 TaxCount += Number($("#txtTax" + i).val());
                 TaxCount = Number(TaxCount.toFixed(2).toString());
                 NetCount += Number($("#txtTotAfterTax" + i).val());
-                //NetCount = Number(NetCount.toFixed(2).toString());
+                NetCount = Number(NetCount.toFixed(2).toString());
                 //NetCount = (Number(NetCount.toFixed(2)) - Number(txtDiscountValue.value));
             }
         }
@@ -2080,9 +1819,8 @@ var SlsTrSalesManager;
         }
     }
     function ValidationHeader() {
-        debugger;
         if (InvoiceType == 1) { //Retail  
-            if ((CustomerId == 0 && txtCustomerCode.value.trim() == "") && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
+            if (CustomerId == 0 && SysSession.CurrentEnvironment.RetailInvoiceTransCode == 1) {
                 DisplayMassage(" برجاء اختيار العميل", "Please select a customer", MessageType.Worning);
                 Errorinput(btnCustomerSrch);
                 return false;
@@ -2120,22 +1858,22 @@ var SlsTrSalesManager;
             Errorinput(btnAddDetails);
             return false;
         }
-        if ((Number($('#txtCardMoney').val()) == 0 || Number($('#txtCashMoney').val()) == 0) && ddlType.value == '1') {
-            var card = Number($('#txtCardMoney').val());
-            var Cash = Number($('#txtCashMoney').val());
-            var Net = card + Cash;
-            if (Net != Number($('#txtNet').val())) {
-                DisplayMassage("يجب المبلغ المسدد يساوي الصاف ييجب ان يكون مجموع المبلغ المسدد بالكارت مع المسدد نقدا مساويا لصافي الفاتورة", "The amount paid should be equal to the net", MessageType.Worning);
-                Errorinput($('#txtNet'));
-                if ($('#txtCardMoney').val().trim() != '') {
-                    Errorinput($('#txtCardMoney'));
-                }
-                if ($('#txtCashMoney').val().trim() != '') {
-                    Errorinput($('#txtCashMoney'));
-                }
-                return false;
-            }
-        }
+        //if ($('#txtCardMoney').val().trim() != '' || $('#txtCashMoney').val().trim() != '') {
+        //    let card = Number($('#txtCardMoney').val());
+        //    let Cash = Number($('#txtCashMoney').val());
+        //    let Net = card + Cash;
+        //    if (Net != Number($('#txtNet').val())) {
+        //        DisplayMassage("يجب المبلغ المسدد يساوي الصاف ييجب ان يكون مجموع المبلغ المسدد بالكارت مع المسدد نقدا مساويا لصافي الفاتورة", "The amount paid should be equal to the net", MessageType.Worning);
+        //        Errorinput($('#txtNet'));
+        //        if ($('#txtCardMoney').val().trim() != '') {
+        //            Errorinput($('#txtCardMoney'));
+        //        }
+        //        if ($('#txtCashMoney').val().trim() != '') {
+        //            Errorinput($('#txtCashMoney'));
+        //        }
+        //        return false
+        //    }
+        //}
         return true;
     }
     function Validation_Grid(rowcount) {
@@ -2167,6 +1905,22 @@ var SlsTrSalesManager;
                 Errorinput($("#txtUnitpriceWithVat" + rowcount));
                 return false;
             }
+            //if ($('#txtCardMoney').val().trim() != '' || $('#txtCashMoney').val().trim() != '') {
+            //    let card = Number($('#txtCardMoney').val());
+            //    let Cash = Number($('#txtCashMoney').val());
+            //    let Net = card + Cash;
+            //    if (Net != Number($('#txtNet').val())) {
+            //        DisplayMassage("يجب المبلغ المسدد يساوي الصاف ييجب ان يكون مجموع المبلغ المسدد بالكارت مع المسدد نقدا مساويا لصافي الفاتورة", "The amount paid should be equal to the net", MessageType.Worning);
+            //        Errorinput($('#txtNet'));
+            //        if ($('#txtCardMoney').val().trim() != '') {
+            //            Errorinput($('#txtCardMoney'));
+            //        }
+            //        if ($('#txtCashMoney').val().trim() != '') {
+            //            Errorinput($('#txtCashMoney'));
+            //        }
+            //        return false
+            //    }
+            //}
             return true;
         }
     }
@@ -2178,7 +1932,6 @@ var SlsTrSalesManager;
         $('#txt_Tax_total_AfterDiscount').val("0");
         $('#txt_Tax_Vat').val("0");
         $('#txt_Tax_AfterTotalVAT').val("0");
-        $('#txtPriceshow').val("");
         $("#txt_Tax_Discount").attr("disabled", "disabled");
         $("#txt_Tax_total_Discount").attr("disabled", "disabled");
         $("#txt_Tax_total_AfterDiscount").attr("disabled", "disabled");
@@ -2187,7 +1940,6 @@ var SlsTrSalesManager;
         $("#txtDate_of_supply").attr("disabled", "disabled");
         $("#txtSupply_end_Date").attr("disabled", "disabled");
         $("#txtTerms_of_Payment").attr("disabled", "disabled");
-        $("#txtPriceshow").attr("disabled", "disabled");
     }
     //------------------------------------------------------ Get Functions  Region------------------------     
     function GetVatPercentage() {
@@ -2224,7 +1976,6 @@ var SlsTrSalesManager;
             InvoiceModel.DocNo = InvoiceStatisticsModel[0].DocNo;
             InvoiceModel.DocUUID = InvoiceStatisticsModel[0].DocUUID;
             InvoiceModel.TrTime = InvoiceStatisticsModel[0].TrTime;
-            //InvoiceModel.PaymentMeansTypeCode = InvoiceStatisticsModel[0].PaymentMeansTypeCode //  Cash or   Credit
         }
         else { //insert
             InvoiceModel.SlsInvType = InvoiceType; //  retail  or WholeSale      
@@ -2238,13 +1989,12 @@ var SlsTrSalesManager;
             //    InvoiceModel.PaymentMeansTypeCode = 3
             //}
         }
-        InvoiceModel.TrType = 0; //0 invoice 1 return
+        InvoiceModel.TrType = 2; //0 invoice 1 return
         InvoiceModel.SlsInvSrc = 1; // 1 from store 2 from van  
-        InvoiceModel.StoreId = $('#ddlStore').val(); //main store
+        InvoiceModel.StoreId = StoreID; //main store          
         InvoiceModel.PaymentMeansTypeCode = ddlType.value == '0' ? 2 : 1; //  Cash or   Credit
         InvoiceModel.RefTrID = null;
         ///////////////
-        debugger;
         InvoiceModel.InvoiceID = GlobalinvoiceID;
         InvoiceModel.SalesmanId = Number(ddlSalesman.value);
         InvoiceModel.StoreId = Number(ddlStore.value);
@@ -2275,12 +2025,12 @@ var SlsTrSalesManager;
         InvoiceModel.AllowAfterVat = $('#txt_Tax_AfterTotalVAT').val();
         //InvoiceModel.RoundingAmount = Number($('#txtFraction_difference').text());
         InvoiceModel.ContractNo = $('#txtContract_NO').val();
+        InvoiceModel.PurchaseorderNo = $('#txtPurchase_order_No').val();
         InvoiceModel.DeliveryDate = $('#txtDate_of_supply').val();
         InvoiceModel.DeliveryEndDate = $('#txtSupply_end_Date').val();
         InvoiceModel.TaxNotes = $('#txtTerms_of_Payment').val();
         InvoiceModel.ItemTotal = Number(txtTotalbefore.value);
         InvoiceModel.RoundingAmount = Number(txtDiscountValue.value);
-        InvoiceModel.PurchaseorderNo = $('#txtPriceshow').val();
         InvoiceModel.CashBoxID = null;
         if (ddlType.value == "0") {
             InvoiceModel.IsCash = false;
@@ -2412,7 +2162,6 @@ var SlsTrSalesManager;
         });
     }
     function insert() {
-        debugger;
         InvoiceModel.InvoiceID = 0;
         if (!CheckDate(DateFormat(txtInvoiceDate.value).toString(), DateFormat(SysSession.CurrentEnvironment.StartDate).toString(), DateFormat(SysSession.CurrentEnvironment.EndDate).toString())) {
             WorningMessage('  التاريخ ليس متطابق مع تاريخ السنه (' + DateFormat(SysSession.CurrentEnvironment.StartDate).toString() + ')', '  The date is not identical with the date of the year (' + DateFormat(SysSession.CurrentEnvironment.StartDate).toString() + ')', "تحذير", "worning");
@@ -2430,7 +2179,7 @@ var SlsTrSalesManager;
                     DisplayMassage(" تم اصدار  فاتورة رقم  " + res.TrNo + " ", "An invoice number has been issued ", MessageType.Succeed);
                     success_insert();
                     IsSuccess = true;
-                    //DownloadInvoicePdf();
+                    DownloadInvoicePdf();
                 }
                 else {
                     IsSuccess = false;
@@ -2457,10 +2206,10 @@ var SlsTrSalesManager;
         if (InvoiceStatisticsModel.length) {
             txtItemCount.value = InvoiceStatisticsModel[0].Line_Count.toString();
             txtPackageCount.value = InvoiceStatisticsModel[0].Tot_Qty.toString();
+            txtTotal.value = InvoiceStatisticsModel[0].TotalAmount.toString();
             txtTax.value = InvoiceStatisticsModel[0].VatAmount.toString();
             txtNet.value = InvoiceStatisticsModel[0].NetAfterVat.toString();
             txt_Remarks.value = InvoiceStatisticsModel[0].Remark.toString();
-            $('#txtPriceshow').val(InvoiceStatisticsModel[0].PurchaseorderNo);
             txtDiscountValue.value = InvoiceStatisticsModel[0].RoundingAmount.toString();
             ComputeTotals();
             GlobalinvoiceID = InvoiceStatisticsModel[0].InvoiceID;
@@ -2474,7 +2223,7 @@ var SlsTrSalesManager;
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
+                $('#txtInvoiceCustomerName').prop("value", "");
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
                 $('#txtCustomerCode').prop("value", "");
                 CustomerId = 0;
@@ -2494,11 +2243,13 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-                $("#Div_Money").removeClass("display_none");
+                $("#Div_Money").addClass("display_none");
                 $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
                 $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
                 $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
                 //if (InvoiceStatisticsModel[0].CashBoxID != null && InvoiceStatisticsModel[0].CashBoxID != 0) {
+                //    $("#Div_Money").removeClass("display_none");
+                //    $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
                 //}
                 //else {
                 //    $("#Div_Money").addClass("display_none");
@@ -2510,7 +2261,6 @@ var SlsTrSalesManager;
                 $('#ddlType').prop("value", "0");
                 $('#ddlCashBox').prop('selectedIndex', 0);
                 $('#ddlCashBox').attr('disabled', 'disabled');
-                $('#txtPriceshow').attr('disabled', 'disabled');
                 $("#Div_Money").addClass("display_none");
                 TypeFlag = false;
             }
@@ -2560,13 +2310,9 @@ var SlsTrSalesManager;
             }
         }
         DocumentActions.RenderFromModel(InvoiceStatisticsModel[0]);
-        txtTotal.value = Selecteditem[0].TotalAmount.toString();
-        txtTotalbefore.value = Selecteditem[0].ItemTotal.toString();
         NewAdd = false;
         btndiv_1_onclick();
         $("#btnCustomerSrch").attr("disabled", "disabled");
-        $("#btnpriceSrch").attr("disabled", "disabled");
-        $("#btnOrderSrch").attr("disabled", "disabled");
     }
     function success() {
         $("#cotrolDiv").removeClass("disabledDiv");
@@ -2590,7 +2336,6 @@ var SlsTrSalesManager;
             txtTax.value = InvoiceStatisticsModel[0].VatAmount.toString();
             txtNet.value = InvoiceStatisticsModel[0].NetAfterVat.toString();
             txt_Remarks.value = InvoiceStatisticsModel[0].Remark.toString();
-            $('#txtPriceshow').val(InvoiceStatisticsModel[0].PurchaseorderNo);
             txtDiscountValue.value = InvoiceStatisticsModel[0].RoundingAmount.toString();
             ComputeTotals();
             GlobalinvoiceID = InvoiceStatisticsModel[0].InvoiceID;
@@ -2604,7 +2349,7 @@ var SlsTrSalesManager;
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
             }
             else {
-                $('#txtInvoiceCustomerName').prop("value", InvoiceStatisticsModel[0].CustomerName);
+                $('#txtInvoiceCustomerName').prop("value", "");
                 $('#txtCustomerMobile').prop("value", InvoiceStatisticsModel[0].CustomerMobileNo);
                 $('#txtCustomerCode').prop("value", "");
                 CustomerId = 0;
@@ -2622,10 +2367,6 @@ var SlsTrSalesManager;
             }
             if (InvoiceStatisticsModel[0].IsCash == true) {
                 $('#ddlType').prop("value", "1");
-                $("#Div_Money").removeClass("display_none");
-                $('#ddlCashBox').val(InvoiceStatisticsModel[0].CashBoxID);
-                $('#txtCardMoney').val(InvoiceStatisticsModel[0].CardAmount);
-                $('#txtCashMoney').val(InvoiceStatisticsModel[0].CashAmount);
                 TypeFlag = true;
             }
             else {
@@ -2738,7 +2479,7 @@ var SlsTrSalesManager;
         InvoiceModel.UpdatedBy = SysSession.CurrentEnvironment.UserCode;
         InvoiceModel.UpdatedAt = DateTimeFormat(Date().toString());
         InvoiceModel.CustomerName = txtInvoiceCustomerName.value;
-        InvoiceModel.TrType = 0; //0 invoice 1 return
+        InvoiceModel.TrType = 2; //0 invoice 1 return
         InvoiceModel.SlsInvSrc = 1; // 1 from store 2 from van 
         InvoiceModel.SlsInvType = 1; //  retail 
         InvoiceModel.StoreId = StoreID; //main store
@@ -2857,7 +2598,7 @@ var SlsTrSalesManager;
         rp.OperationId = -1;
         rp.CashType = Number($("#ddlInvoiceType").val());
         rp.Status = Number($("#ddlStateType").val());
-        rp.TrType = 0;
+        rp.TrType = 2;
         rp.src = 1;
         Ajax.Callsync({
             url: Url.Action("IProc_Rpt_SlsInvoiceList", "GeneralReports"),
@@ -2868,9 +2609,49 @@ var SlsTrSalesManager;
             }
         });
     }
-    SlsTrSalesManager.PrintReport = PrintReport;
+    CustomerView.PrintReport = PrintReport;
+    function PrintTransaction() {
+        if (!SysSession.CurrentPrivileges.PrintOut)
+            return;
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+        var rp = new ReportParameters();
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 0;
+        rp.TRId = GlobalinvoiceID;
+        rp.slip = 0;
+        if (InvoiceType == 1)
+            rp.stat = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
+        else
+            rp.stat = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
+        Ajax.CallAsync({
+            url: Url.Action("rptInvoiceNote", "GeneralRep"),
+            data: rp,
+            success: function (d) {
+                var result = d;
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+                localStorage.setItem("result", "" + result + "");
+                //let result = d.result as string;
+                //window.open(result, "_blank");
+            }
+        });
+    }
     function btnPrintInvoicePrice_onclick() {
-        ////
         if (!SysSession.CurrentPrivileges.PrintOut)
             return;
         var rp = new ReportParameters();
@@ -2908,7 +2689,7 @@ var SlsTrSalesManager;
         rp.CashType = Number($("#ddlInvoiceType").val());
         rp.Status = Number($("#ddlStateType").val());
         rp.SalesmanID = SalesmanID;
-        rp.TrType = 0;
+        rp.TrType = 2;
         rp.CustomerID = CustomerID;
         rp.Typ = 1;
         rp.TRId = GlobalinvoiceID;
@@ -2918,47 +2699,6 @@ var SlsTrSalesManager;
             success: function (d) {
                 var result = d.result;
                 window.open(result, "_blank");
-            }
-        });
-    }
-    function PrintTransaction() {
-        if (!SysSession.CurrentPrivileges.PrintOut)
-            return;
-        window.open(Url.Action("ReportsPopup", "Home"), "blank");
-        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
-        var rp = new ReportParameters();
-        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
-        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
-        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
-        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
-        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
-        rp.Tokenid = SysSession.CurrentEnvironment.Token;
-        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
-        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
-        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
-        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
-        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
-        if (rp.BraNameA == null || rp.BraNameE == null) {
-            rp.BraNameA = " ";
-            rp.BraNameE = " ";
-        }
-        rp.Type = 4;
-        rp.Repdesign = 0;
-        rp.TRId = GlobalinvoiceID;
-        rp.slip = 0;
-        if (InvoiceType == 1)
-            rp.stat = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
-        else
-            rp.stat = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
-        Ajax.CallAsync({
-            url: Url.Action("rptInvoiceNote", "GeneralRep"),
-            data: rp,
-            success: function (d) {
-                var result = d;
-                window.open(Url.Action("ReportsPopup", "Home"), "blank");
-                localStorage.setItem("result", "" + result + "");
-                //let result = d.result as string;    
-                //window.open(result, "_blank");
             }
         });
     }
@@ -2991,7 +2731,7 @@ var SlsTrSalesManager;
         rp.slip = 1;
         rp.TRId = GlobalinvoiceID;
         Ajax.CallAsync({
-            url: Url.Action("rptInvoiceNote", "GeneralRep"),
+            url: Url.Action("rptInvoiceNote", "GeneralReports"),
             data: rp,
             success: function (d) {
                 var result = d;
@@ -3092,62 +2832,5 @@ var SlsTrSalesManager;
             window.open(Url.Action("ReportsPopup", "Home"), "blank");
         }, 700);
     }
-    function btnPrintNewNew_onclick() {
-        if (!SysSession.CurrentPrivileges.PrintOut)
-            return;
-        if (($('#ToNum').val() == 0 && $('#fromNum').val() == 0) || ($('#ToNum').val() == '' && $('#fromNum').val() == '')) {
-            Errorinput($('#ToNum'));
-            Errorinput($('#fromNum'));
-            return;
-        }
-        window.open(Url.Action("ReportsPopup", "Home"), "blank");
-        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div><br/>');
-        btnShow_onclick();
-        var NewRP = new Array();
-        html = "";
-        setTimeout(function () {
-            debugger;
-            for (var i = 0; i < SlsInvoiceStatisticsDetails.length; i++) {
-                var rp = new ReportParameters();
-                rp.CompCode = SysSession.CurrentEnvironment.CompCode;
-                rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
-                rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
-                rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
-                rp.UserCode = SysSession.CurrentEnvironment.UserCode;
-                rp.Tokenid = SysSession.CurrentEnvironment.Token;
-                rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
-                rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
-                rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
-                rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
-                rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
-                if (rp.BraNameA == null || rp.BraNameE == null) {
-                    rp.BraNameA = " ";
-                    rp.BraNameE = " ";
-                }
-                rp.Type = 4;
-                rp.Repdesign = 0;
-                rp.slip = 0;
-                if (InvoiceType == 1)
-                    rp.stat = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
-                else
-                    rp.stat = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
-                rp.TRId = SlsInvoiceStatisticsDetails[i].InvoiceID;
-                NewRP.push(rp);
-            }
-            var _Data = JSON.stringify(NewRP);
-            Ajax.Callsync({
-                url: Url.Action("rptInvoiceNoteNew", "GeneralRep"),
-                data: { RepP: _Data },
-                success: function (d) {
-                    var result = d;
-                    //html += result;
-                    window.open(Url.Action("ReportsPopup", "Home"), "blank");
-                    localStorage.setItem("result", "" + result + "");
-                    //let result = d.result as string;    
-                    //window.open(result, "_blank");
-                }
-            });
-        }, 700);
-    }
-})(SlsTrSalesManager || (SlsTrSalesManager = {}));
-//# sourceMappingURL=SlsTrSalesManager.js.map
+})(CustomerView || (CustomerView = {}));
+//# sourceMappingURL=CustomerView.js.map

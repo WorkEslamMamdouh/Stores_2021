@@ -56,13 +56,11 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAll(int CompCode, string UserCode, string Token)
         {
-            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
-            {
+          
                 var ItemFamilyList = StkDefItemTypeService.GetAll(x => x.CompCode == CompCode).ToList();
 
                 return Ok(new BaseResponse(ItemFamilyList));
-            }
-            return BadRequest(ModelState);
+           
         }
 
         [HttpGet, AllowAnonymous]
@@ -112,15 +110,12 @@ namespace Inv.API.Controllers
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetItemBycodeIdOrdered(int CompCode, int BranchCode , int FinYear , int storeid, string UserCode, string Token)
         {
-            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
-            {
-                               
+                    
                 string SQL = "Select ItemID,  Itm_DescA, Itm_DescE, UnitPrice, OnhandQty, MinUnitPrice,UomID from   IQ_GetItemStoreInfo  where OnhandQty>0  and StoreId = " + storeid + " and   CompCode = " + CompCode + " and BraCode = "+ BranchCode + " order by ItemCode";
                 var GetItemStore = db.Database.SqlQuery<IQ_GetItemStoreInfo_New>(SQL).ToList();
 
                 return Ok(new BaseResponse(GetItemStore));
-            }
-            return BadRequest(ModelState);
+     
         }
 
         [HttpGet, AllowAnonymous]

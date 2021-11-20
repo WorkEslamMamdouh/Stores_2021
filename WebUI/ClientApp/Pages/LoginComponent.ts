@@ -318,7 +318,7 @@ var LoginComponent;
                                                 }
                                             }
                                         }
-                                        });
+                                     });
                                     
                                 //}
                                 //else {

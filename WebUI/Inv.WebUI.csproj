@@ -1214,6 +1214,8 @@
     <TypeScriptCompile Include="ClientApp\App.ts" />
     <TypeScriptCompile Include="ClientApp\ClientGeneralTools.ts" />
     <TypeScriptCompile Include="ClientApp\CollectionReports\Clientaccstat.ts" />
+    <TypeScriptCompile Include="ClientApp\CustomerShoping\CustomerOrder.ts" />
+    <TypeScriptCompile Include="ClientApp\CustomerShoping\CustomerView.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\AccDefSalesmen.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\CUSTOMERS.ts" />
     <TypeScriptCompile Include="ClientApp\Generalsetting\Catch_Receipt.ts" />

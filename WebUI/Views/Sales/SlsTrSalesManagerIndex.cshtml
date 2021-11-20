@@ -390,23 +390,26 @@
                 </div>
 
 
-                <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager">  @SystemResource.showPrice  </label>
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2 pl-0">
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2  p-0">
-                        <button type="button" disabled class="src-btn btn btn-warning col-xs-12 p-0" id="btnpriceSrch" name="Search">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-xl-10 col-xs-10 ">
-                        <input type="text" class="form-control input-sm" disabled id="txtPriceshow" style="font-size: 16px !important;width: 100%;border-radius: 30px;">
-                    </div>
+                <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager">  رقم امر البيع </label>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2 pl-0"> 
+                    <input type="text" class="form-control input-sm" disabled id="txtPriceshow" style="font-size: 16px !important;width: 100%;border-radius: 30px;">
                 </div>
 
-
-
-                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2" style="top:7px">
-
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2 pl-0" style="width: 11%;">
+                    <button id="btnpriceSrch" type="button" class="btn btn-primary    ">
+                        <span class="fa fa-search"></span> تحميل عرض أسعار
+                    </button>
                 </div>
+
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2 pl-0" style="width: 11%;">
+                    <button id="btnOrderSrch" type="button" class="btn btn-primary   ">
+                        <span class="fa fa-search"></span> تحميل امر شراء
+                    </button>
+                </div>
+
+                @*<div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2" style="top:7px">
+
+        </div>*@
                 <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 stylechkActive" style="top:7px">
                     <label class="col-lg-7 col-md-8 col-sm-8 col-xl-8 col-xs-8  marginstenig pading_lep    ">  @SystemResource.App_approved  </label>
                     <input type="checkbox" class="checkbox" id="chkActive" disabled name="" />

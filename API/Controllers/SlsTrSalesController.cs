@@ -306,6 +306,35 @@ namespace Inv.API.Controllers
             }
             return BadRequest(ModelState);
         }
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetOrderCustById(int InvId, string UserCode, string Token)
+        {
+            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
+            {
+                string query = "select * from I_Sls_TR_Invoice where InvoiceID =" + InvId + " ";
+
+                var res = db.Database.SqlQuery<I_Sls_TR_Invoice>(query).ToList();
+                return Ok(new BaseResponse(res));
+            }
+            return BadRequest(ModelState);
+        }
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetOrderCustitemsById(int InvId, string UserCode, string Token)
+        {
+            if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
+            {
+                string query = "select * from I_Sls_TR_InvoiceItems where InvoiceID =" + InvId + " ";
+
+
+                ///////////
+
+                var res = db.Database.SqlQuery<I_Sls_TR_InvoiceItems>(query).ToList();
+                return Ok(new BaseResponse(res));
+            }
+            return BadRequest(ModelState);
+        }
+
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetAllOperationInvoiceReviewStatistic(int CompCode, int BranchCode, int IsCash, int Operationid, string StartDate, string EndDate, int Status, int? CustId, int? SalesMan, string UserCode, string Token)
         {
