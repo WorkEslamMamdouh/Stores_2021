@@ -892,31 +892,31 @@ var StkDefItemsNew;
                     return txt;
                 }
             },
-            {
-                title: 'اقل كمية ', name: "MinQty", type: "number", width: "10%",
-                itemTemplate: function (s, item) {
-                    var txt = document.createElement("input");
-                    txt.type = "input";
-                    txt.id = "MinQty" + item.ItemID;
-                    txt.name = "MinQty";
-                    txt.disabled = true;
-                    txt.className = "form-control input-sm classDescQTY";
-                    txt.value = item.MinQty.toString();
-                    txt.setAttribute('val', item.MinQty.toString());
-                    txt.onchange = function (e) {
-                        item.Statusflag = "u";
-                        var min = Number($("#MinQty" + item.ItemID + "").val());
-                        var max = Number($("#MaxQty" + item.ItemID + "").val());
-                        if (min >= max || $("#MinQty" + item.ItemID + "").val().trim() == "") {
-                            DisplayMassage_Processes("لا يمكن ان تكون اقل كمية اكبر من او تساوى اكبر كمية", "The lowest retail price cannot be greater than or equal to the wholesale price", MessageType.Worning);
-                            Errorinput($("#MinQty" + item.ItemID + ""));
-                            $("#MinQty" + item.ItemID + "").val(max - 1);
-                        }
-                        item.MinQty = Number(txt.value);
-                    };
-                    return txt;
-                }
-            },
+            //{
+            //    title: 'اقل كمية ', name: "MinQty", type: "number", width: "10%",
+            //    itemTemplate: (s: string, item: IQ_GetItemStore): HTMLInputElement => {
+            //        let txt: HTMLInputElement = document.createElement("input");
+            //        txt.type = "input";
+            //        txt.id = "MinQty" + item.ItemID;
+            //        txt.name = "MinQty";
+            //        txt.disabled = true;
+            //        txt.className = "form-control input-sm classDescQTY";
+            //        txt.value = item.MinQty.toString();
+            //        txt.setAttribute('val', item.MinQty.toString());
+            //        txt.onchange = (e) => {
+            //            item.Statusflag = "u";
+            //            let min: number = Number($("#MinQty" + item.ItemID + "").val());
+            //            let max: number = Number($("#MaxQty" + item.ItemID + "").val());
+            //            if (min >= max || $("#MinQty" + item.ItemID + "").val().trim() == "") {
+            //                DisplayMassage_Processes("لا يمكن ان تكون اقل كمية اكبر من او تساوى اكبر كمية", "The lowest retail price cannot be greater than or equal to the wholesale price", MessageType.Worning);
+            //                Errorinput($("#MinQty" + item.ItemID + ""));
+            //                $("#MinQty" + item.ItemID + "").val(max - 1);
+            //            }
+            //            item.MinQty = Number(txt.value);
+            //        }
+            //        return txt;
+            //    }
+            //},
             {
                 title: 'اكبر كمية', name: "MaxQty", type: "number", width: "10%",
                 itemTemplate: function (s, item) {
@@ -1024,7 +1024,8 @@ var StkDefItemsNew;
             Modelyearqty.OnRoadQty = Number(data_Taple1[i].OnRoadQty);
             Modelyearqty.OnOrderQty = Number(data_Taple1[i].OnOrderQty);
             Modelyearqty.ReOrderQty = Number(data_Taple1[i].ReOrderQty);
-            Modelyearqty.MinQty = Number(data_Taple1[i].MinQty);
+            //Modelyearqty.MinQty = Number(data_Taple1[i].MinQty);
+            Modelyearqty.MinQty = Number(data_Taple1[i].MaxQty);
             Modelyearqty.MaxQty = Number(data_Taple1[i].MaxQty);
             Modelyearqty.StartQty = Number(data_Taple1[i].MaxQty);
             Modelyearqty.OnhandQty = Number(data_Taple1[i].MaxQty);

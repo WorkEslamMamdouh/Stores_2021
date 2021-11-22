@@ -514,6 +514,7 @@ namespace SlsTrSalesManager {
                         BuildControls(i);
                         $("#txtSerial" + i).val(PriceInvitemsDetails[i].Serial);
                         $("#txt_ItemID" + i).val(PriceInvitemsDetails[i].ItemID);
+                        $("#txtQuantity" + i).val(PriceInvitemsDetails[i].SoldQty);
                         $('#txtServiceCode' + i).attr('disabled', 'disabled');
                         $('#txtServiceName' + i).attr('disabled', 'disabled');
                         NumCnt = i
@@ -545,7 +546,7 @@ namespace SlsTrSalesManager {
                                         $('#txtServiceCode' + NumCnt + '').val(GetItemInfo[0].ItemCode);
                                         $('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
                                         $('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
-                                        $('#txtQuantity' + NumCnt + '').val('1');
+                                        //$('#txtQuantity' + NumCnt + '').val('1');
 
                                         Tax_Rate = GetItemInfo[0].VatPrc;
                                         Tax_Type_Model = GetVat(GetItemInfo[0].VatNatID, Tax_Rate, vatType);

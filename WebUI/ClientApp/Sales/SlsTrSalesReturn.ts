@@ -589,6 +589,7 @@ namespace SlsTrSalesReturn {
                 btnInvoiceSearch.disabled = true;
                 txtInvoiceNumber_onchange();
                 btnAddReturn_onclick();
+                ComputeTotals();
             });
         } else {
             var CustId: number = CustomerId;
@@ -600,6 +601,7 @@ namespace SlsTrSalesReturn {
                 btnInvoiceSearch.disabled = true;
                 txtInvoiceNumber_onchange();
                 btnAddReturn_onclick();
+                ComputeTotals();
             });
         }
     }

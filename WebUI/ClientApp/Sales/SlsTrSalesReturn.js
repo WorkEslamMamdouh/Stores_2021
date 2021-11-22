@@ -505,6 +505,7 @@ var SlsTrSalesReturn;
                 btnInvoiceSearch.disabled = true;
                 txtInvoiceNumber_onchange();
                 btnAddReturn_onclick();
+                ComputeTotals();
             });
         }
         else {
@@ -517,6 +518,7 @@ var SlsTrSalesReturn;
                 btnInvoiceSearch.disabled = true;
                 txtInvoiceNumber_onchange();
                 btnAddReturn_onclick();
+                ComputeTotals();
             });
         }
     }
