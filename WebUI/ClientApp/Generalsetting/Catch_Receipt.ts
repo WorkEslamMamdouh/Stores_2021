@@ -9,6 +9,7 @@ namespace CatchReceipt {
     var AccType = 3; //نوع الحساب
     //var SysSession: SystemSession = GetSystemSession();
     var compcode: Number;
+    var BranchCode: number;
     //var sys: SystemTools = new SystemTools();
 
     var SysSession: SystemSession = GetSystemSession();
@@ -64,10 +65,7 @@ namespace CatchReceipt {
     var btnAdd: HTMLButtonElement;
     var btnSave: HTMLButtonElement;
     var btnBack: HTMLButtonElement;
-    var btnPrint: HTMLButtonElement;
-    var btnPrintTrview: HTMLButtonElement;
-    var btnPrintTrPDF: HTMLButtonElement;
-    var btnPrintTrEXEL: HTMLButtonElement;
+  
     var btnCustomerSearch: HTMLButtonElement;
 
 
@@ -99,6 +97,10 @@ namespace CatchReceipt {
     export function InitalizeComponent() {
 
         //debugger;
+
+        compcode = Number(SysSession.CurrentEnvironment.CompCode);
+        BranchCode = Number(SysSession.CurrentEnvironment.BranchCode); 
+
         if (SysSession.CurrentEnvironment.ScreenLanguage = "ar") {
             document.getElementById('Screen_name').innerHTML = "  سداد دفعات العملاء";
 
@@ -110,9 +112,13 @@ namespace CatchReceipt {
         InitalizeControls();
         IntializeEvents();    
         FillddlCustomerMaster();
-        txtFromDate.value = GetDate();
-        txtToDate.value = GetDate();
-      
+        //txtFromDate.value = GetDate();
+        //txtToDate.value = GetDate();
+
+        txtFromDate.value = SysSession.CurrentEnvironment.StartDate;
+        txtToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
+
+
     }
     function InitalizeControls() {
         debugger
@@ -132,10 +138,7 @@ namespace CatchReceipt {
         btnAdd = document.getElementById("btnAdd") as HTMLButtonElement;
        btnBack = document.getElementById("btnBack") as HTMLButtonElement;
        btnSave = document.getElementById("btnSave") as HTMLButtonElement;
-       btnPrint = document.getElementById("btnPrint") as HTMLButtonElement;
-       btnPrintTrview = document.getElementById("btnPrintTrview") as HTMLButtonElement;
-       btnPrintTrPDF = document.getElementById("btnPrintTrPDF") as HTMLButtonElement;
-       btnPrintTrEXEL = document.getElementById("btnPrintTrEXEL") as HTMLButtonElement;
+   
        btnCustomerSearch = document.getElementById("btnCustomerSearch") as HTMLButtonElement;
 
        
@@ -151,10 +154,7 @@ namespace CatchReceipt {
         btnAdd.onclick = btnAdd_onclick;
         btnBack.onclick = btnBack_onclick;
         btnSave.onclick = btnSave_onclick;
-        btnPrint.onclick = () => { printreport(4) };
-        btnPrintTrview.onclick = () => { printreport(1) };
-        btnPrintTrPDF.onclick = () => { printreport(2) };
-        btnPrintTrEXEL.onclick = () => { printreport(3) };
+ 
         btnCustomerSearch.onclick = btnCustomerSearch_onclick;
 
 
@@ -200,7 +200,7 @@ namespace CatchReceipt {
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("Customer", "GetAll"),
-            data: { CompCode: 1 },
+            data: { CompCode: compcode, BranchCode: BranchCode},
             success: (d) => {
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
@@ -502,50 +502,6 @@ namespace CatchReceipt {
             $("#txtScrapQty" + i).attr("disabled", "disabled");
         }
     }
-
-    function printreport(type: number) {
-        debugger;
-        let _StockList: Array<Settings_Report> = new Array<Settings_Report>();
-        let _Stock: Settings_Report = new Settings_Report();
-        _Stock.Type_Print = type;
-        _Stock.ID_Button_Print = 'saless_ret';
-        _Stock.Parameter_1 = ID_Receipt.toString();
-        //_Stock.Parameter_2 = "";
-        //_Stock.Parameter_3 = "";
-        //_Stock.Parameter_4 = "";
-        //_Stock.Parameter_5 = "";
-        //_Stock.Parameter_6 = "";
-        //_Stock.Parameter_7 = "";
-        //_Stock.Parameter_8 = "";
-        //_Stock.Parameter_9 = "";
-
-
-        _StockList.push(_Stock);
-
-        let rp: ReportParameters = new ReportParameters();
-
-        rp.Data_Report = JSON.stringify(_StockList);//output report as View
-
-        debugger
-        Ajax.Callsync({
-            url: Url.Action("Data_Report_Open", "GeneralReports"),
-            data: rp,
-            success: (d) => {
-                debugger
-                let result = d.result as string;
-
-
-                window.open(result, "_blank");
-            }
-        })
-
-
-
-
-
-
-
-
-    }
+     
 
 }

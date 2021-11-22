@@ -227,11 +227,12 @@ namespace Inv.WebUI.Reports.Models
 
     public class RepFinancials : StdParamters // Mona Adding  class 
     {
+        public string Data_Report { get; set; }
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public int BoxId { get; set; }
         public int RepType { get; set; }
-        public string TrType { get; set; }
+        public int TrType { get; set; }
         public int RecType { get; set; }
         public string BnfID { get; set; }
         public string BnfDesc { get; set; }
@@ -247,7 +248,7 @@ namespace Inv.WebUI.Reports.Models
         public int PaymentType { get; set; }
         public int CashBoxID { get; set; }
         public string MobileNo { get; set; }
-        public int typ { get; set; }
+        public int Typ { get; set; }
         public int Type { get; set; }
         public int CatId { get; set; }
         public int Groupid { get; set; }
@@ -255,10 +256,58 @@ namespace Inv.WebUI.Reports.Models
         public int BalStatus { get; set; }
         public int slip { get; set; }
         public int VendType { get; set; }
-        public string Data_Report { get; set; }
-        
+        public int check { get; set; }
+        public int BalType { get; set; }
+        public int ItemFamId { get; set; }
+        public int ItemID { get; set; }
+        public string cc_code { get; set; }
+        public int exzero { get; set; }
+        public int IsAuthVchr { get; set; }
+        public int IsNewVchr { get; set; }
+        public int Level { get; set; }
+        public int AccCode { get; set; }
+        public int OpenType { get; set; }
+        public int PrdType { get; set; }
+        public int EndType { get; set; }
+        public int fromacc { get; set; }
+        public int toacc { get; set; }
+        public int @VchrSource { get; set; }
+        public int VchrType { get; set; }
+        public int storeID { get; set; }
+        public int TfType { get; set; }
+        public int FromstoreID { get; set; }
+        public int ToStoreID { get; set; }
+        public int FromBra { get; set; }
+        public int ToBra { get; set; }
+        public int src { get; set; }
+        public int OperationId { get; set; }
+        public int FromSls { get; set; }
+        public int ToSls { get; set; }
+        public int stat { get; set; }
+        public int ISimport { get; set; }
+        public bool checkedprint { get; set; }
+        public int CustomercatID { get; set; }
+        public int CustomerGrpID { get; set; }
 
+        public string TransCode { get; set; }
 
+        public int Vattype { get; set; }
+        public string SysCode { get; set; }
+
+        public int cusCatID { get; set; }
+        public int cusGroupid { get; set; }
+        public int cusid { get; set; }
+        public int SLStype { get; set; }
+        public string dtccCode { get; set; }
+        public int VatBraCode { get; set; }
+        public int vatyear { get; set; }
+        public int prdcode { get; set; }
+        public int SalesInvoiceNature { get; set; }
+        public int Ispersonal { get; set; }
+        public string DocPDFFolder { get; set; }
+        public int Agtype { get; set; }
+        public string FromDt { get; set; }
+        public int typedata { get; set; }
 
     }
 

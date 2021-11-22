@@ -480,11 +480,11 @@ var SlsTrShowPrice;
             TypeFlag = true;
         }
         else { //علي الحساب
-            $('#ddlCashBox').prop('selectedIndex', 0);
-            $('#ddlCashBox').attr('disabled', 'disabled');
-            txtInvoiceCustomerName.value = "";
-            txtCustomerCode.value = "";
-            CustomerId = 0;
+            //$('#ddlCashBox').prop('selectedIndex', 0);
+            //$('#ddlCashBox').attr('disabled', 'disabled');
+            //txtInvoiceCustomerName.value = "";
+            //txtCustomerCode.value = "";
+            //CustomerId = 0;
             $("#txtCustomerCode").removeAttr("disabled");
             $("#btnCustomerSrch").removeAttr("disabled");
             $("#txtCustomerMobile").removeAttr("disabled");
@@ -594,11 +594,11 @@ var SlsTrShowPrice;
             }
         }
         if (CanAdd) {
-            if (CustomerId != 0 && ddlType.value == "0") {
-                var net = Number(txtNet.value);
-                if (!Check_CreditLimit_Custom(net))
-                    return;
-            }
+            //if (CustomerId != 0 && ddlType.value == "0") {
+            //    let net = Number(txtNet.value);
+            //    if (!Check_CreditLimit_Custom(net))
+            //        return;
+            //}
             Validation_Insert = 0;
             MasterDetailsModel = new SlsInvoiceMasterDetails();
             Assign();
@@ -650,7 +650,6 @@ var SlsTrShowPrice;
             $("#txtSupply_end_Date").attr("disabled", "disabled");
             $("#txtTerms_of_Payment").attr("disabled", "disabled");
             $("#txtDiscountValue").attr("disabled", "disabled");
-            $("#btnPrintInvoicePrice").removeClass("display_none");
             $("#div_btnPrint").removeClass("display_none");
             $("#btnUpdate").removeClass("display_none");
             $("#btnPrintTransaction").removeClass("display_none");
@@ -677,7 +676,6 @@ var SlsTrShowPrice;
             $("#txtSupply_end_Date").attr("disabled", "disabled");
             $("#txtTerms_of_Payment").attr("disabled", "disabled");
             $("#txtDiscountValue").attr("disabled", "disabled");
-            $("#btnPrintInvoicePrice").removeClass("display_none");
             $("#div_btnPrint").removeClass("display_none");
             $("#btnUpdate").removeClass("display_none");
             $("#btnPrintTransaction").removeClass("display_none");
@@ -2153,6 +2151,7 @@ var SlsTrShowPrice;
                     $('#txtUpdatedAt').prop("value", res.UpdatedAt);
                     success();
                     IsSuccess = true;
+                    $("#div_btnPrint").removeClass("display_none");
                 }
                 else {
                     IsSuccess = false;
@@ -2292,6 +2291,7 @@ var SlsTrShowPrice;
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
+        $("#div_btnPrint").removeClass("display_none");
         ddlSalesman.disabled = true;
         ddlStore.disabled = true;
         txtCustomerCode.disabled = true;
@@ -2405,6 +2405,7 @@ var SlsTrShowPrice;
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
+        $("#div_btnPrint").removeClass("display_none");
         txtInvoiceDate.disabled = true;
         ddlSalesman.disabled = true;
         txtInvoiceDate.disabled = true;
@@ -2449,6 +2450,7 @@ var SlsTrShowPrice;
                     AutherizeFlag = false;
                     success();
                     IsSuccess = true;
+                    $("#div_btnPrint").removeClass("display_none");
                 }
                 else {
                     IsSuccess = false;

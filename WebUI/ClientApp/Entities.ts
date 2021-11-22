@@ -124,6 +124,7 @@ class BaseResponse {
 
 class ReportParameters {
 
+    public Data_Report: string;
     public CompCode: string;
     public CompNameA: string;
     public CompNameE: string;
@@ -246,8 +247,12 @@ class ReportParameters {
     public VatBraCode: number;
     public vatyear: number;
     public prdcode: number;
-    public Data_Report: string;
+    public SalesInvoiceNature: number;
+    public Ispersonal: number;
+
     public DocPDFFolder: string;
+    public Agtype: number;
+    public typedata: number;
 }
 
 class G_BRANCH extends SecurityClass {

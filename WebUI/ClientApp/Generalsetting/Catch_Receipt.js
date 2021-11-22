@@ -8,6 +8,7 @@ var CatchReceipt;
     var AccType = 3; //نوع الحساب
     //var SysSession: SystemSession = GetSystemSession();
     var compcode;
+    var BranchCode;
     //var sys: SystemTools = new SystemTools();
     var SysSession = GetSystemSession();
     var sys = new SystemTools();
@@ -49,10 +50,6 @@ var CatchReceipt;
     var btnAdd;
     var btnSave;
     var btnBack;
-    var btnPrint;
-    var btnPrintTrview;
-    var btnPrintTrPDF;
-    var btnPrintTrEXEL;
     var btnCustomerSearch;
     //new
     var txtClose_Adjustment;
@@ -75,6 +72,8 @@ var CatchReceipt;
     var CUSTOMER_ID = 0;
     function InitalizeComponent() {
         //debugger;
+        compcode = Number(SysSession.CurrentEnvironment.CompCode);
+        BranchCode = Number(SysSession.CurrentEnvironment.BranchCode);
         if (SysSession.CurrentEnvironment.ScreenLanguage = "ar") {
             document.getElementById('Screen_name').innerHTML = "  سداد دفعات العملاء";
         }
@@ -84,8 +83,10 @@ var CatchReceipt;
         InitalizeControls();
         IntializeEvents();
         FillddlCustomerMaster();
-        txtFromDate.value = GetDate();
-        txtToDate.value = GetDate();
+        //txtFromDate.value = GetDate();
+        //txtToDate.value = GetDate();
+        txtFromDate.value = SysSession.CurrentEnvironment.StartDate;
+        txtToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
     }
     CatchReceipt.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
@@ -100,10 +101,6 @@ var CatchReceipt;
         btnAdd = document.getElementById("btnAdd");
         btnBack = document.getElementById("btnBack");
         btnSave = document.getElementById("btnSave");
-        btnPrint = document.getElementById("btnPrint");
-        btnPrintTrview = document.getElementById("btnPrintTrview");
-        btnPrintTrPDF = document.getElementById("btnPrintTrPDF");
-        btnPrintTrEXEL = document.getElementById("btnPrintTrEXEL");
         btnCustomerSearch = document.getElementById("btnCustomerSearch");
     }
     function IntializeEvents() {
@@ -113,10 +110,6 @@ var CatchReceipt;
         btnAdd.onclick = btnAdd_onclick;
         btnBack.onclick = btnBack_onclick;
         btnSave.onclick = btnSave_onclick;
-        btnPrint.onclick = function () { printreport(4); };
-        btnPrintTrview.onclick = function () { printreport(1); };
-        btnPrintTrPDF.onclick = function () { printreport(2); };
-        btnPrintTrEXEL.onclick = function () { printreport(3); };
         btnCustomerSearch.onclick = btnCustomerSearch_onclick;
     }
     function btnCustomerSearch_onclick() {
@@ -152,7 +145,7 @@ var CatchReceipt;
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("Customer", "GetAll"),
-            data: { CompCode: 1 },
+            data: { CompCode: compcode, BranchCode: BranchCode },
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess) {
@@ -362,35 +355,6 @@ var CatchReceipt;
             $("#txtMinPrice" + i).attr("disabled", "disabled");
             $("#txtScrapQty" + i).attr("disabled", "disabled");
         }
-    }
-    function printreport(type) {
-        debugger;
-        var _StockList = new Array();
-        var _Stock = new Settings_Report();
-        _Stock.Type_Print = type;
-        _Stock.ID_Button_Print = 'saless_ret';
-        _Stock.Parameter_1 = ID_Receipt.toString();
-        //_Stock.Parameter_2 = "";
-        //_Stock.Parameter_3 = "";
-        //_Stock.Parameter_4 = "";
-        //_Stock.Parameter_5 = "";
-        //_Stock.Parameter_6 = "";
-        //_Stock.Parameter_7 = "";
-        //_Stock.Parameter_8 = "";
-        //_Stock.Parameter_9 = "";
-        _StockList.push(_Stock);
-        var rp = new ReportParameters();
-        rp.Data_Report = JSON.stringify(_StockList); //output report as View
-        debugger;
-        Ajax.Callsync({
-            url: Url.Action("Data_Report_Open", "GeneralReports"),
-            data: rp,
-            success: function (d) {
-                debugger;
-                var result = d.result;
-                window.open(result, "_blank");
-            }
-        });
     }
 })(CatchReceipt || (CatchReceipt = {}));
 //# sourceMappingURL=Catch_Receipt.js.map

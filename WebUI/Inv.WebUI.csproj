@@ -101,6 +101,39 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Security\Security.dll</HintPath>
     </Reference>
+    <Reference Include="Spire.Barcode, Version=3.2.0.14040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.Barcode.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Common, Version=2.2.16.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport, Version=4.1.9.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.DataExport.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DataExport.ResourceMgr, Version=2.1.0.19040, Culture=neutral, PublicKeyToken=4bc1500157862925, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.DataExport.ResourceMgr.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Doc, Version=7.2.8.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.Doc.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.DocViewer.Forms, Version=4.1.10.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.DocViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.License, Version=1.3.7.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.License.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Pdf, Version=5.2.17.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.Pdf.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.PdfViewer.Forms, Version=4.2.7.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.PdfViewer.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.Presentation, Version=4.2.6.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Spire.XLS, Version=9.2.16.19040, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
+      <HintPath>..\packages\FreeSpire.Office.4.3.1\lib\net40\Spire.XLS.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
@@ -152,6 +185,7 @@
   <ItemGroup>
     <Content Include="ClientApp\Reports\Income_expenses.js" />
     <Content Include="ClientApp\Reports\Salesinventory.js" />
+    <Content Include="css\loader.css" />
     <Content Include="css\select2.min.css" />
     <Content Include="css\UnderConstruction\css\animate.css" />
     <Content Include="css\UnderConstruction\css\bootstrap.min.css" />
@@ -871,6 +905,114 @@
     <Content Include="login\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="images\Thumbs.db" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucher2Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucher2En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherpay2Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherpay2En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherpayAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_CashVoucherpayEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_JournalVoucherAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_JournalVoucherEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OerationTfAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OerationTfEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationChargesAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationChargesEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationDepositAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationDepositEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationItemsAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationItemsEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_OperationSalesmanItemAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_PurPurchaseOrderAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_PurPurchaseOrderEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_SlsQuotationAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_SlsQuotationEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_SlsQuotationStdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_SlsQuotationStdEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_StkAdjustAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_StkAdjustEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_StkTransferAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_StkTransferEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATPurInvoiceAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATPurInvoiceEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATPurReturnSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATPurReturnSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATReportAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATReportEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSerSlsAgreementAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSerSlsAgreementEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicePriceAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicePriceComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicePriceComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicePriceEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetSimpleComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetSimpleComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetstdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetstdComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetstdComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceRetstdEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceSimpleComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceSimpleComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoiceSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdAr2.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdEn.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdEn2.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdSTCAr.rdlc" />
+    <Content Include="Reports\Report\Print\Prnt_VATSlsInvoicestdSTCEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccAdjustAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccAdjustEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccPaymentAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccPaymentEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccReceiveAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccReceiveEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccVendorAdjustAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_AccVendorAdjustEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_CashInvoiceAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_CashInvoiceEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_OPerationInvoiceSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_OPerationInvoiceSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_OPerationInvoiceStdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_OPerationInvoiceStdEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiptAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiptEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_prnt_PurReceiveAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiveEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiveorderAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiveorderEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceivePriceAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceivePriceEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiveReturnAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_PurReceiveReturnEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoice2Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceSimpleComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceSimpleComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceStdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceStdComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceStdComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsInvoiceStdEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnSimpleComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnSimpleComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnSimpleEn.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnStdAr.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnStdComp3Ar.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnStdComp3En.rdlc" />
+    <Content Include="Reports\Report\Print\Rpt_Prnt_SlsReturnStdEn.rdlc" />
+    <Content Include="Reports\Report\Slip\Slip_AccReceiveAr.rdlc" />
+    <Content Include="Reports\Report\Slip\Slip_CashInvoiceAr.rdlc" />
+    <Content Include="Reports\Report\Slip\Slip_OPerationInvoiceSimpleAr.rdlc" />
+    <Content Include="Reports\Report\Slip\Slip_SlsInvoiceAr.rdlc" />
+    <Content Include="Reports\Report\Slip\slip_VATSlsInvoiceAr.rdlc" />
+    <Content Include="Reports\Report\Slip\Slip_VATSlsInvoiceRetAr.rdlc" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="js\bootstrap-arabic.js" />
     <Content Include="js\bootstrap.js" />
@@ -1058,12 +1200,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientToolsController.cs" />
+    <Compile Include="Controllers\GeneralRepController.cs" />
     <Compile Include="Controllers\GeneralReportsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\PrintReportsController.cs" />
     <Compile Include="Controllers\PrintTransactionController.cs" />
+    <Compile Include="Controllers\ReportsPagePrintController.cs" />
     <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Filter\AuthorizeUserAttribute.cs" />
@@ -1193,6 +1337,7 @@
     <Content Include="Views\Shared\CustLayout.cshtml" />
     <Content Include="Views\CustomerViews\CustomerViews1Index.cshtml" />
     <Content Include="Views\CustomerViews\CustomerViews2Index.cshtml" />
+    <Content Include="Views\Partial\ReportsPopup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1202,9 +1347,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Reports\Report\Print\" />
-    <Folder Include="Reports\Report\Slip\" />
-    <Folder Include="Views\Partial\" />
     <Folder Include="Views\Site\UnderConstruction\" />
   </ItemGroup>
   <ItemGroup>
@@ -1234,6 +1376,7 @@
     <TypeScriptCompile Include="ClientApp\Purchases\Purchases.ts" />
     <TypeScriptCompile Include="ClientApp\Reports\Income_expenses.ts" />
     <TypeScriptCompile Include="ClientApp\Reports\Salesinventory.ts" />
+    <TypeScriptCompile Include="ClientApp\Report_Page\Report_Page.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSales.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesManager.ts" />
     <TypeScriptCompile Include="ClientApp\Sales\SlsTrSalesReturn.ts" />

@@ -910,8 +910,8 @@ var SlsTrSalesReturn;
         BindStatisticGridData();
     }
     function BindStatisticGridData() {
-        var startDate = DateFormatRep(txtStartDate.value).toString();
-        var endDate = DateFormatRep(txtEndDate.value).toString();
+        var startDate = txtStartDate.value;
+        var endDate = txtEndDate.value;
         var customerId = 0;
         var status = 0;
         var returnType = 0;
@@ -1058,6 +1058,7 @@ var SlsTrSalesReturn;
             $("#ddlCashBox").attr("disabled", "disabled");
             $("#txtCashAmount").attr("disabled", "disabled");
             $("#btnInvoiceSearch").attr("disabled", "disabled");
+            $("#ddlReturnTypeShow").attr("disabled", "disabled");
             $('#btnPrint').removeClass("display_none");
             $("#btnSave").addClass("display_none");
             $('#btnBack').addClass("display_none");
@@ -1328,9 +1329,10 @@ var SlsTrSalesReturn;
             Errorinput(ddlCashBox);
             return false;
         }
-        else if (txtCashAmount.value != "" && chkActive.checked == true && ddlReturnTypeShow.value == "1" && (NetVal != CashVal)) {
+        else if (Number(txtCashAmount.value) != NetVal && chkActive.checked == true && ddlReturnTypeShow.value == "1") {
             DisplayMassage("يجب ان يتساوي المبلغ المسدد مع الصافي", 'paid amount must be equal to the net', MessageType.Error);
             Errorinput(txtNet);
+            Errorinput(txtCashAmount);
             return false;
         }
         return true;

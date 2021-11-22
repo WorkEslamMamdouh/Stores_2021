@@ -411,7 +411,7 @@ var SlsTrSalesManager;
                     PriceInvDetails = result.Response;
                     $('#txtPriceshow').val(PriceInvDetails[0].TrNo);
                     $('#ddlStore').val(PriceInvDetails[0].StoreId);
-                    $('#ddlSalesman').val(PriceInvDetails[0].SalesmanId);
+                    $('#ddlSalesman').val("null");
                     $('#ddlType').val(PriceInvDetails[0].IsCash == false ? 0 : 1);
                     $('#ddlCashBox').val(PriceInvDetails[0].CashBoxID == null ? 'null' : PriceInvDetails[0].CashBoxID);
                     $('#txtCustomerCode').val(PriceInvDetails[0].CustomerId);
@@ -702,11 +702,11 @@ var SlsTrSalesManager;
             TypeFlag = true;
         }
         else { //علي الحساب
-            $('#ddlCashBox').prop('selectedIndex', 0);
-            $('#ddlCashBox').attr('disabled', 'disabled');
-            txtInvoiceCustomerName.value = "";
-            txtCustomerCode.value = "";
-            CustomerId = 0;
+            //$('#ddlCashBox').prop('selectedIndex', 0);
+            //$('#ddlCashBox').attr('disabled', 'disabled');
+            //txtInvoiceCustomerName.value = "";
+            //txtCustomerCode.value = "";
+            //CustomerId = 0;
             $("#btnpriceSrch").removeAttr("disabled");
             $("#btnOrderSrch").removeAttr("disabled");
             $("#txtCustomerCode").removeAttr("disabled");
@@ -766,8 +766,8 @@ var SlsTrSalesManager;
         var custom1 = CustDetails.filter(function (s) { return s.CUSTOMER_ID == custID; });
         var Isbalance = Number((Number(custom1[0].Openbalance) + Number(custom1[0].Debit) - Number(custom1[0].Credit)).toFixed(2));
         var res = Number((net + Isbalance).toFixed(2));
-        if (custom1[0].CreditLimit > 0) {
-            if (res <= custom1[0].CreditLimit) {
+        if (custom1[0].Openbalance > 0) {
+            if (res <= custom1[0].Openbalance) {
                 return true;
             }
             else {
@@ -818,11 +818,11 @@ var SlsTrSalesManager;
             }
         }
         if (CanAdd) {
-            if (CustomerId != 0 && ddlType.value == "0") {
-                var net = Number(txtNet.value);
-                if (!Check_CreditLimit_Custom(net))
-                    return;
-            }
+            //if (CustomerId != 0 && ddlType.value == "0") {
+            //    let net = Number(txtNet.value);
+            //    if (!Check_CreditLimit_Custom(net))
+            //        return;
+            //}
             Validation_Insert = 0;
             MasterDetailsModel = new SlsInvoiceMasterDetails();
             Assign();
@@ -1544,6 +1544,7 @@ var SlsTrSalesManager;
         });
         $("#btnSave").addClass("display_none");
         $("#btnBack").addClass("display_none");
+        $("#div_btnPrint").removeClass("display_none");
         $("#ddlSalesman").attr("disabled", "disabled");
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
@@ -2542,6 +2543,7 @@ var SlsTrSalesManager;
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
+        $("#div_btnPrint").removeClass("display_none");
         ddlSalesman.disabled = true;
         ddlStore.disabled = true;
         txtCustomerCode.disabled = true;
@@ -2664,6 +2666,7 @@ var SlsTrSalesManager;
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
+        $("#div_btnPrint").removeClass("display_none");
         txtInvoiceDate.disabled = true;
         ddlSalesman.disabled = true;
         txtInvoiceDate.disabled = true;
@@ -2946,14 +2949,13 @@ var SlsTrSalesManager;
         rp.Repdesign = 0;
         rp.TRId = GlobalinvoiceID;
         rp.slip = 0;
-        if (InvoiceType == 1)
-            rp.stat = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
-        else
-            rp.stat = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
+        rp.stat = 1;
+        debugger;
         Ajax.CallAsync({
             url: Url.Action("rptInvoiceNote", "GeneralRep"),
             data: rp,
             success: function (d) {
+                debugger;
                 var result = d;
                 window.open(Url.Action("ReportsPopup", "Home"), "blank");
                 localStorage.setItem("result", "" + result + "");

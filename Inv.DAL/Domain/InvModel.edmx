@@ -2881,6 +2881,17 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <Parameter Name="LikeDesc" Type="nvarchar" Mode="In" />
           <Parameter Name="LikeCode" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="IProc_Prnt_SlsInvoice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="comp" Type="int" Mode="In" />
+          <Parameter Name="bra" Type="int" Mode="In" />
+          <Parameter Name="CompNameA" Type="nvarchar" Mode="In" />
+          <Parameter Name="CompNameE" Type="nvarchar" Mode="In" />
+          <Parameter Name="BraNameA" Type="nvarchar" Mode="In" />
+          <Parameter Name="BraNameE" Type="nvarchar" Mode="In" />
+          <Parameter Name="LoginUser" Type="nvarchar" Mode="In" />
+          <Parameter Name="RepType" Type="int" Mode="In" />
+          <Parameter Name="TRId" Type="int" Mode="In" />
+        </Function>
         <Function Name="New_Data_Bes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Stord_Get_Outlet" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FromDate" Type="nvarchar" Mode="In" />
@@ -5279,6 +5290,17 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <EntitySet Name="IQ_GetSalesMan" EntityType="POS2021Model.IQ_GetSalesMan" />
           <EntitySet Name="IQ_GetSlsInvoiceList" EntityType="POS2021Model.IQ_GetSlsInvoiceList" />
           <EntitySet Name="IQ_GetSlsInvoiceStatistic" EntityType="POS2021Model.IQ_GetSlsInvoiceStatistic" />
+          <FunctionImport Name="IProc_Prnt_SlsInvoice" ReturnType="Collection(POS2021Model.IProc_Prnt_SlsInvoice_Result)">
+            <Parameter Name="comp" Mode="In" Type="Int32" />
+            <Parameter Name="bra" Mode="In" Type="Int32" />
+            <Parameter Name="CompNameA" Mode="In" Type="String" />
+            <Parameter Name="CompNameE" Mode="In" Type="String" />
+            <Parameter Name="BraNameA" Mode="In" Type="String" />
+            <Parameter Name="BraNameE" Mode="In" Type="String" />
+            <Parameter Name="LoginUser" Mode="In" Type="String" />
+            <Parameter Name="RepType" Mode="In" Type="Int32" />
+            <Parameter Name="TRId" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Get_Settings_Report_Result">
           <Property Type="Int32" Name="ID_Report" Nullable="false" />
@@ -6881,6 +6903,91 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <Property Name="NAMEE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CUSTOMER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="IProc_Prnt_SlsInvoice_Result">
+          <Property Type="Int32" Name="Comp" Nullable="true" />
+          <Property Type="Int32" Name="Bra" Nullable="true" />
+          <Property Type="String" Name="CompNameA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="CompNameE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BraNameA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BraNameE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="LoginUser" Nullable="true" MaxLength="25" />
+          <Property Type="DateTime" Name="PrintDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="Par_RepType" Nullable="true" />
+          <Property Type="Int32" Name="TrNo" Nullable="true" />
+          <Property Type="String" Name="DocNo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="GlobalInvoiceCounter" Nullable="true" />
+          <Property Type="String" Name="DocUUID" Nullable="true" MaxLength="124" />
+          <Property Type="Time" Name="TrTime" Nullable="true" />
+          <Property Type="DateTime" Name="TrDate" Nullable="true" Precision="16" />
+          <Property Type="DateTime" Name="DeliveryDate" Nullable="true" Precision="16" />
+          <Property Type="String" Name="Cash_customerName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NAMEA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="NAMEE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address_BuildingNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address_District" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address_City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address_Street" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address_Str_Additional" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Address_postal" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address_Province" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Address_Build_Additional" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="VatNo" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="AddIDAr" Nullable="true" MaxLength="66" />
+          <Property Type="String" Name="br_AddIDAr" Nullable="true" MaxLength="66" />
+          <Property Type="String" Name="CodeType" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="BRA_DESC" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BRA_DESCL" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="BR_Address_BuildingNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Br_Address_Street" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="br_Address_Str_Additional" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="br_Address_Build_Additional" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="br_Address_City" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="br_Address_Postal" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="br_Address_Province" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="br_Address_District" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="br_VatNo" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="it_itemCode" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="it_DescA" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="It_DescE" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Unitprice" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="SoldQty" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="DiscountPrc" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="DiscountAmount" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="NetUnitPrice" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="ItemTotal" Nullable="true" Precision="37" Scale="10" />
+          <Property Type="Decimal" Name="AllowAmount" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="AllowancePrc" Nullable="true" Precision="19" Scale="4" />
+          <Property Type="String" Name="Uom_DescE" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Uom_DescA" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="VatPrc" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="VatAmount" Nullable="true" Precision="18" Scale="5" />
+          <Property Type="Decimal" Name="NetAfterVat" Nullable="true" Precision="38" Scale="10" />
+          <Property Type="String" Name="Uom_Code" Nullable="true" MaxLength="25" />
+          <Property Type="Decimal" Name="iv_itemTotal" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_ItemDiscountTotal" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_ItemVatTotal" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_RoundingAmount" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_VatAmount" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="iv_NetItemTotal" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Decimal" Name="iv_NetAfterVat" Nullable="true" Precision="22" Scale="2" />
+          <Property Type="String" Name="iv_AllowReason" Nullable="true" MaxLength="200" />
+          <Property Type="Decimal" Name="iv_AllowAfterVat" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_AllowVatPrc" Nullable="true" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="iv_AllowAmount" Nullable="true" Precision="19" Scale="2" />
+          <Property Type="Decimal" Name="iv_AllowPrc" Nullable="true" Precision="19" Scale="4" />
+          <Property Type="Decimal" Name="iv_AllowVat" Nullable="true" Precision="38" Scale="6" />
+          <Property Type="String" Name="QRSTR" Nullable="false" MaxLength="2000" />
+          <Property Type="Int32" Name="ref_TrNo" Nullable="true" />
+          <Property Type="DateTime" Name="Ref_TrDate" Nullable="true" Precision="16" />
+          <Property Type="String" Name="Ref_TrDateH" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="Ref_DocNo" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsCash" Nullable="true" />
+          <Property Type="String" Name="Remark" Nullable="true" MaxLength="200" />
+          <Property Type="Int32" Name="op_TrNo" Nullable="true" />
+          <Property Type="DateTime" Name="Op_TrDate" Nullable="true" Precision="16" />
+          <Property Type="String" Name="Op_TruckNo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Op_RefNo" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -9668,6 +9775,95 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="IProc_Prnt_SlsInvoice" FunctionName="POS2021Model.Store.IProc_Prnt_SlsInvoice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POS2021Model.IProc_Prnt_SlsInvoice_Result">
+                <ScalarProperty Name="Comp" ColumnName="Comp" />
+                <ScalarProperty Name="Bra" ColumnName="Bra" />
+                <ScalarProperty Name="CompNameA" ColumnName="CompNameA" />
+                <ScalarProperty Name="CompNameE" ColumnName="CompNameE" />
+                <ScalarProperty Name="BraNameA" ColumnName="BraNameA" />
+                <ScalarProperty Name="BraNameE" ColumnName="BraNameE" />
+                <ScalarProperty Name="LoginUser" ColumnName="LoginUser" />
+                <ScalarProperty Name="PrintDate" ColumnName="PrintDate" />
+                <ScalarProperty Name="Par_RepType" ColumnName="Par_RepType" />
+                <ScalarProperty Name="TrNo" ColumnName="TrNo" />
+                <ScalarProperty Name="DocNo" ColumnName="DocNo" />
+                <ScalarProperty Name="GlobalInvoiceCounter" ColumnName="GlobalInvoiceCounter" />
+                <ScalarProperty Name="DocUUID" ColumnName="DocUUID" />
+                <ScalarProperty Name="TrTime" ColumnName="TrTime" />
+                <ScalarProperty Name="TrDate" ColumnName="TrDate" />
+                <ScalarProperty Name="DeliveryDate" ColumnName="DeliveryDate" />
+                <ScalarProperty Name="Cash_customerName" ColumnName="Cash_customerName" />
+                <ScalarProperty Name="NAMEA" ColumnName="NAMEA" />
+                <ScalarProperty Name="NAMEE" ColumnName="NAMEE" />
+                <ScalarProperty Name="Address_BuildingNo" ColumnName="Address_BuildingNo" />
+                <ScalarProperty Name="Address_District" ColumnName="Address_District" />
+                <ScalarProperty Name="Address_City" ColumnName="Address_City" />
+                <ScalarProperty Name="Address_Street" ColumnName="Address_Street" />
+                <ScalarProperty Name="Address_Str_Additional" ColumnName="Address_Str_Additional" />
+                <ScalarProperty Name="Address_postal" ColumnName="Address_postal" />
+                <ScalarProperty Name="Address_Province" ColumnName="Address_Province" />
+                <ScalarProperty Name="Address_Build_Additional" ColumnName="Address_Build_Additional" />
+                <ScalarProperty Name="VatNo" ColumnName="VatNo" />
+                <ScalarProperty Name="AddIDAr" ColumnName="AddIDAr" />
+                <ScalarProperty Name="br_AddIDAr" ColumnName="br_AddIDAr" />
+                <ScalarProperty Name="CodeType" ColumnName="CodeType" />
+                <ScalarProperty Name="BRA_DESC" ColumnName="BRA_DESC" />
+                <ScalarProperty Name="BRA_DESCL" ColumnName="BRA_DESCL" />
+                <ScalarProperty Name="BR_Address_BuildingNo" ColumnName="BR_Address_BuildingNo" />
+                <ScalarProperty Name="Br_Address_Street" ColumnName="Br_Address_Street" />
+                <ScalarProperty Name="br_Address_Str_Additional" ColumnName="br_Address_Str_Additional" />
+                <ScalarProperty Name="br_Address_Build_Additional" ColumnName="br_Address_Build_Additional" />
+                <ScalarProperty Name="br_Address_City" ColumnName="br_Address_City" />
+                <ScalarProperty Name="br_Address_Postal" ColumnName="br_Address_Postal" />
+                <ScalarProperty Name="br_Address_Province" ColumnName="br_Address_Province" />
+                <ScalarProperty Name="br_Address_District" ColumnName="br_Address_District" />
+                <ScalarProperty Name="br_VatNo" ColumnName="br_VatNo" />
+                <ScalarProperty Name="it_itemCode" ColumnName="it_itemCode" />
+                <ScalarProperty Name="it_DescA" ColumnName="it_DescA" />
+                <ScalarProperty Name="It_DescE" ColumnName="It_DescE" />
+                <ScalarProperty Name="Unitprice" ColumnName="Unitprice" />
+                <ScalarProperty Name="SoldQty" ColumnName="SoldQty" />
+                <ScalarProperty Name="DiscountPrc" ColumnName="DiscountPrc" />
+                <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
+                <ScalarProperty Name="NetUnitPrice" ColumnName="NetUnitPrice" />
+                <ScalarProperty Name="ItemTotal" ColumnName="ItemTotal" />
+                <ScalarProperty Name="AllowAmount" ColumnName="AllowAmount" />
+                <ScalarProperty Name="AllowancePrc" ColumnName="AllowancePrc" />
+                <ScalarProperty Name="Uom_DescE" ColumnName="Uom_DescE" />
+                <ScalarProperty Name="Uom_DescA" ColumnName="Uom_DescA" />
+                <ScalarProperty Name="VatPrc" ColumnName="VatPrc" />
+                <ScalarProperty Name="VatAmount" ColumnName="VatAmount" />
+                <ScalarProperty Name="NetAfterVat" ColumnName="NetAfterVat" />
+                <ScalarProperty Name="Uom_Code" ColumnName="Uom_Code" />
+                <ScalarProperty Name="iv_itemTotal" ColumnName="iv_itemTotal" />
+                <ScalarProperty Name="iv_ItemDiscountTotal" ColumnName="iv_ItemDiscountTotal" />
+                <ScalarProperty Name="iv_ItemVatTotal" ColumnName="iv_ItemVatTotal" />
+                <ScalarProperty Name="iv_RoundingAmount" ColumnName="iv_RoundingAmount" />
+                <ScalarProperty Name="iv_VatAmount" ColumnName="iv_VatAmount" />
+                <ScalarProperty Name="iv_NetItemTotal" ColumnName="iv_NetItemTotal" />
+                <ScalarProperty Name="iv_NetAfterVat" ColumnName="iv_NetAfterVat" />
+                <ScalarProperty Name="iv_AllowReason" ColumnName="iv_AllowReason" />
+                <ScalarProperty Name="iv_AllowAfterVat" ColumnName="iv_AllowAfterVat" />
+                <ScalarProperty Name="iv_AllowVatPrc" ColumnName="iv_AllowVatPrc" />
+                <ScalarProperty Name="iv_AllowAmount" ColumnName="iv_AllowAmount" />
+                <ScalarProperty Name="iv_AllowPrc" ColumnName="iv_AllowPrc" />
+                <ScalarProperty Name="iv_AllowVat" ColumnName="iv_AllowVat" />
+                <ScalarProperty Name="QRSTR" ColumnName="QRSTR" />
+                <ScalarProperty Name="ref_TrNo" ColumnName="ref_TrNo" />
+                <ScalarProperty Name="Ref_TrDate" ColumnName="Ref_TrDate" />
+                <ScalarProperty Name="Ref_TrDateH" ColumnName="Ref_TrDateH" />
+                <ScalarProperty Name="Ref_DocNo" ColumnName="Ref_DocNo" />
+                <ScalarProperty Name="IsCash" ColumnName="IsCash" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="op_TrNo" ColumnName="op_TrNo" />
+                <ScalarProperty Name="Op_TrDate" ColumnName="Op_TrDate" />
+                <ScalarProperty Name="Op_TruckNo" ColumnName="Op_TruckNo" />
+                <ScalarProperty Name="Op_RefNo" ColumnName="Op_RefNo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

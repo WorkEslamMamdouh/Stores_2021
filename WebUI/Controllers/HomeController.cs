@@ -125,6 +125,11 @@ namespace Inv.WebUI.Controllers
 
 
 
+        public ActionResult ReportsPopup()
+        {
+            return View("~/Views/Partial/ReportsPopup.cshtml");
+        }
+
         public ActionResult USERSIndex()
         {
             return View("~/Views/Tools/USERS/USERSIndex.cshtml");

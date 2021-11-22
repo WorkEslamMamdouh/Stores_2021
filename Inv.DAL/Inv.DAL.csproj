@@ -270,6 +270,9 @@
     <Compile Include="Domain\IProc_GetItemQtyList_Result.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\IProc_Prnt_SlsInvoice_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\IQ_Catch_Receipt.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>

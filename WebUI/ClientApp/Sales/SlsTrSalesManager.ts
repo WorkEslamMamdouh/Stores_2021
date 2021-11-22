@@ -475,7 +475,7 @@ namespace SlsTrSalesManager {
 
                     $('#txtPriceshow').val(PriceInvDetails[0].TrNo);
                     $('#ddlStore').val(PriceInvDetails[0].StoreId);
-                    $('#ddlSalesman').val(PriceInvDetails[0].SalesmanId);
+                    $('#ddlSalesman').val("null");
                     $('#ddlType').val(PriceInvDetails[0].IsCash == false ? 0 : 1);
                     $('#ddlCashBox').val(PriceInvDetails[0].CashBoxID == null ? 'null' : PriceInvDetails[0].CashBoxID);
                     $('#txtCustomerCode').val(PriceInvDetails[0].CustomerId)
@@ -858,11 +858,11 @@ namespace SlsTrSalesManager {
             TypeFlag = true;
         } else {//علي الحساب
 
-            $('#ddlCashBox').prop('selectedIndex', 0);
-            $('#ddlCashBox').attr('disabled', 'disabled');
-            txtInvoiceCustomerName.value = "";
-            txtCustomerCode.value = "";
-            CustomerId = 0;
+            //$('#ddlCashBox').prop('selectedIndex', 0);
+            //$('#ddlCashBox').attr('disabled', 'disabled');
+            //txtInvoiceCustomerName.value = "";
+            //txtCustomerCode.value = "";
+            //CustomerId = 0;
             $("#btnpriceSrch").removeAttr("disabled");
             $("#btnOrderSrch").removeAttr("disabled");
             $("#txtCustomerCode").removeAttr("disabled");
@@ -937,9 +937,9 @@ namespace SlsTrSalesManager {
 
         let res = Number((net + Isbalance).toFixed(2));
 
-        if (custom1[0].CreditLimit > 0) {
+        if (custom1[0].Openbalance > 0) {
 
-            if (res <= custom1[0].CreditLimit) { return true }
+            if (res <= custom1[0].Openbalance) { return true }
             else {
                 WorningMessage("خطأ لا يمكن ان تجاوز صافي الفاتوره (" + net + ") مع الرصيد (" + Isbalance + ") الحد الائتماني     (" + custom1[0].CreditLimit + ")", "Error The net invoice (" + net + ") cannot exceed the balance (" + Isbalance + ") credit limit (" + custom1[0].CreditLimit + ") ");
                 return false
@@ -998,12 +998,12 @@ namespace SlsTrSalesManager {
         }
         if (CanAdd) {
 
-            if (CustomerId != 0 && ddlType.value == "0") {
+            //if (CustomerId != 0 && ddlType.value == "0") {
 
-                let net = Number(txtNet.value);
-                if (!Check_CreditLimit_Custom(net))
-                    return;
-            }
+            //    let net = Number(txtNet.value);
+            //    if (!Check_CreditLimit_Custom(net))
+            //        return;
+            //}
 
             Validation_Insert = 0;
             MasterDetailsModel = new SlsInvoiceMasterDetails();
@@ -1843,6 +1843,7 @@ namespace SlsTrSalesManager {
         });
         $("#btnSave").addClass("display_none");
         $("#btnBack").addClass("display_none");
+        $("#div_btnPrint").removeClass("display_none");
         $("#ddlSalesman").attr("disabled", "disabled");
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
@@ -3065,7 +3066,7 @@ namespace SlsTrSalesManager {
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
-
+        $("#div_btnPrint").removeClass("display_none");
 
         ddlSalesman.disabled = true;
         ddlStore.disabled = true;
@@ -3203,7 +3204,7 @@ namespace SlsTrSalesManager {
         $("#txtCashMoney").attr("disabled", "disabled");
         $("#txtCardMoney").attr("disabled", "disabled");
         $("#txtInvoiceCustomerName").attr("disabled", "disabled");
-
+        $("#div_btnPrint").removeClass("display_none");
 
         txtInvoiceDate.disabled = true;
         ddlSalesman.disabled = true;
@@ -3552,16 +3553,14 @@ namespace SlsTrSalesManager {
         rp.Repdesign = 0;
         rp.TRId = GlobalinvoiceID;
         rp.slip = 0;
-        if (InvoiceType == 1)
-            rp.stat = SysSession.CurrentEnvironment.RetailInvoiceTransCode;
-        else
-            rp.stat = SysSession.CurrentEnvironment.WholeInvoiceTransCode;
-
+        rp.stat = 1
+        
+        debugger
         Ajax.CallAsync({
             url: Url.Action("rptInvoiceNote", "GeneralRep"),
-            data: rp,
+            data:  rp,
             success: (d) => {
-
+                debugger
                 let result = d as BaseResponse;
                 window.open(Url.Action("ReportsPopup", "Home"), "blank");
                 localStorage.setItem("result", "" + result + "");
