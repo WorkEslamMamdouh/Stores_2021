@@ -299,6 +299,7 @@
     <Compile Include="Models\CustomModel\MasterDetailsUnitGroup.cs" />
     <Compile Include="Models\CustomModel\MasterDetailsUserRoles.cs" />
     <Compile Include="Models\CustomModel\PurchasesMasterDetails.cs" />
+    <Compile Include="Models\CustomModel\PurInvoiceMasterDetails.cs" />
     <Compile Include="Models\CustomModel\SlsInvoiceMasterDetails.cs" />
     <Compile Include="Models\CustomModel\SlsMasterDetails.cs" />
     <Compile Include="Models\ResponseResult.cs" />

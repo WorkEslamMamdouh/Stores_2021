@@ -216,16 +216,6 @@ var Supplieraccstat;
             }
         });
     }
-    function GetSystemSession() {
-        if (document.cookie.length > 0) {
-            // 
-            var SysSession = new SystemSession;
-            SysSession.CurrentEnvironment = JSON.parse(readCookie("Inv1_systemProperties"));
-            SysSession.CurrentPrivileges = JSON.parse(readCookie("Inv1_Privilage"));
-            //RS.CurrentMemberComm = JSON.parse(getCookie("Inv1_Comm")) as Kids_Comm;
-            return SysSession;
-        }
-    }
     //----------------------------------------------------(Get Vendor )
     function DisplayAccDefVendor() {
         debugger;

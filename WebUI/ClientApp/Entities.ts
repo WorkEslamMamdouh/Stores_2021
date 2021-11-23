@@ -10030,6 +10030,7 @@ class IQ_Purchases_Master extends SecurityClass {
         this.Paid_Up = 0;
         this.To_be_Paid = 0;
         this.CashPaidAmount = 0;
+        this.ReceiveID = 0;
     }
     public TrNo: number;
     public Tr_Date: string;
@@ -10046,6 +10047,8 @@ class IQ_Purchases_Master extends SecurityClass {
     public Paid_Up: any;
     public To_be_Paid: any;
     public CashPaidAmount: any;
+    public ReceiveID: number;
+
 }
 
 
@@ -10135,6 +10138,7 @@ class Purchases_Master extends SecurityClass {
         this.REMARKS = "";
         this.Num_Day = 0;
         this.CashPaidAmount = 0;
+        this.ReceiveID = 0;
     }
     public TrNo: number;
     public Tr_Date: string;
@@ -10146,6 +10150,7 @@ class Purchases_Master extends SecurityClass {
     public REMARKS: string;
     public Num_Day: number;
     public CashPaidAmount: any;
+    public ReceiveID: number;
 }
 
 

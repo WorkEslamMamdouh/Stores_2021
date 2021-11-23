@@ -13,5 +13,8 @@ namespace Inv.BLL.Services.StkDefStore
         G_STORE GetById(int id);
         List<G_STORE> GetAll();
         List<G_STORE> GetAll(Expression<Func<G_STORE, bool>> predicate);
+
+        G_STORE Insert(G_STORE entity);
+        G_STORE Update(G_STORE entity);
     }
 }

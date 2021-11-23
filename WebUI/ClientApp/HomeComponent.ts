@@ -746,6 +746,7 @@ namespace HomeComponent {
         $("#btnSlsTrSales").click(() => { OpenPage(Modules.SlsTrSales); })
         $("#btnSlsTrReturn").click(() => { OpenPage(Modules.SlsTrReturn); })
         $("#btnPurchases").click(() => { OpenPage(Modules.Purchases); })
+        $("#btnPurchasesNew").click(() => { OpenPage(Modules.PurchasesNew); })
         $("#btnCategories").click(() => { OpenPage(Modules.Categories); })
         $("#btnItems").click(() => { OpenPage(Modules.Items); })
         $("#btnSupplier").click(() => { OpenPage(Modules.Supplier); })
@@ -767,6 +768,11 @@ namespace HomeComponent {
         $("#btnStkDefStore").click(() => { OpenPage(Modules.StkDefStore); })
         $("#btnStkDefUnitGroup").click(() => { OpenPage(Modules.StkDefUnitGroup); })
         $("#btnDefStore").click(() => { OpenPage(Modules.DefStore); })
+
+        $("#btnInventorymove").click(() => { OpenPage(Modules.Inventorymove); })//
+        $("#btnInventoryvalue").click(() => { OpenPage(Modules.Inventoryvalue); })//
+        $("#btnIncomeoperations").click(() => { OpenPage(Modules.Incomeoperations); })// 
+
     }
 
     function Notifications_Message() {

@@ -1,8 +1,6 @@
 ﻿$(document).ready(() => {
 
     Clientaccstat.InitalizeComponent();
-    $('#headertop1').addClass('display_none');
-    $('#headertop2').removeClass('display_none');
 })
 
 namespace Clientaccstat {
@@ -17,12 +15,14 @@ namespace Clientaccstat {
     var SalesmanDetails: Array<I_Sls_D_Salesman> = new Array<I_Sls_D_Salesman>();
     var Details: Array<IQ_GetCustomer> = new Array<IQ_GetCustomer>();
     var CustomersDetails: Array<A_Rec_D_Customer> = new Array<A_Rec_D_Customer>();
+    var CustomersDetailsfillc: Array<A_Rec_D_Customer> = new Array<A_Rec_D_Customer>();
     var Customer: A_Rec_D_Customer = new A_Rec_D_Customer();
 
 
 
     //------------------------------------------------------------
     var txt_ID_APP_Category: HTMLSelectElement;
+    var txt_ID_APP_Group: HTMLSelectElement;
     var txt_ID_APP_Type: HTMLSelectElement;
     var ddlCustomer: HTMLSelectElement;
     var txtDateFrom: HTMLInputElement;
@@ -77,6 +77,7 @@ namespace Clientaccstat {
     function InitalizeControls() {
 
         txt_ID_APP_Category = document.getElementById("txt_ID_APP_Category") as HTMLSelectElement;
+        txt_ID_APP_Group = document.getElementById("txt_ID_APP_Group") as HTMLSelectElement;
         txt_ID_APP_Type = document.getElementById("txt_ID_APP_Type") as HTMLSelectElement;
         ddlCustomer = document.getElementById("ddlCustomer") as HTMLSelectElement;
         txtDateFrom = document.getElementById("txtFromDate") as HTMLInputElement;
@@ -104,7 +105,8 @@ namespace Clientaccstat {
 
     function InitalizeEvents() {
 
-
+        txt_ID_APP_Category.onchange= FillddlCustomer;
+        txt_ID_APP_Group.onchange= FillddlCustomer;
         btnReset.onclick = btnReset_onclick;
         // Print Buttons
         btnPrintTrview.onclick = () => { PrintReport(1); }
@@ -213,6 +215,7 @@ namespace Clientaccstat {
     //----------------------------------------------------(Get customer)
 
     function FillddlCustomer() {
+
         Ajax.Callsync({
             type: "Get",
             url: sys.apiUrl("AccDefCustomer", "GetAll"),
@@ -222,16 +225,52 @@ namespace Clientaccstat {
             success: (d) => {
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
-
                     CustomersDetails = result.Response as Array<A_Rec_D_Customer>;
+                     
+                    CustomersDetailsfillc =new  Array<A_Rec_D_Customer>();
+                    if ($('#txt_ID_APP_Category').val() != "Null" && $('#txt_ID_APP_Group').val()=="Null")
+                    {
+                        CustomersDetailsfillc = CustomersDetails.filter(x => x.CatID == Number(txt_ID_APP_Category.value))
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {    
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+
+                    }
+                    else if ($('#txt_ID_APP_Category').val() == "Null" && $('#txt_ID_APP_Group').val() != "Null")
+                    {
+                        CustomersDetailsfillc = CustomersDetails.filter(x => x.GroupId == Number($('#txt_ID_APP_Group').val()))
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+
+                    }
+                    else if ($('#txt_ID_APP_Category').val() != "Null" && $('#txt_ID_APP_Group').val()!= "Null")
+                    {
+                        CustomersDetailsfillc = CustomersDetails.filter(x => x.CatID == Number(txt_ID_APP_Category.value) && x.GroupId == Number($('#txt_ID_APP_Group').val()))
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+
+                    } else {
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+                    }
                     // CustomersDetails = CustomersDetails.filter(s => s.STATUS == true);
 
-                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
-                        DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
-                    }
-                    else {
-                        DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
-                    }
+                   
                 }
             }
         });
@@ -329,16 +368,7 @@ namespace Clientaccstat {
             }
         });
     }  
-    function GetSystemSession(): SystemSession {
-        if (document.cookie.length > 0) {
-            // 
-            var SysSession = new SystemSession;
-            SysSession.CurrentEnvironment = JSON.parse(readCookie("Inv1_systemProperties")) as SystemEnvironment;
-            SysSession.CurrentPrivileges = JSON.parse(readCookie("Inv1_Privilage")) as UserPrivilege;
-            //RS.CurrentMemberComm = JSON.parse(getCookie("Inv1_Comm")) as Kids_Comm;
-            return SysSession;
-        }
-    }
+  
 
 
 
@@ -445,7 +475,7 @@ namespace Clientaccstat {
                 url: Url.Action("IProc_Rpt_AccCustomerSummary", "GeneralReports"),
                 data: rp,
                 success: (d) => {
-                    debugger
+
                     let result = d.result as string;
 
 

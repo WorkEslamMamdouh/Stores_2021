@@ -5955,6 +5955,7 @@ var IQ_Purchases_Master = /** @class */ (function (_super) {
         _this.Paid_Up = 0;
         _this.To_be_Paid = 0;
         _this.CashPaidAmount = 0;
+        _this.ReceiveID = 0;
         return _this;
     }
     return IQ_Purchases_Master;
@@ -6023,6 +6024,7 @@ var Purchases_Master = /** @class */ (function (_super) {
         _this.REMARKS = "";
         _this.Num_Day = 0;
         _this.CashPaidAmount = 0;
+        _this.ReceiveID = 0;
         return _this;
     }
     return Purchases_Master;

@@ -82,6 +82,12 @@
     <Compile Include="Services\Outletpirce\OutletpirceServices.cs" />
     <Compile Include="Services\Purchases\IPurchases_MasterServices.cs" />
     <Compile Include="Services\Purchases\Purchases_MasterServices.cs" />
+    <Compile Include="Services\PurInvoiceItems\IPurTRReceiveItemsService.cs" />
+    <Compile Include="Services\PurInvoiceItems\PurTRReceiveItemsService.cs" />
+    <Compile Include="Services\PurTRCharges\IPurTRChargesService.cs" />
+    <Compile Include="Services\PurTRCharges\PurTRChargesService.cs" />
+    <Compile Include="Services\PurTrReceive\IPurTrReceiveService.cs" />
+    <Compile Include="Services\PurTrReceive\PurTrReceiveService.cs" />
     <Compile Include="Services\SlsInvoiceItems\ISlsInvoiceItemsService.cs" />
     <Compile Include="Services\SlsInvoiceItems\SlsInvoiceItemsService.cs" />
     <Compile Include="Services\SlsTrSales\ISlsTrSalesServices.cs" />

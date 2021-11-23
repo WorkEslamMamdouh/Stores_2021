@@ -616,6 +616,7 @@ var HomeComponent;
         $("#btnSlsTrSales").click(function () { OpenPage(Modules.SlsTrSales); });
         $("#btnSlsTrReturn").click(function () { OpenPage(Modules.SlsTrReturn); });
         $("#btnPurchases").click(function () { OpenPage(Modules.Purchases); });
+        $("#btnPurchasesNew").click(function () { OpenPage(Modules.PurchasesNew); });
         $("#btnCategories").click(function () { OpenPage(Modules.Categories); });
         $("#btnItems").click(function () { OpenPage(Modules.Items); });
         $("#btnSupplier").click(function () { OpenPage(Modules.Supplier); });
@@ -635,6 +636,9 @@ var HomeComponent;
         $("#btnStkDefStore").click(function () { OpenPage(Modules.StkDefStore); });
         $("#btnStkDefUnitGroup").click(function () { OpenPage(Modules.StkDefUnitGroup); });
         $("#btnDefStore").click(function () { OpenPage(Modules.DefStore); });
+        $("#btnInventorymove").click(function () { OpenPage(Modules.Inventorymove); }); //
+        $("#btnInventoryvalue").click(function () { OpenPage(Modules.Inventoryvalue); }); //
+        $("#btnIncomeoperations").click(function () { OpenPage(Modules.Incomeoperations); }); // 
     }
     function Notifications_Message() {
         var comCode = SysSession.CurrentEnvironment.CompCode;

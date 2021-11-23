@@ -47,5 +47,29 @@ namespace Inv.API.Controllers
             return BadRequest(ModelState);
         }
 
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult Insert([FromBody] G_STORE AccTrReceipt)
+        {
+            //if (ModelState.IsValid && UserControl.CheckUser(AccTrReceipt.Token, AccTrReceipt.UserCode))
+            //{
+            var res = StkDefStoreService.Insert(AccTrReceipt);
+            return Ok(new BaseResponse(res.StoreId));
+
+            //}
+            //return BadRequest(ModelState);
+        }
+
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult Update([FromBody] G_STORE AccTrReceipt)
+        {
+            //if (ModelState.IsValid && UserControl.CheckUser(AccTrReceipt.Token, AccTrReceipt.UserCode))
+            //{
+            var res = StkDefStoreService.Update(AccTrReceipt);
+            return Ok(new BaseResponse(res.StoreId));
+
+            //}
+            //return BadRequest(ModelState);
+        }
+
     }
 }

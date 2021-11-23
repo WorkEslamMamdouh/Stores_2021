@@ -53,10 +53,35 @@ namespace Inv.WebUI.Controllers
         //    return buildReport(que);
 
         //} 
-       
 
- 
-     
+
+         
+
+        // كشف حركة المخزون
+        public string IProc_Rpt_ItemStockSummary(RepFinancials rp)
+        {
+            
+            IEnumerable<IProc_Rpt_ItemStockSummary_Result> que = Rpt_ItemStockSummary(rp); 
+            return buildReport(que);
+
+        }
+        // كشف قيمة المخزون
+        public string IProc_Rpt_ItemStockValue(RepFinancials rp)
+        {
+          
+            IEnumerable<IProc_Rpt_ItemStockValue_Result> que = Rpt_ItemStockValue(rp); 
+            return buildReport(que);
+
+        }
+        // كشف ايراد العمليات
+        public string IProc_Rpt_ItemStockIncome(RepFinancials rp)
+        {
+            
+            IEnumerable<IProc_Rpt_ItemStockIncome_Result> que = Rpt_ItemStockIncome(rp); 
+            return buildReport(que);
+
+        }
+
 
 
     }

@@ -174,6 +174,10 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/Purchases/PurchasesIndex.cshtml");
         }
+        public ActionResult PurchasesNewIndex()
+        {
+            return View("~/Views/Purchases/PurchasesNewIndex.cshtml");
+        }
 
         public ActionResult CategoriesIndex()
         {
@@ -262,11 +266,23 @@ namespace Inv.WebUI.Controllers
         {
             return View("~/Views/StkDefinition/StkDefUnitGroupIndex.cshtml");
         }
-        public ActionResult StkDefStoreIndex()
+        public ActionResult DefStoreIndex()
         {
             return View("~/Views/StkDefinition/StkDefStoreIndex.cshtml");
         }
-
+       
+        public ActionResult InventorymoveIndex()
+        {
+            return View("~/Views/CollectionReports/InventorymoveIndex.cshtml");
+        }
+        public ActionResult InventoryvalueIndex()
+        {
+            return View("~/Views/CollectionReports/InventoryvalueIndex.cshtml");
+        }
+        public ActionResult IncomeoperationsIndex()
+        {
+            return View("~/Views/CollectionReports/IncomeoperationsIndex.cshtml");
+        }
 
 
         #endregion  Open Pages 

@@ -1,7 +1,5 @@
 $(document).ready(function () {
     Clientaccstat.InitalizeComponent();
-    $('#headertop1').addClass('display_none');
-    $('#headertop2').removeClass('display_none');
 });
 var Clientaccstat;
 (function (Clientaccstat) {
@@ -15,9 +13,11 @@ var Clientaccstat;
     var SalesmanDetails = new Array();
     var Details = new Array();
     var CustomersDetails = new Array();
+    var CustomersDetailsfillc = new Array();
     var Customer = new A_Rec_D_Customer();
     //------------------------------------------------------------
     var txt_ID_APP_Category;
+    var txt_ID_APP_Group;
     var txt_ID_APP_Type;
     var ddlCustomer;
     var txtDateFrom;
@@ -56,6 +56,7 @@ var Clientaccstat;
     Clientaccstat.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
         txt_ID_APP_Category = document.getElementById("txt_ID_APP_Category");
+        txt_ID_APP_Group = document.getElementById("txt_ID_APP_Group");
         txt_ID_APP_Type = document.getElementById("txt_ID_APP_Type");
         ddlCustomer = document.getElementById("ddlCustomer");
         txtDateFrom = document.getElementById("txtFromDate");
@@ -71,6 +72,8 @@ var Clientaccstat;
         btnPrintTrEXEL = document.getElementById("btnPrintTrEXEL");
     }
     function InitalizeEvents() {
+        txt_ID_APP_Category.onchange = FillddlCustomer;
+        txt_ID_APP_Group.onchange = FillddlCustomer;
         btnReset.onclick = btnReset_onclick;
         // Print Buttons
         btnPrintTrview.onclick = function () { PrintReport(1); };
@@ -163,13 +166,43 @@ var Clientaccstat;
                 var result = d;
                 if (result.IsSuccess) {
                     CustomersDetails = result.Response;
-                    // CustomersDetails = CustomersDetails.filter(s => s.STATUS == true);
-                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
-                        DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                    CustomersDetailsfillc = new Array();
+                    if ($('#txt_ID_APP_Category').val() != "Null" && $('#txt_ID_APP_Group').val() == "Null") {
+                        CustomersDetailsfillc = CustomersDetails.filter(function (x) { return x.CatID == Number(txt_ID_APP_Category.value); });
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+                    }
+                    else if ($('#txt_ID_APP_Category').val() == "Null" && $('#txt_ID_APP_Group').val() != "Null") {
+                        CustomersDetailsfillc = CustomersDetails.filter(function (x) { return x.GroupId == Number($('#txt_ID_APP_Group').val()); });
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
+                    }
+                    else if ($('#txt_ID_APP_Category').val() != "Null" && $('#txt_ID_APP_Group').val() != "Null") {
+                        CustomersDetailsfillc = CustomersDetails.filter(function (x) { return x.CatID == Number(txt_ID_APP_Category.value) && x.GroupId == Number($('#txt_ID_APP_Group').val()); });
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetailsfillc, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
                     }
                     else {
-                        DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                            DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEE", "Select Category");
+                        }
+                        else {
+                            DocumentActions.FillCombowithdefult(CustomersDetails, ddlCustomer, "CustomerId", "NAMEA", "اختر العميل");
+                        }
                     }
+                    // CustomersDetails = CustomersDetails.filter(s => s.STATUS == true);
                 }
             }
         });
@@ -246,16 +279,6 @@ var Clientaccstat;
                 }
             }
         });
-    }
-    function GetSystemSession() {
-        if (document.cookie.length > 0) {
-            // 
-            var SysSession = new SystemSession;
-            SysSession.CurrentEnvironment = JSON.parse(readCookie("Inv1_systemProperties"));
-            SysSession.CurrentPrivileges = JSON.parse(readCookie("Inv1_Privilage"));
-            //RS.CurrentMemberComm = JSON.parse(getCookie("Inv1_Comm")) as Kids_Comm;
-            return SysSession;
-        }
     }
     function btnReset_onclick() {
         txtDateFrom.value = DateFormat(SysSession.CurrentEnvironment.StartDate);
@@ -344,7 +367,6 @@ var Clientaccstat;
                 url: Url.Action("IProc_Rpt_AccCustomerSummary", "GeneralReports"),
                 data: rp,
                 success: function (d) {
-                    debugger;
                     var result = d.result;
                     window.open(result, "_blank");
                 }

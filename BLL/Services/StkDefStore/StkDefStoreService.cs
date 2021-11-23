@@ -34,6 +34,27 @@ namespace Inv.BLL.Services.StkDefStore
         {
             return unitOfWork.Repository<G_STORE>().Get(predicate);
         }
+
+        public G_STORE Insert(G_STORE entity)
+        {
+            var insertedentity = unitOfWork.Repository<G_STORE>().Insert(entity);
+            unitOfWork.Save();
+            return insertedentity;
+        }
+
+        public G_STORE Update(G_STORE entity)
+        {
+
+            var updatedentity = unitOfWork.Repository<G_STORE>().Update(entity);
+            unitOfWork.Save();
+            return updatedentity;
+        }
+
+        public void Delete(int id)
+        {
+            unitOfWork.Repository<G_STORE>().Delete(id);
+            unitOfWork.Save();
+        }
         #endregion
     }
 }

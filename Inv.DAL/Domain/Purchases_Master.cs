@@ -23,5 +23,6 @@ namespace Inv.DAL.Domain
         public Nullable<decimal> To_be_Paid { get; set; }
         public string REMARKS { get; set; }
         public Nullable<int> Num_Day { get; set; }
+        public Nullable<int> ReceiveID { get; set; }
     }
 }

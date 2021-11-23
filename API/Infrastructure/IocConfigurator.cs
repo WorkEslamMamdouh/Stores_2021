@@ -44,6 +44,9 @@ using Inv.BLL.Services.GenVatType;
 using Inv.BLL.Services.AccDefSalesMen;
 using Inv.BLL.Services.SlsInvoiceItems;
 using Inv.BLL.Services.ISlsTRInvoice;
+using Inv.BLL.Services.PurInvoiceItems;
+using Inv.BLL.Services.PurTrReceive;
+using Inv.BLL.Services.PurTRCharges;
 
 namespace Inv.API.Infrastructure
 {
@@ -95,6 +98,10 @@ namespace Inv.API.Infrastructure
             container.RegisterType<IAccDefSalesMenService, AccDefSalesMenService>();
             container.RegisterType<ISlsInvoiceItemsService, SlsInvoiceItemsService>();
             container.RegisterType<IISlsTRInvoiceService, ISlsTRInvoiceService>();
+
+            container.RegisterType<IPurTRReceiveItemsService, PurTRReceiveItemsService>();
+            container.RegisterType<IPurTrReceiveService, PurTrReceiveService>();
+            container.RegisterType<IPurTRChargesService, PurTRChargesService>();
         }
     }
 }

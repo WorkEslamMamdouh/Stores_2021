@@ -273,6 +273,15 @@
     <Compile Include="Domain\IProc_Prnt_SlsInvoice_Result.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Domain\IProc_Rpt_ItemStockIncome_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\IProc_Rpt_ItemStockSummary_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\IProc_Rpt_ItemStockValue_Result.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Domain\IQ_Catch_Receipt.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
@@ -286,6 +295,9 @@
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\IQ_GetItemYearUom.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\IQ_GetPurReceiveItem.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\IQ_GetSalesMan.cs">
@@ -352,6 +364,15 @@
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\I_ItemYearUom.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\I_Pur_TR_Receive.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\I_Pur_Tr_ReceiveCharges.cs">
+      <DependentUpon>InvModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Domain\I_Pur_TR_ReceiveItems.cs">
       <DependentUpon>InvModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Domain\I_Sls_D_Salesman.cs">

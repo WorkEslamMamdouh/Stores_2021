@@ -73,6 +73,7 @@
                             <div id="" role="menu" class="dropdown-menu left-menu-dropdown animated flipInX">
                                 <ul id=" ">
                                     <li class="liItem dropdown-item" id="btnPurchases" key="Purchases"><a id="btnPurchases">المشتريات</a></li>
+                                    <li class="liItem dropdown-item" id="btnPurchasesNew" key="PurchasesNew"><a id="btnPurchasesNew">المشتريات مخزن</a></li>
                                     @*<li class="liItem dropdown-item" id="btnSlsTrReturn" key="SlsTrReturn"><a id="btnSlsTrReturn">مرتجع الفواتير</a></li>*@
 
 
@@ -113,9 +114,20 @@
                                     <li class="liItem dropdown-item" id="btnStkDefItemType" key="StkDefItemType"><a id="">@SystemResource.Men_StkDefItemType</a></li>
                                     <li class="liItem dropdown-item" id="btnStkDefItemsNew" key="StkDefItemsNew"><a id="btnStkDefItemsNew">تعريف @SystemResource.Men_StkDefItems  </a></li>
 
-                                    @*<li class="liItem dropdown-item" id="btnDefStore" key="DefStore"><a id=""> @SystemResource.Men_StkDefStore  </a></li>*@
+                                    <li class="liItem dropdown-item" id="btnDefStore" key="DefStore"><a id=""> @SystemResource.Men_StkDefStore  </a></li>
 
 
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="liItem MED nav-item display_none " id="btnReportMenu">
+                            <a id="lep11" href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"> <i class="glyphicon glyphicon-list-alt"></i>  <span class="mini-dn">تقارير المخزون </span><i id="span11" class="fa fa-caret-left floatleftPurOrder"></i></a>
+                            <div id=" " role="menu" class="dropdown-menu left-menu-dropdown animated flipInX">
+                                <ul id=" ">
+                                    <li class="liItem dropdown-item" id="btnInventorymove" key="Inventorymove"><a id=""> @SystemResource.Inventorymove  </a></li>
+                                    <li class="liItem dropdown-item" id="btnInventoryvalue" key="Inventoryvalue"> <a id=""> @SystemResource.Inventoryvalue  </a></li>
+                                    <li class="liItem dropdown-item" id="btnIncomeoperations" key="Incomeoperations">   <a id=""> @SystemResource.Incomeoperations  </a></li>
                                 </ul>
                             </div>
                         </li>

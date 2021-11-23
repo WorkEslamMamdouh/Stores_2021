@@ -661,8 +661,7 @@ namespace Inv.WebUI.Controllers
             reportName = Rep.reportName;
             return query;
         }
-       
-
+        
         public IEnumerable<IProc_Prnt_SlsInvoice_Result> Rpt_Prnt_OperationInvoice(RepFinancials RepPar)
         {
             ReportStandardParameters StandPar = getStandardParameters(RepPar);
@@ -794,8 +793,180 @@ namespace Inv.WebUI.Controllers
             reportName = Rep.reportName;
             return query;
         }
+
+
+        //كشف حركة مخزون
+        public IEnumerable<IProc_Rpt_ItemStockSummary_Result> Rpt_ItemStockSummary(RepFinancials RepPar)
+        {
+            ReportStandardParameters StandPar = getStandardParameters(RepPar);
+
+            //ReportInfo Rep;
+            int Type = int.Parse(RepPar.RepType.ToString());
+            SqlParameter spRepType = new SqlParameter("@RepType", Type);
+
+            string formDate = RepPar.FromDate.ToString();
+            SqlParameter spformDate = new SqlParameter("@FromDate", formDate);
+
+            string toDate = RepPar.ToDate.ToString();
+            SqlParameter sptoDate = new SqlParameter("@ToDate", toDate);
+
+            int CatId = int.Parse(RepPar.CatId.ToString());
+            SqlParameter spCatId = new SqlParameter("@CatId", CatId == -1 ? System.Data.SqlTypes.SqlInt32.Null : CatId);
+
+            int ItemFamId = int.Parse(RepPar.ItemFamId.ToString());
+            SqlParameter spItemFamId = new SqlParameter("@ItemFamId", ItemFamId == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemFamId);
+
+            int ItemID = int.Parse(RepPar.ItemID.ToString());
+            SqlParameter spItemID = new SqlParameter("@ItemID", ItemID == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemID);
+
+            int BalType = int.Parse(RepPar.BalType.ToString());
+            SqlParameter spBalType = new SqlParameter("@BalStatus", BalType);
+
+            int Status = int.Parse(RepPar.Status.ToString());
+            SqlParameter spStatus = new SqlParameter("@Status", Status);
+
+            int type = int.Parse(RepPar.check.ToString());
+            SqlParameter sptype = new SqlParameter("@type", type);
+
+            Rep = OpenReport("Rpt_ItemStockSummary");
+
+
+            string _Query = "execute " + Rep.dataSource +
+           " @comp = '" + StandPar.spComCode.Value + "'" +
+           ", @bra = '" + StandPar.spbra.Value + "'" +
+           ", @CompNameA = '" + StandPar.spComNameA.Value + "'" +
+           ", @CompNameE = '" + StandPar.spComNameE.Value + "'" +
+           ", @BraNameA = '" + StandPar.spBraNameA.Value + "'" +
+           ", @BraNameE = '" + StandPar.braNameE.Value + "'" +
+           ", @LoginUser = '" + StandPar.spLoginUser.Value + "'" +
+           ", @RepType = " + spRepType.Value +
+           ", @CatID = " + spCatId.Value +
+           ", @ItemFamId = " + spItemFamId.Value +
+           ", @ItemID = " + spItemID.Value +
+           ", @type = " + sptype.Value +
+           ", @status = " + spStatus.Value +
+           ", @FromDate = '" + spformDate.Value + "'" +
+           ", @Todate = '" + sptoDate.Value + "'" +
+           ", @BalType = " + spBalType.Value;
+
+            List<IProc_Rpt_ItemStockSummary_Result> query = db.Database.SqlQuery<IProc_Rpt_ItemStockSummary_Result>(_Query).ToList();
+            ReportsDetails();
        
- 
+            reportName = Rep.reportName;
+            return query;
+        }
+
+        //كشف قيمة مخزون
+        public IEnumerable<IProc_Rpt_ItemStockValue_Result> Rpt_ItemStockValue(RepFinancials RepPar)
+        {
+            ReportStandardParameters StandPar = getStandardParameters(RepPar);
+
+            //ReportInfo Rep;
+            int Type = int.Parse(RepPar.RepType.ToString());
+            SqlParameter spRepType = new SqlParameter("@RepType", Type);
+
+            string formDate = RepPar.FromDate.ToString();
+            SqlParameter spformDate = new SqlParameter("@FromDate", formDate);
+
+            string toDate = RepPar.ToDate.ToString();
+            SqlParameter sptoDate = new SqlParameter("@ToDate", toDate);
+
+            int CatId = int.Parse(RepPar.CatId.ToString());
+            SqlParameter spCatId = new SqlParameter("@CatId", CatId == -1 ? System.Data.SqlTypes.SqlInt32.Null : CatId);
+
+            int ItemFamId = int.Parse(RepPar.ItemFamId.ToString());
+            SqlParameter spItemFamId = new SqlParameter("@ItemFamId", ItemFamId == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemFamId);
+
+            int ItemID = int.Parse(RepPar.ItemID.ToString());
+            SqlParameter spItemID = new SqlParameter("@ItemID", ItemID == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemID);
+
+            int Status = int.Parse(RepPar.Status.ToString());
+            SqlParameter spStatus = new SqlParameter("@Status", Status);
+
+            int check = int.Parse(RepPar.check.ToString());
+            SqlParameter spcheck = new SqlParameter("@type", check);
+
+            Rep = OpenReport("Rpt_ItemStockValue");
+
+
+            string _Query = "execute " + Rep.dataSource +
+           " @comp = '" + StandPar.spComCode.Value + "'" +
+           ", @bra = '" + StandPar.spbra.Value + "'" +
+           ", @CompNameA = '" + StandPar.spComNameA.Value + "'" +
+           ", @CompNameE = '" + StandPar.spComNameE.Value + "'" +
+           ", @BraNameA = '" + StandPar.spBraNameA.Value + "'" +
+           ", @BraNameE = '" + StandPar.braNameE.Value + "'" +
+           ", @LoginUser = '" + StandPar.spLoginUser.Value + "'" +
+           ", @RepType = " + spRepType.Value +
+           ", @CatID = " + spCatId.Value +
+           ", @ItemFamId = " + spItemFamId.Value +
+           ", @ItemID = " + spItemID.Value +
+           ", @type = " + spcheck.Value +
+           ", @status = " + spStatus.Value +
+           ", @FromDate = '" + spformDate.Value + "'" +
+           ", @Todate = '" + sptoDate.Value + "'";
+
+            List<IProc_Rpt_ItemStockValue_Result> query = db.Database.SqlQuery<IProc_Rpt_ItemStockValue_Result>(_Query).ToList();
+            ReportsDetails();
+            reportName = Rep.reportName;
+            return query;
+        }
+        //-------------ايراد العمليات
+        public IEnumerable<IProc_Rpt_ItemStockIncome_Result> Rpt_ItemStockIncome(RepFinancials RepPar)
+        {
+            ReportStandardParameters StandPar = getStandardParameters(RepPar);
+
+            //ReportInfo Rep;
+            int Type = int.Parse(RepPar.RepType.ToString());
+            SqlParameter spRepType = new SqlParameter("@RepType", Type);
+
+            string formDate = RepPar.FromDate.ToString();
+            SqlParameter spformDate = new SqlParameter("@FromDate", formDate);
+
+            string toDate = RepPar.ToDate.ToString();
+            SqlParameter sptoDate = new SqlParameter("@ToDate", toDate);
+
+            int CatId = int.Parse(RepPar.CatId.ToString());
+            SqlParameter spCatId = new SqlParameter("@CatId", CatId == -1 ? System.Data.SqlTypes.SqlInt32.Null : CatId);
+
+            int ItemFamId = int.Parse(RepPar.ItemFamId.ToString());
+            SqlParameter spItemFamId = new SqlParameter("@ItemFamId", ItemFamId == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemFamId);
+
+            int ItemID = int.Parse(RepPar.ItemID.ToString());
+            SqlParameter spItemID = new SqlParameter("@ItemID", ItemID == -1 ? System.Data.SqlTypes.SqlInt32.Null : ItemID);
+
+            int Status = int.Parse(RepPar.Status.ToString());
+            SqlParameter spStatus = new SqlParameter("@Status", Status);
+
+            int type = int.Parse(RepPar.check.ToString());
+            SqlParameter sptype = new SqlParameter("@type", type);
+
+            Rep = OpenReport("Rpt_ItemStockIncome");
+
+
+            string _Query = "execute " + Rep.dataSource +
+           " @comp = '" + StandPar.spComCode.Value + "'" +
+           ", @bra = '" + StandPar.spbra.Value + "'" +
+           ", @CompNameA = '" + StandPar.spComNameA.Value + "'" +
+           ", @CompNameE = '" + StandPar.spComNameE.Value + "'" +
+           ", @BraNameA = '" + StandPar.spBraNameA.Value + "'" +
+           ", @BraNameE = '" + StandPar.braNameE.Value + "'" +
+           ", @LoginUser = '" + StandPar.spLoginUser.Value + "'" +
+           ", @RepType = " + spRepType.Value +
+           ", @CatID = " + spCatId.Value +
+           ", @ItemFamId = " + spItemFamId.Value +
+           ", @ItemID = " + spItemID.Value +
+           ", @type = " + sptype.Value +
+           ", @status = " + spStatus.Value +
+           ", @FromDate = '" + spformDate.Value + "'" +
+           ", @Todate = '" + sptoDate.Value + "'";
+
+            List<IProc_Rpt_ItemStockIncome_Result> query = db.Database.SqlQuery<IProc_Rpt_ItemStockIncome_Result>(_Query).ToList();
+            ReportsDetails();
+            reportName = Rep.reportName;
+            return query;
+        }
+
 
     }
 }

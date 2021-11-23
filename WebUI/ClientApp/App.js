@@ -20,6 +20,7 @@ var Modules = {
     Categories: "Categories",
     Items: "Items",
     Purchases: "Purchases",
+    PurchasesNew: "PurchasesNew",
     Supplier: "Supplier",
     AccDefSalesmen: "AccDefSalesmen",
     CUSTOMERS: "CUSTOMERS",
@@ -38,6 +39,9 @@ var Modules = {
     StkDefStore: "StkDefStore",
     StkDefUnitGroup: "StkDefUnitGroup",
     DefStore: "DefStore",
+    Inventorymove: "Inventorymove",
+    Inventoryvalue: "Inventoryvalue",
+    Incomeoperations: "Incomeoperations",
 };
 var MessageType = {
     Error: '2',

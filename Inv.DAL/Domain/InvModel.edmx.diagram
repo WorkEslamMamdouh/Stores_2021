@@ -40,7 +40,6 @@
         <EntityTypeShape EntityType="POS2021Model.Outlet" Width="1.5" PointX="18.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.PRODUCT" Width="1.5" PointX="18.75" PointY="8.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.Purchases_Details" Width="1.5" PointX="8.75" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="POS2021Model.Purchases_Master" Width="1.5" PointX="10.75" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.Report_Parameters" Width="1.5" PointX="18.75" PointY="12.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.Settings_Report" Width="1.5" PointX="12.75" PointY="18.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.Stok_ORDER_DELIVERY" Width="1.5" PointX="14.75" PointY="18.75" IsExpanded="true" />
@@ -58,7 +57,6 @@
         <EntityTypeShape EntityType="POS2021Model.I_VW_GetCompStatus" Width="1.5" PointX="22.75" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.IQ_Outlet" Width="1.5" PointX="10.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.IQ_Purchases_Details" Width="1.5" PointX="22.75" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="POS2021Model.IQ_Purchases_Master" Width="1.5" PointX="12.75" PointY="22.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.ReviewSalesItemInfo" Width="1.5" PointX="22.75" PointY="17.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.ReviewSalesMaster" Width="1.5" PointX="22.75" PointY="21.75" IsExpanded="true" />
         <EntityTypeShape EntityType="POS2021Model.CUSTOMER" Width="1.5" PointX="19.375" PointY="23.75" />
@@ -103,6 +101,12 @@
         <EntityTypeShape EntityType="POS2021Model.IQ_GetSalesMan" Width="1.5" PointX="33.375" PointY="28.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceList" Width="1.5" PointX="3.375" PointY="34.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceStatistic" Width="1.5" PointX="35.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Pur_TR_Receive" Width="1.5" PointX="0.75" PointY="35.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Pur_Tr_ReceiveCharges" Width="1.5" PointX="35.75" PointY="21.75" />
+        <EntityTypeShape EntityType="POS2021Model.I_Pur_TR_ReceiveItems" Width="1.5" PointX="25.75" PointY="35.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_GetPurReceiveItem" Width="1.5" PointX="35.75" PointY="26.75" />
+        <EntityTypeShape EntityType="POS2021Model.Purchases_Master" Width="1.5" PointX="30.375" PointY="35.75" />
+        <EntityTypeShape EntityType="POS2021Model.IQ_Purchases_Master" Width="1.5" PointX="35.375" PointY="35.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
