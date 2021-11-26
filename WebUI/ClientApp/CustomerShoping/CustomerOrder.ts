@@ -510,7 +510,7 @@ namespace CustomerOrder {
             let GetItemInfo: Array<Iproc_GetItemInfo_Result> = new Array<Iproc_GetItemInfo_Result>();
             NumCnt = cnt;
             var Storeid =1
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', () => {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), InvoiceType, () => {
                 let id = sysInternal_Comm.Itemid;
                 debugger
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val()))) return

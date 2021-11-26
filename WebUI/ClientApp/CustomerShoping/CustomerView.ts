@@ -1686,7 +1686,7 @@ namespace CustomerView {
             let GetItemInfo: Array<Iproc_GetItemInfo_Result> = new Array<Iproc_GetItemInfo_Result>();
             NumCnt = cnt;
             var Storeid = Number($("#ddlStore").val());
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', () => {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), InvoiceType, () => {
                 let id = sysInternal_Comm.Itemid;
 
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val()))) return

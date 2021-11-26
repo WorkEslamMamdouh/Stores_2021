@@ -44,6 +44,7 @@ namespace PurchasesNew {
     var ReceiveItemsDetailsModel: Array<I_Pur_TR_ReceiveItems> = new Array<I_Pur_TR_ReceiveItems>();
     var chargesDetailsModel: Array<I_Pur_Tr_ReceiveCharges> = new Array<I_Pur_Tr_ReceiveCharges>();
     var ReceiveItemSingleModel: I_Pur_TR_ReceiveItems = new I_Pur_TR_ReceiveItems();
+    var ReceiveChargesSingleModel: I_Pur_Tr_ReceiveCharges = new I_Pur_Tr_ReceiveCharges();
 
     var GetAllVendorDetails: Array<Supplier> = new Array<Supplier>();
     var SearchVendorDetails: Array<Supplier> = new Array<Supplier>();
@@ -113,11 +114,12 @@ namespace PurchasesNew {
     var Success_Balance = true;
     var Bal = 0;
     var IsSuccess = false;
-    var VatPrc =0;
+    var VatPrc = 0;
     var NumCnt = 0;
     var Tax_Rate = 0;
     var vatType: number;
     var Tax_Type_Model: Tax_Type = new Tax_Type();
+    var ModeItmes = 3;
 
     export function InitalizeComponent() {
 
@@ -130,8 +132,10 @@ namespace PurchasesNew {
         IntializeEvents();
 
 
-        txtFromDate.value = GetDate();
-        txtToDate.value = GetDate();
+
+        txtFromDate.value = SysSession.CurrentEnvironment.StartDate;
+        txtToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
+
 
         FillddlVendor();
 
@@ -622,7 +626,7 @@ namespace PurchasesNew {
 
                         BuildControls(i);
                         Disbly_BuildControls(i, AllGetStokMasterDetail);
-                        CountGrid ++;
+                        CountGrid++;
                     }
 
                     $("#txtItemCount").val(CountGrid);
@@ -733,7 +737,7 @@ namespace PurchasesNew {
             '</div>' +
 
             '<div class=" col-lg-3 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0">' +
-         
+
 
             '<input id="txtServiceName' + cnt + '" name="FromDate" disabled  type="text" class="   form-control input-sm  text_Display"   />' +
 
@@ -750,8 +754,8 @@ namespace PurchasesNew {
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"><input type="text"  disabled class="form-control input-sm" id="txtReturnQuantity' + cnt + '" name="quant[3]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="1"></div>' +
 
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number" disabled id="txtTotal' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="0.5"></div>' +
-            
-            
+
+
 
             '<div class="display_none col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6" style="position:absolute; right:97%">' +
 
@@ -782,7 +786,7 @@ namespace PurchasesNew {
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
             var Storeid = 1;
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', () => {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), ModeItmes, () => {
                 let id = sysInternal_Comm.Itemid;
                 debugger
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val()))) return
@@ -790,7 +794,7 @@ namespace PurchasesNew {
                 $("#txt_ItemID" + NumCnt + "").val(id);
                 let ItemCode = '';
                 let ItemID = id;
-                let Mode = 3;
+                let Mode = ModeItmes;
                 Ajax.Callsync({
                     type: "Get",
                     url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
@@ -810,9 +814,10 @@ namespace PurchasesNew {
 
                                 $('#txtServiceName' + NumCnt + '').val((lang == "ar" ? GetItemInfo[0].It_DescA : GetItemInfo[0].it_DescE));
                                 $('#txtServiceCode' + NumCnt + '').val(GetItemInfo[0].ItemCode);
-                                $('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
-                                $('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
+                                //$('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
                                 $('#txtQuantity' + NumCnt + '').val('1');
+                                $('#txtPrice' + NumCnt + '').val("0");
+                                //$('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
 
                                 $('#txtServiceName' + NumCnt + '').attr('disabled', 'disabled');
                                 $('#txtServiceCode' + NumCnt + '').attr('disabled', 'disabled');
@@ -850,7 +855,7 @@ namespace PurchasesNew {
             var Storeid = 1;
             let ItemCode = $("#txtServiceCode" + cnt).val();
             let ItemID = 0;
-            let Mode = 3;
+            let Mode = ModeItmes;
             Ajax.Callsync({
                 type: "Get",
                 url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
@@ -947,12 +952,12 @@ namespace PurchasesNew {
             let Typeuom = $("#ddlTypeuom" + cnt);
             let OnhandQty = $('option:selected', Typeuom).attr('data-OnhandQty');
 
-            if (Number(txtQuantityValue) > Number(OnhandQty)) {
+            //if (Number(txtQuantityValue) > Number(OnhandQty)) {
 
-                DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
-                $("#txtQuantity" + cnt).val(OnhandQty);
-                Errorinput($("#txtQuantity" + cnt));
-            }
+            //    DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
+            //    $("#txtQuantity" + cnt).val(OnhandQty);
+            //    Errorinput($("#txtQuantity" + cnt));
+            //}
 
             totalRow(cnt);
 
@@ -1033,17 +1038,18 @@ namespace PurchasesNew {
     function Disbly_BuildControls(cnt: number, SlsInvoiceItemsDetails: Array<IQ_GetPurReceiveItem>) {
         debugger
         $("#btnAddDetails").addClass("display_none");
-        $("#btn_minus" + cnt).addClass("display_none"); 
-        $("#txt_StatusFlag" + cnt).val(""); 
+        $("#btn_minus" + cnt).addClass("display_none");
+        $("#txt_StatusFlag" + cnt).val("");
         $("#txtSerial" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].Serial);
         $("#txtQuantity" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].RecQty);
         $("#txtServiceCode" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].it_itemCode);
         $("#txtServiceName" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].it_DescA);
-        $("#txtPrice" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].RecUnitPrice); 
+        $("#txtPrice" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].RecUnitPrice);
         $("#txtTax_Rate" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].VatPrc);
-        $("#txtReturnQuantity" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].TotRetQty); 
-        $("#txtTax" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].VatAmount.toFixed(2)); 
+        $("#txtReturnQuantity" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].TotRetQty);
+        $("#txtTax" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].VatAmount.toFixed(2));
         $("#txt_ItemID" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].ItemID);
+        $("#txtTotal" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].NetUnitCost);
         filldlltypeuom(cnt, SlsInvoiceItemsDetails);
 
     }
@@ -1053,7 +1059,7 @@ namespace PurchasesNew {
         var Storeid = 1;
         let ItemCode = '';
         let ItemID = SlsInvoiceItemsDetails[cnt].ItemID;
-        let Mode = 3;
+        let Mode = ModeItmes;
         let GetItemInfo: Array<Iproc_GetItemInfo_Result> = new Array<Iproc_GetItemInfo_Result>();
         Ajax.Callsync({
             type: "Get",
@@ -1092,18 +1098,18 @@ namespace PurchasesNew {
                 }
             }
         }
-        if (CanAdd) { 
+        if (CanAdd) {
             CountItems = CountItems + 1;
             BuildControls(CountGrid);
             $("#txt_StatusFlag" + CountGrid).val("i"); //In Insert mode         
             $("#txtServiceCode" + CountGrid).removeAttr("disabled");
-            $("#btnSearchService" + CountGrid).removeAttr("disabled"); 
+            $("#btnSearchService" + CountGrid).removeAttr("disabled");
             $("#txtQuantity" + CountGrid).removeAttr("disabled");
-            $("#txtPrice" + CountGrid).removeAttr("disabled");  
+            $("#txtPrice" + CountGrid).removeAttr("disabled");
             $("#ddlTypeuom" + CountGrid).removeAttr("disabled");
             $("#btn_minus" + CountGrid).removeClass("display_none");
             $("#btn_minus" + CountGrid).removeAttr("disabled");
-            CountGrid++;  
+            CountGrid++;
             Insert_Serial();
 
         }
@@ -1115,7 +1121,7 @@ namespace PurchasesNew {
             CountItems = CountItems - 1;
             ComputeTotals();
             Insert_Serial();
-             
+
             $("#ddlFamily" + RecNo).val("99");
             $("#ddlItem" + RecNo).val("99");
             $("#txtQuantity" + RecNo).val("99");
@@ -1140,7 +1146,7 @@ namespace PurchasesNew {
         var CountTotal = 0;
         var ItemCount = 0;
 
-        for (let i = 0; i < CountGrid ; i++) {
+        for (let i = 0; i < CountGrid; i++) {
             var flagvalue = $("#txt_StatusFlag" + i).val();
             if (flagvalue != "d" && flagvalue != "m") {
 
@@ -1157,7 +1163,7 @@ namespace PurchasesNew {
 
         $("#txtTo_be_Paid").val(To_be_Paid)
 
-        
+
     }
     function Insert_Serial() {
 
@@ -1258,7 +1264,7 @@ namespace PurchasesNew {
 
                 return false
             }
-            else if (($("#txtPrice" + rowcount).val() == "" || $("#txtPrice" + rowcount).val() == "0.00" || $("#txtPrice" + rowcount).val() == 0) && ($("#txt_StatusFlag" + rowcount).val() != 'd')) {
+            else if (($("#txtPrice" + rowcount).val() == "" || $("#txtPrice" + rowcount).val() == "0" || $("#txtPrice" + rowcount).val() == 0) && ($("#txt_StatusFlag" + rowcount).val() != 'd')) {
 
                 MessageBox.Show("  برجاءادخال السعر الشراء", "خطأ");
                 Errorinput($("#txtPrice" + rowcount));
@@ -1311,22 +1317,22 @@ namespace PurchasesNew {
         ReceiveModel.TrType = 0//0 invoice 1 return
         ReceiveModel.PurRecType = 1; //  retail PurRecType 
         ReceiveModel.TrDate = $('#txtDate').val();
-         ReceiveModel.Status = 1; 
+        ReceiveModel.Status = 1;
         ReceiveModel.SalesmanId = 0;
         ReceiveModel.VendorID = 0;
         ReceiveModel.VendorInvNo = "";
         ReceiveModel.VATType = 1;
         ReceiveModel.CurrencyID = 1;
         ReceiveModel.CurrencyRate = 1;
-        ReceiveModel.TotalFC =1;
+        ReceiveModel.TotalFC = 1;
         ReceiveModel.Remarks = "";
-         
+
 
         ReceiveModel.NetAdditionVat = 0;
         ReceiveModel.NetAdditionCost = 0;
         ReceiveModel.NetDue = 0;
-        ReceiveModel.VatAmount =0;
-        ReceiveModel.Total = 0;
+        ReceiveModel.VatAmount = 0;
+        ReceiveModel.Total = Number($('#txtTotal').val());
 
         debugger
         // Details Receive items
@@ -1348,15 +1354,16 @@ namespace PurchasesNew {
 
                 let stockqty: number = (Number($('#txtQuantity' + i).val()) * Number(Rate_data));
 
+                ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.RecStockQty = stockqty;//
+                ReceiveItemSingleModel.StockUnitCost = stockqty;//
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc;//$("#txtTax" + i).val();txtTotal
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotAddons" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPriceFc" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = $("#txtAddons" + i).val();
-                ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 0;
 
 
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
@@ -1379,9 +1386,9 @@ namespace PurchasesNew {
                 ReceiveItemSingleModel.RecStockQty = stockqty;//
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPriceFc" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = $("#txtAddons" + i).val();
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotAddons" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 0;
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc;//$("#txtTax" + i).val();txtTotal
@@ -1400,7 +1407,17 @@ namespace PurchasesNew {
         }
 
         // Details Receive charges
-       
+        if (AddNew == true) {
+
+            ReceiveChargesSingleModel = new I_Pur_Tr_ReceiveCharges();
+            ReceiveChargesSingleModel.ReceiveID = 0;
+            ReceiveChargesSingleModel.Amount = 1;
+            ReceiveChargesSingleModel.ChargeID = 3;
+            ReceiveChargesSingleModel.isPaidByVendor = true;
+            ReceiveChargesSingleModel.NetAtferVat = Number($('#txtTotal').val());
+            chargesDetailsModel.push(ReceiveChargesSingleModel)
+        }
+
         MasterDetailModel.I_Pur_TR_Receive = ReceiveModel;
         MasterDetailModel.I_Pur_TR_ReceiveItems = ReceiveItemsDetailsModel;
         MasterDetailModel.I_Pur_Tr_ReceiveCharges = chargesDetailsModel;//I_Pur_Tr_ReceiveCharges
@@ -1423,8 +1440,8 @@ namespace PurchasesNew {
                 if (result.IsSuccess == true) {
                     let res = result.Response as PurReceiveMasterDetails;
                     DisplayMassage(" تم اصدار  فاتورة رقم  " + res.I_Pur_TR_Receive.TrNo + " ", "invoice number" + res.I_Pur_TR_Receive.TrNo + "has been issued", MessageType.Succeed);
- 
-                  
+
+
                 } else {
 
                     DisplayMassage(" هناك خطـأ  ", "Error", MessageType.Error);
@@ -1437,9 +1454,9 @@ namespace PurchasesNew {
     function Assign() {
 
         debugger;
-        PurMasterDetails = new PurchasesMasterDetails(); 
-        Bal = 0; 
-        DocumentActions.AssignToModel(PurMasterDetails.Purchases_Master); 
+        PurMasterDetails = new PurchasesMasterDetails();
+        Bal = 0;
+        DocumentActions.AssignToModel(PurMasterDetails.Purchases_Master);
         PurMasterDetails.Purchases_Master.TrNo = Number($('#txtNumber').val());
         PurMasterDetails.Purchases_Master.Tr_Date = $('#txtDate').val();
         PurMasterDetails.Purchases_Master.ID_Supplier = Number(ID_Supp);
@@ -1447,7 +1464,7 @@ namespace PurchasesNew {
         PurMasterDetails.Purchases_Master.Total_Amount = Number($('#txtTotal').val());
         PurMasterDetails.Purchases_Master.Paid_Up = Number($('#txtPaid_Up').val());
         PurMasterDetails.Purchases_Master.To_be_Paid = Number($('#txtTo_be_Paid').val());
-        PurMasterDetails.Purchases_Master.REMARKS = $('#txtRemarks').val(); 
+        PurMasterDetails.Purchases_Master.REMARKS = $('#txtRemarks').val();
         Bal = Number($('#txtPaid_Up').val());
 
 
@@ -1474,11 +1491,11 @@ namespace PurchasesNew {
                     else {
                         AssignNew();
                     }
-                 
+
 
 
                     MessageBox.Show("تم الحفظ بنجاح", "تم");
-                    
+
 
                     btnBack_onclick();
 
@@ -1655,7 +1672,7 @@ namespace PurchasesNew {
         //$("#txtTo_be_Paid").removeAttr("disabled");
         $("#txtRemarks").removeAttr("disabled");
         //remove_disabled_Grid_Controls();
-        for (var i = 0; i < CountGrid ; i++) {
+        for (var i = 0; i < CountGrid; i++) {
 
             $("#txtQuantityRetrun" + i).removeAttr("disabled");
             $("#txtPrice" + i).removeAttr("disabled");
@@ -1698,7 +1715,7 @@ namespace PurchasesNew {
 
                 BuildControls(i);
                 Disbly_BuildControls(i, AllGetStokMasterDetail);
-                CountGrid ++;
+                CountGrid++;
             }
 
             disabled_Grid_Controls();
@@ -1762,7 +1779,7 @@ namespace PurchasesNew {
                     } else {
 
                         Update();
-                        
+
 
 
 
@@ -1842,7 +1859,7 @@ namespace PurchasesNew {
         $("#txtRemarks").removeAttr("disabled");
 
 
-        for (var i = 0; i < CountGrid ; i++) {
+        for (var i = 0; i < CountGrid; i++) {
             $("#ddlfamilly_Cat" + i).removeAttr("disabled");
             $("#Family" + i).removeAttr("disabled");
             $("#Items" + i).removeAttr("disabled");
@@ -1865,7 +1882,7 @@ namespace PurchasesNew {
         $("#txtTo_be_Paid").attr("disabled", "disabled");
         $("#txtRemarks").attr("disabled", "disabled");
 
-        for (var i = 0; i < CountGrid ; i++) {
+        for (var i = 0; i < CountGrid; i++) {
 
             $("#ddlfamilly_Cat" + i).attr("disabled", "disabled");
             $("#Family" + i).attr("disabled", "disabled");

@@ -593,10 +593,12 @@ var SystemTools = /** @class */ (function () {
                         divpopupGrid.SelectedIndex = 1;
                         divpopupGrid.OnRowDoubleClicked = function () {
                             var OnHand = Details.filter(function (x) { return x.ItemID == Number(divpopupGrid.SelectedKey); });
-                            if (OnHand[0].StoreQty == 0) {
-                                DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
-                                $('#Popupitem').modal('hide');
-                                return false;
+                            if (Mode != 3) {
+                                if (OnHand[0].StoreQty == 0) {
+                                    DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                                    $('#Popupitem').modal('hide');
+                                    return false;
+                                }
                             }
                             sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);
                             OnSearchSelected();
@@ -652,10 +654,12 @@ var SystemTools = /** @class */ (function () {
                     divpopupGrid.SelectedIndex = 1;
                     divpopupGrid.OnRowDoubleClicked = function () {
                         var OnHand = Details.filter(function (x) { return x.ItemID == Number(divpopupGrid.SelectedKey); });
-                        if (OnHand[0].StoreQty == 0) {
-                            DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
-                            $('#Popupitem').modal('hide');
-                            return false;
+                        if (Mode != 3) {
+                            if (OnHand[0].StoreQty == 0) {
+                                DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                                $('#Popupitem').modal('hide');
+                                return false;
+                            }
                         }
                         sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);
                         OnSearchSelected();

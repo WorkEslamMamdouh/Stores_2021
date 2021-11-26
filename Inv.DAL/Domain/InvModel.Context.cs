@@ -108,7 +108,6 @@ namespace Inv.DAL.Domain
         public virtual DbSet<IQ_GetItemStoreInfo> IQ_GetItemStoreInfo { get; set; }
         public virtual DbSet<IQ_GetItemYearUom> IQ_GetItemYearUom { get; set; }
         public virtual DbSet<IQ_GetSlsInvoiceItem> IQ_GetSlsInvoiceItem { get; set; }
-        public virtual DbSet<G_STORE> G_STORE { get; set; }
         public virtual DbSet<G_VatNature> G_VatNature { get; set; }
         public virtual DbSet<GQ_GetStore> GQ_GetStore { get; set; }
         public virtual DbSet<A_CCDT_Types> A_CCDT_Types { get; set; }
@@ -129,6 +128,7 @@ namespace Inv.DAL.Domain
         public virtual DbSet<IQ_GetPurReceiveItem> IQ_GetPurReceiveItem { get; set; }
         public virtual DbSet<Purchases_Master> Purchases_Master { get; set; }
         public virtual DbSet<IQ_Purchases_Master> IQ_Purchases_Master { get; set; }
+        public virtual DbSet<G_STORE> G_STORE { get; set; }
     
         [DbFunction("InvEntities", "GFun_Companies")]
         public virtual IQueryable<GFun_Companies_Result> GFun_Companies(string userCode)
