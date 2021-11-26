@@ -243,7 +243,7 @@ var DefStore;
         Modelstore.BRA_CODE = $('#drpuserType_new').val();
         Modelstore.IsActive = checkactive.checked;
         Modelstore.StockAccCode = $('#drpinventoryAccount').val();
-        Modelstore.Fax = "1";
+        Modelstore.Fax = $('#txtCommission').val();
         Modelstore.STORE_TYPE = 1;
         Modelstore.TYPE_CODE = 1;
         if (flag == true) {
@@ -316,6 +316,7 @@ var DefStore;
         $('#txtphone2').val('');
         $('#txtaddress').val('');
         $('#txtNotes').val('');
+        $('#txtCommission').val('');
         $('#txtCreatedBy').val('');
         $('#txtCreatedAt').val('');
         $('#txtUpdatedBy').val('');
@@ -332,6 +333,7 @@ var DefStore;
         $('#txtphone2').attr('disabled', 'disabled');
         $('#txtaddress').attr('disabled', 'disabled');
         $('#txtNotes').attr('disabled', 'disabled');
+        $('#txtCommission').attr('disabled', 'disabled');
         $('#checkactive').attr('disabled', 'disabled');
     }
     function VALIDATEDIS() {
@@ -345,6 +347,7 @@ var DefStore;
         $('#txtphone2').removeAttr('disabled');
         $('#txtaddress').removeAttr('disabled');
         $('#txtNotes').removeAttr('disabled');
+        $('#txtCommission').removeAttr('disabled');
         $('#checkactive').removeAttr('disabled');
     }
     function validations() {
