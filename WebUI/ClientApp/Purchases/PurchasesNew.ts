@@ -36,6 +36,7 @@ namespace PurchasesNew {
     var PurMasterDetails: PurchasesMasterDetails = new PurchasesMasterDetails();
 
     var Purchases_Mas: Array<IQ_Purchases_Master> = new Array<IQ_Purchases_Master>();
+    var storeDetails: Array<G_STORE> = new Array<G_STORE>();
 
     var UpdatedModel: Array<Purchases_Master> = new Array<Purchases_Master>();
     var FilteredModel: Array<Purchases_Master> = new Array<Purchases_Master>();
@@ -66,6 +67,7 @@ namespace PurchasesNew {
     var txtdateopening: HTMLInputElement;
     var txtDateHeader: HTMLInputElement;
     var txtNationality: HTMLSelectElement;
+    var ddlStore: HTMLSelectElement;
     //buttons 
     var btnPresent: HTMLButtonElement;
     var btnClose: HTMLButtonElement;
@@ -95,15 +97,11 @@ namespace PurchasesNew {
     var btnAddDetailslebel: HTMLButtonElement;
     var searchbutmemreport: HTMLInputElement;
     var txtPaid_Up: HTMLInputElement;
-    var txtTo_be_Paid: HTMLInputElement;
-    var txt_Barcode: HTMLInputElement;
-    var txt_ItemName: HTMLInputElement;
-    var txt_Quantity: HTMLInputElement;
+    var txtTo_be_Paid: HTMLInputElement;   
     var btnPrint: HTMLButtonElement;
     var btnPrintTrview: HTMLButtonElement;
     var btnPrintTrPDF: HTMLButtonElement;
-    var btnPrintTrEXEL: HTMLButtonElement;
-    var btnAddQty: HTMLButtonElement;
+    var btnPrintTrEXEL: HTMLButtonElement; 
     //flags 
     var CountGrid = 0;
     var CountItems = 0;
@@ -120,6 +118,7 @@ namespace PurchasesNew {
     var vatType: number;
     var Tax_Type_Model: Tax_Type = new Tax_Type();
     var ModeItmes = 3;
+    var ReceiveID = 0;
 
     export function InitalizeComponent() {
 
@@ -142,6 +141,7 @@ namespace PurchasesNew {
         FillddlFamily();
         GetAllIItem();
         FillddlPaymentType();
+        FillddlStore();
     }
     function InitalizeControls() {
         debugger
@@ -161,13 +161,11 @@ namespace PurchasesNew {
         txtFromDate = document.getElementById("txtFromDate") as HTMLInputElement;
         txtToDate = document.getElementById("txtToDate") as HTMLInputElement;
         ddlVendor = document.getElementById("ddlVendor") as HTMLSelectElement;
+        ddlStore = document.getElementById("ddlStore") as HTMLSelectElement;
         ddlStateType = document.getElementById("ddlStateType") as HTMLSelectElement;
         searchbutmemreport = document.getElementById("searchbutmemreport") as HTMLInputElement;
         txtPaid_Up = document.getElementById("txtPaid_Up") as HTMLInputElement;
-        txtTo_be_Paid = document.getElementById("txtTo_be_Paid") as HTMLInputElement;
-        txt_Barcode = document.getElementById("txt_Barcode") as HTMLInputElement;
-        txt_ItemName = document.getElementById("txt_ItemName") as HTMLInputElement;
-        txt_Quantity = document.getElementById("txt_Quantity") as HTMLInputElement;
+        txtTo_be_Paid = document.getElementById("txtTo_be_Paid") as HTMLInputElement;   
         btnadd = document.getElementById("btnadd") as HTMLButtonElement;
         btnShow = document.getElementById("btnShow") as HTMLButtonElement;
         btnUpdate = document.getElementById("btnUpdate") as HTMLButtonElement;
@@ -175,8 +173,7 @@ namespace PurchasesNew {
         btnSave = document.getElementById("btnSave") as HTMLButtonElement;
         btnSupplierSearch = document.getElementById("btnSupplierSearch") as HTMLButtonElement;
         btnPaid_Up = document.getElementById("btnPaid_Up") as HTMLButtonElement;
-        btnprint = document.getElementById("btnprint") as HTMLButtonElement;
-        btnAddQty = document.getElementById("btnAddQty") as HTMLButtonElement;
+        btnprint = document.getElementById("btnprint") as HTMLButtonElement; 
         btnAddDetails = document.getElementById("btnAddDetails") as HTMLButtonElement;
         btnPrint = document.getElementById("btnPrint") as HTMLButtonElement;
         btnPrintTrview = document.getElementById("btnPrintTrview") as HTMLButtonElement;
@@ -207,9 +204,7 @@ namespace PurchasesNew {
         btnPrint.onclick = () => { printreport(4) };
         btnPrintTrview.onclick = () => { printreport(1) };
         btnPrintTrPDF.onclick = () => { printreport(2) };
-        btnPrintTrEXEL.onclick = () => { printreport(3) };
-        txt_Barcode.onchange = txt_Barcode_onchange;
-        btnAddQty.onclick = btnAddQty_onclick;
+        btnPrintTrEXEL.onclick = () => { printreport(3) };  
     }
 
     function txtPaid_Up_onchange() {
@@ -248,100 +243,38 @@ namespace PurchasesNew {
 
 
 
-    function txt_Barcode_onchange() {
-        debugger
-        let Serial = txt_Barcode.value;
+    
+   
+
+    function FillddlStore() {
+
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("Items", "Getbyserial"),
-            data: { Serial: Serial },
+            url: sys.apiUrl("StkDefStore", "GetAll"),
+            data: {
+                CompCode: compcode, BranchCode: BranchCode, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
+            },
             success: (d) => {
-
                 let result = d as BaseResponse;
                 if (result.IsSuccess) {
-                    //debugger
-                    DetailsBar = result.Response as Array<PRODUCT>;
-                    Qtys = DetailsBar[0].PRODUCT_QET;
-                    txt_ItemName.value = DetailsBar[0].PRODUCT_NAME
-                }
+                    storeDetails = result.Response as Array<G_STORE>;
 
+                    if (SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3) {
+                        let StoreID = SysSession.CurrentEnvironment.StoreID;
+                        storeDetails = storeDetails.filter(s => s.StoreId == StoreID);
+                    }
+
+                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescL", "Select Store");
+                    }
+                    else {
+                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescA", "اختر المستودع");
+                    }
+                    SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlStore option[value="null"]').remove()) : $('#ddlStore').prop('selectedIndex', 1);
+                }
             }
         });
     }
-    function btnAddQty_onclick() {
-        debugger
-        var CanAdd: boolean = true;
-        if (CountGrid > 0) {
-
-            for (var i = 0; i <= CountGrid; i++) {
-                CanAdd = Validation_Grid(i);
-                if (CanAdd == false) {
-                    break;
-                }
-            }
-        }
-        if (CanAdd) {
-            CountItems = CountItems + 1;
-            BuildControls(CountGrid);
-
-
-
-            $("#ddlfamilly_Cat" + CountGrid).removeAttr("disabled");
-            $("#Family" + CountGrid).removeAttr("disabled");
-            $("#Items" + CountGrid).removeAttr("disabled");
-            $("#txtQuantity" + CountGrid).removeAttr("disabled");
-            $("#txtPrice" + CountGrid).removeAttr("disabled");
-            $("#Sales_Price" + CountGrid).removeAttr("disabled");
-            $("#MinUnitPrice" + CountGrid).removeAttr("disabled");
-
-
-
-            $("#btn_minus" + CountGrid).removeClass("display_none");
-            $("#btn_minus" + CountGrid).removeAttr("disabled");
-            $("#txt_StatusFlag" + CountGrid).val("i");
-            debugger
-            var filter = DetailsBar[0].ID_CAT;
-            FamilyDetailsnew = FamilyDetails.filter(x => x.ID_CAT == filter)
-            $("#ddlfamilly_Cat" + CountGrid).val("" + FamilyDetailsnew[0].ID_familly_Cat + "");
-
-
-            let FamilyDetailsfilter = FamilyDetails.filter(x => x.ID_familly_Cat == Number($("#ddlfamilly_Cat" + CountGrid).val()))
-
-            $('#ddlFamily' + CountGrid).empty();
-            for (var i = 0; i < FamilyDetailsfilter.length; i++) {
-                $('#ddlFamily' + CountGrid).append('<option data-ID_CAT="' + FamilyDetailsfilter[i].ID_CAT + '" value="' + FamilyDetailsfilter[i].Name_CAT + '">');
-            }
-
-
-            let famliy = FamilyDetailsfilter.filter(x => x.ID_CAT == DetailsBar[0].ID_CAT)
-
-            $("#Family" + CountGrid).val("" + famliy[0].Name_CAT + "");
-            $("#Items" + CountGrid).val("" + DetailsBar[0].PRODUCT_NAME + "");
-            $("#txtQuantity" + CountGrid).val("" + Number(txt_Quantity.value) + "");
-
-
-
-            CountGrid += 1;
-
-
-            ComputeTotals();
-
-
-        }
-
-
-
-
-
-
-
-        txt_ItemName.value = "";
-        txt_Quantity.value = "";
-        txt_Barcode.value = "";
-
-    }
-
-
     function FillddlVendor() {
         Ajax.Callsync({
             type: "Get",
@@ -593,11 +526,19 @@ namespace PurchasesNew {
         Selected_Data = Get_IQ_Purchases_Master.filter(x => x.TrNo == Number(divMasterGrid.SelectedKey));
 
         ID_Supp = Selected_Data[0].ID_Supplier;
+        $("#ddlStore").attr("disabled", "disabled");
+        $("#ddlType").attr("disabled", "disabled");
+
+       
+
+        $("#ddlStore").addClass("display_none");
+        $("#ddlType").addClass("display_none");
+
 
         $("#rowData").removeClass("display_none");
         $("#divTotalSatistics").removeClass("display_none");
         DisplayData(Selected_Data);
-
+        ReceiveID = Selected_Data[0].ReceiveID;
 
     }
     function DisplayData(Selected_Data: Array<IQ_Purchases_Master>) {
@@ -605,6 +546,7 @@ namespace PurchasesNew {
 
         DocumentActions.RenderFromModel(Selected_Data[0]);
         BindGetOperationItemsGridData(Selected_Data[0].ReceiveID);
+
 
 
 
@@ -785,7 +727,7 @@ namespace PurchasesNew {
             let GetItemInfo: Array<Iproc_GetItemInfo_Result> = new Array<Iproc_GetItemInfo_Result>();
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
-            var Storeid = 1;
+            var Storeid = Number(ddlStore.value);
             sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), ModeItmes, () => {
                 let id = sysInternal_Comm.Itemid;
                 debugger
@@ -852,7 +794,7 @@ namespace PurchasesNew {
 
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
-            var Storeid = 1;
+            var Storeid = Number(ddlStore.value);
             let ItemCode = $("#txtServiceCode" + cnt).val();
             let ItemID = 0;
             let Mode = ModeItmes;
@@ -947,19 +889,22 @@ namespace PurchasesNew {
             if ($("#txt_StatusFlag" + cnt).val() != "i")
                 $("#txt_StatusFlag" + cnt).val("u");
 
-            var txtQuantityValue = $("#txtQuantity" + cnt).val();
+            if ($("#txt_StatusFlag" + cnt).val() != "i") {
+                $("#txt_StatusFlag" + cnt).val("u");
+            }
+            let total = Number($("#txtQuantity" + cnt).val()) * Number($("#txtPrice" + cnt).val());
+            let vatAmount = (Number(total) * Number($("#txtTax_Rate" + cnt).val())) / 100;
+            let totalAfterVat = Number(vatAmount.toFixed(2)) + Number(total.toFixed(2));
+            $('#txtTax_Rate' + cnt).val(Tax_Rate);
+            VatPrc = $("#txtTax_Rate" + cnt).val();
+            $("#txtTax" + cnt).val(vatAmount.toFixed(2));
+            $("#txtTotal" + cnt).val(total.toFixed(2));
+            $("#txtTotAfterTax" + cnt).val(totalAfterVat.toFixed(2));
+            $("#txtDiscountAmount" + cnt).val(((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100).toFixed(2));
+            $("#txtNetUnitPrice" + cnt).val((Number($("#txtPrice" + cnt).val()) - ((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100)));
+            //totalRow(cnt);
 
-            let Typeuom = $("#ddlTypeuom" + cnt);
-            let OnhandQty = $('option:selected', Typeuom).attr('data-OnhandQty');
-
-            //if (Number(txtQuantityValue) > Number(OnhandQty)) {
-
-            //    DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
-            //    $("#txtQuantity" + cnt).val(OnhandQty);
-            //    Errorinput($("#txtQuantity" + cnt));
-            //}
-
-            totalRow(cnt);
+            ComputeTotals();
 
         });
 
@@ -978,6 +923,7 @@ namespace PurchasesNew {
             $("#txtTotAfterTax" + cnt).val(totalAfterVat.toFixed(2));
             $("#txtDiscountAmount" + cnt).val(((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100).toFixed(2));
             $("#txtNetUnitPrice" + cnt).val((Number($("#txtPrice" + cnt).val()) - ((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100)));
+            //totalRow(cnt);
 
             ComputeTotals();
 
@@ -1056,7 +1002,7 @@ namespace PurchasesNew {
     function filldlltypeuom(cnt: number, SlsInvoiceItemsDetails: Array<IQ_GetPurReceiveItem>) {
 
 
-        var Storeid = 1;
+        var Storeid = Number(ddlStore.value);
         let ItemCode = '';
         let ItemID = SlsInvoiceItemsDetails[cnt].ItemID;
         let Mode = ModeItmes;
@@ -1111,7 +1057,7 @@ namespace PurchasesNew {
             $("#btn_minus" + CountGrid).removeAttr("disabled");
             CountGrid++;
             Insert_Serial();
-
+            ComputeTotals();
         }
     }
     function DeleteRow(RecNo: number) {
@@ -1311,9 +1257,10 @@ namespace PurchasesNew {
 
         /// if come from PurOrder
 
-        ReceiveModel.StoreID = 1;//main store
-        ReceiveModel.IsCash = true
+        ReceiveModel.StoreID = Number(ddlStore.value);//main store
+        ReceiveModel.IsCash = $('#ddlType').val() == '1' ? true : false;
 
+        ReceiveModel.ReceiveID = ReceiveID;
         ReceiveModel.TrType = 0//0 invoice 1 return
         ReceiveModel.PurRecType = 1; //  retail PurRecType 
         ReceiveModel.TrDate = $('#txtDate').val();
@@ -1356,14 +1303,15 @@ namespace PurchasesNew {
 
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.RecStockQty = stockqty;//
-                ReceiveItemSingleModel.StockUnitCost = stockqty;//
+                ReceiveItemSingleModel.StockUnitCost = $("#txtPrice" + i).val();//
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
+                ReceiveItemSingleModel.ReceiveRecQty = Number($('#txtQuantity' + i).val());
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc;//$("#txtTax" + i).val();txtTotal
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
                 ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = 0;
+                ReceiveItemSingleModel.UnitAddCost = 1;
 
 
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
@@ -1382,16 +1330,17 @@ namespace PurchasesNew {
 
                 let stockqty: number = (Number($('#txtQuantity' + i).val()) * Number(Rate_data));
 
-
-                ReceiveItemSingleModel.RecStockQty = stockqty;//
-                ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
-                ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = 0;
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
-                ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
+                ReceiveItemSingleModel.RecStockQty = stockqty;//
+                ReceiveItemSingleModel.StockUnitCost = $("#txtPrice" + i).val();//
+                ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
+                ReceiveItemSingleModel.ReceiveRecQty = Number($('#txtQuantity' + i).val());
+                ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc;//$("#txtTax" + i).val();txtTotal
+                ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 1;
 
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
 
@@ -1450,6 +1399,34 @@ namespace PurchasesNew {
         });
 
     }
+    function UpdateNew() {
+
+        MasterDetailModel.I_Pur_TR_Receive.PurOrderID = 0;
+        MasterDetailModel.UserCode = SysSession.CurrentEnvironment.UserCode;
+        MasterDetailModel.Token = "HGFD-" + SysSession.CurrentEnvironment.Token;
+        MasterDetailModel.I_Pur_TR_Receive.CreatedBy = SysSession.CurrentEnvironment.UserCode;
+        MasterDetailModel.I_Pur_TR_Receive.CreatedAt = DateTimeFormat(Date().toString());
+        debugger
+        console.log(MasterDetailModel);
+        Ajax.Callsync({
+            type: "POST",
+            url: sys.apiUrl("Purchases", "UpdateListPurchaseReceiveMasterDetail"),
+            data: JSON.stringify(MasterDetailModel),
+            success: (d) => {
+                let result = d as BaseResponse;
+                if (result.IsSuccess == true) {
+                    let res = result.Response as PurReceiveMasterDetails;
+                    DisplayMassage(" تم تعديل  فاتورة رقم  " + $('#txtNumber').val() + " ", "invoice number" + res.I_Pur_TR_Receive.TrNo + "has been issued", MessageType.Succeed);
+
+
+                } else {
+
+                    DisplayMassage(" هناك خطـأ  ", "Error", MessageType.Error);
+                }
+            }
+        });
+
+    }
     ////----------------------------------------------------- Div_items-------------------------------------------------------
     function Assign() {
 
@@ -1490,11 +1467,12 @@ namespace PurchasesNew {
                     }
                     else {
                         AssignNew();
+                        UpdateNew();
                     }
 
 
 
-                    MessageBox.Show("تم الحفظ بنجاح", "تم");
+                    //MessageBox.Show("تم الحفظ بنجاح", "تم");
 
 
                     btnBack_onclick();
@@ -1633,7 +1611,12 @@ namespace PurchasesNew {
 
         //remove_disabled_Grid_Controls();
 
+        $("#ddlStore").removeClass("display_none");
+        $("#ddlType").removeClass("display_none");
+
         $("#txtDate").removeAttr("disabled");
+        $("#ddlStore").removeAttr("disabled");
+        $("#ddlType").removeAttr("disabled");
         $("#txtPaid_Up").removeAttr("disabled");
         //$("#txtTo_be_Paid").removeAttr("disabled");
         $("#txtRemarks").removeAttr("disabled");
@@ -1665,22 +1648,16 @@ namespace PurchasesNew {
         $("#DivHederMaster").addClass("disabledDiv");
 
         $(".fontitm3").removeClass("display_none");
-        $("#btnAddDetails").removeClass("display_none");
+        //$("#btnAddDetails").removeClass("display_none");
 
         $("#txtDate").removeAttr("disabled");
         //$("#txtPaid_Up").removeAttr("disabled");
         //$("#txtTo_be_Paid").removeAttr("disabled");
         $("#txtRemarks").removeAttr("disabled");
+        $("#ddlStore").removeAttr("disabled");
+        $("#ddlType").removeAttr("disabled");
         //remove_disabled_Grid_Controls();
-        for (var i = 0; i < CountGrid; i++) {
-
-            $("#txtQuantityRetrun" + i).removeAttr("disabled");
-            $("#txtPrice" + i).removeAttr("disabled");
-            $("#Sales_Price" + i).removeAttr("disabled");
-            $("#MinUnitPrice" + i).removeAttr("disabled");
-
-        }
-
+ 
 
     }
     function btnBack_onclick() {
@@ -1722,6 +1699,8 @@ namespace PurchasesNew {
 
             DocumentActions.RenderFromModel(Selected_Data[0]);
         }
+        $("#ddlStore").attr("disabled", "disabled");
+        $("#ddlType").attr("disabled", "disabled");
         ComputeTotals();
     }
     function btnSave_onclick() {

@@ -30,6 +30,7 @@ var PurchasesNew;
     var OperationItemSingleModel = new IQ_Purchases_Details();
     var PurMasterDetails = new PurchasesMasterDetails();
     var Purchases_Mas = new Array();
+    var storeDetails = new Array();
     var UpdatedModel = new Array();
     var FilteredModel = new Array();
     var MasterDetailModel = new PurReceiveMasterDetails();
@@ -53,6 +54,7 @@ var PurchasesNew;
     var txtdateopening;
     var txtDateHeader;
     var txtNationality;
+    var ddlStore;
     //buttons 
     var btnPresent;
     var btnClose;
@@ -80,14 +82,10 @@ var PurchasesNew;
     var searchbutmemreport;
     var txtPaid_Up;
     var txtTo_be_Paid;
-    var txt_Barcode;
-    var txt_ItemName;
-    var txt_Quantity;
     var btnPrint;
     var btnPrintTrview;
     var btnPrintTrPDF;
     var btnPrintTrEXEL;
-    var btnAddQty;
     //flags 
     var CountGrid = 0;
     var CountItems = 0;
@@ -104,6 +102,7 @@ var PurchasesNew;
     var vatType;
     var Tax_Type_Model = new Tax_Type();
     var ModeItmes = 3;
+    var ReceiveID = 0;
     function InitalizeComponent() {
         debugger;
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
@@ -117,6 +116,7 @@ var PurchasesNew;
         FillddlFamily();
         GetAllIItem();
         FillddlPaymentType();
+        FillddlStore();
     }
     PurchasesNew.InitalizeComponent = InitalizeComponent;
     function InitalizeControls() {
@@ -132,13 +132,11 @@ var PurchasesNew;
         txtFromDate = document.getElementById("txtFromDate");
         txtToDate = document.getElementById("txtToDate");
         ddlVendor = document.getElementById("ddlVendor");
+        ddlStore = document.getElementById("ddlStore");
         ddlStateType = document.getElementById("ddlStateType");
         searchbutmemreport = document.getElementById("searchbutmemreport");
         txtPaid_Up = document.getElementById("txtPaid_Up");
         txtTo_be_Paid = document.getElementById("txtTo_be_Paid");
-        txt_Barcode = document.getElementById("txt_Barcode");
-        txt_ItemName = document.getElementById("txt_ItemName");
-        txt_Quantity = document.getElementById("txt_Quantity");
         btnadd = document.getElementById("btnadd");
         btnShow = document.getElementById("btnShow");
         btnUpdate = document.getElementById("btnUpdate");
@@ -147,7 +145,6 @@ var PurchasesNew;
         btnSupplierSearch = document.getElementById("btnSupplierSearch");
         btnPaid_Up = document.getElementById("btnPaid_Up");
         btnprint = document.getElementById("btnprint");
-        btnAddQty = document.getElementById("btnAddQty");
         btnAddDetails = document.getElementById("btnAddDetails");
         btnPrint = document.getElementById("btnPrint");
         btnPrintTrview = document.getElementById("btnPrintTrview");
@@ -170,8 +167,6 @@ var PurchasesNew;
         btnPrintTrview.onclick = function () { printreport(1); };
         btnPrintTrPDF.onclick = function () { printreport(2); };
         btnPrintTrEXEL.onclick = function () { printreport(3); };
-        txt_Barcode.onchange = txt_Barcode_onchange;
-        btnAddQty.onclick = btnAddQty_onclick;
     }
     function txtPaid_Up_onchange() {
         ComputeTotals();
@@ -199,67 +194,31 @@ var PurchasesNew;
         ReturnedDate = yyyy + '-' + mm + '-' + dd;
         return ReturnedDate;
     }
-    function txt_Barcode_onchange() {
-        debugger;
-        var Serial = txt_Barcode.value;
+    function FillddlStore() {
         Ajax.Callsync({
             type: "Get",
-            url: sys.apiUrl("Items", "Getbyserial"),
-            data: { Serial: Serial },
+            url: sys.apiUrl("StkDefStore", "GetAll"),
+            data: {
+                CompCode: compcode, BranchCode: BranchCode, UserCode: SysSession.CurrentEnvironment.UserCode, Token: "HGFD-" + SysSession.CurrentEnvironment.Token
+            },
             success: function (d) {
                 var result = d;
                 if (result.IsSuccess) {
-                    //debugger
-                    DetailsBar = result.Response;
-                    Qtys = DetailsBar[0].PRODUCT_QET;
-                    txt_ItemName.value = DetailsBar[0].PRODUCT_NAME;
+                    storeDetails = result.Response;
+                    if (SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3) {
+                        var StoreID_1 = SysSession.CurrentEnvironment.StoreID;
+                        storeDetails = storeDetails.filter(function (s) { return s.StoreId == StoreID_1; });
+                    }
+                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
+                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescL", "Select Store");
+                    }
+                    else {
+                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescA", "اختر المستودع");
+                    }
+                    SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlStore option[value="null"]').remove()) : $('#ddlStore').prop('selectedIndex', 1);
                 }
             }
         });
-    }
-    function btnAddQty_onclick() {
-        debugger;
-        var CanAdd = true;
-        if (CountGrid > 0) {
-            for (var i = 0; i <= CountGrid; i++) {
-                CanAdd = Validation_Grid(i);
-                if (CanAdd == false) {
-                    break;
-                }
-            }
-        }
-        if (CanAdd) {
-            CountItems = CountItems + 1;
-            BuildControls(CountGrid);
-            $("#ddlfamilly_Cat" + CountGrid).removeAttr("disabled");
-            $("#Family" + CountGrid).removeAttr("disabled");
-            $("#Items" + CountGrid).removeAttr("disabled");
-            $("#txtQuantity" + CountGrid).removeAttr("disabled");
-            $("#txtPrice" + CountGrid).removeAttr("disabled");
-            $("#Sales_Price" + CountGrid).removeAttr("disabled");
-            $("#MinUnitPrice" + CountGrid).removeAttr("disabled");
-            $("#btn_minus" + CountGrid).removeClass("display_none");
-            $("#btn_minus" + CountGrid).removeAttr("disabled");
-            $("#txt_StatusFlag" + CountGrid).val("i");
-            debugger;
-            var filter = DetailsBar[0].ID_CAT;
-            FamilyDetailsnew = FamilyDetails.filter(function (x) { return x.ID_CAT == filter; });
-            $("#ddlfamilly_Cat" + CountGrid).val("" + FamilyDetailsnew[0].ID_familly_Cat + "");
-            var FamilyDetailsfilter = FamilyDetails.filter(function (x) { return x.ID_familly_Cat == Number($("#ddlfamilly_Cat" + CountGrid).val()); });
-            $('#ddlFamily' + CountGrid).empty();
-            for (var i = 0; i < FamilyDetailsfilter.length; i++) {
-                $('#ddlFamily' + CountGrid).append('<option data-ID_CAT="' + FamilyDetailsfilter[i].ID_CAT + '" value="' + FamilyDetailsfilter[i].Name_CAT + '">');
-            }
-            var famliy = FamilyDetailsfilter.filter(function (x) { return x.ID_CAT == DetailsBar[0].ID_CAT; });
-            $("#Family" + CountGrid).val("" + famliy[0].Name_CAT + "");
-            $("#Items" + CountGrid).val("" + DetailsBar[0].PRODUCT_NAME + "");
-            $("#txtQuantity" + CountGrid).val("" + Number(txt_Quantity.value) + "");
-            CountGrid += 1;
-            ComputeTotals();
-        }
-        txt_ItemName.value = "";
-        txt_Quantity.value = "";
-        txt_Barcode.value = "";
     }
     function FillddlVendor() {
         Ajax.Callsync({
@@ -464,9 +423,14 @@ var PurchasesNew;
         Selected_Data = new Array();
         Selected_Data = Get_IQ_Purchases_Master.filter(function (x) { return x.TrNo == Number(divMasterGrid.SelectedKey); });
         ID_Supp = Selected_Data[0].ID_Supplier;
+        $("#ddlStore").attr("disabled", "disabled");
+        $("#ddlType").attr("disabled", "disabled");
+        $("#ddlStore").addClass("display_none");
+        $("#ddlType").addClass("display_none");
         $("#rowData").removeClass("display_none");
         $("#divTotalSatistics").removeClass("display_none");
         DisplayData(Selected_Data);
+        ReceiveID = Selected_Data[0].ReceiveID;
     }
     function DisplayData(Selected_Data) {
         debugger;
@@ -603,7 +567,7 @@ var PurchasesNew;
             var GetItemInfo = new Array();
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
-            var Storeid = 1;
+            var Storeid = Number(ddlStore.value);
             sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), ModeItmes, function () {
                 var id = sysInternal_Comm.Itemid;
                 debugger;
@@ -659,7 +623,7 @@ var PurchasesNew;
             var GetItemInfo1 = new Array();
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
-            var Storeid = 1;
+            var Storeid = Number(ddlStore.value);
             var ItemCode = $("#txtServiceCode" + cnt).val();
             var ItemID = 0;
             var Mode = ModeItmes;
@@ -729,15 +693,21 @@ var PurchasesNew;
         $("#txtQuantity" + cnt).on('keyup', function () {
             if ($("#txt_StatusFlag" + cnt).val() != "i")
                 $("#txt_StatusFlag" + cnt).val("u");
-            var txtQuantityValue = $("#txtQuantity" + cnt).val();
-            var Typeuom = $("#ddlTypeuom" + cnt);
-            var OnhandQty = $('option:selected', Typeuom).attr('data-OnhandQty');
-            //if (Number(txtQuantityValue) > Number(OnhandQty)) {
-            //    DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
-            //    $("#txtQuantity" + cnt).val(OnhandQty);
-            //    Errorinput($("#txtQuantity" + cnt));
-            //}
-            totalRow(cnt);
+            if ($("#txt_StatusFlag" + cnt).val() != "i") {
+                $("#txt_StatusFlag" + cnt).val("u");
+            }
+            var total = Number($("#txtQuantity" + cnt).val()) * Number($("#txtPrice" + cnt).val());
+            var vatAmount = (Number(total) * Number($("#txtTax_Rate" + cnt).val())) / 100;
+            var totalAfterVat = Number(vatAmount.toFixed(2)) + Number(total.toFixed(2));
+            $('#txtTax_Rate' + cnt).val(Tax_Rate);
+            VatPrc = $("#txtTax_Rate" + cnt).val();
+            $("#txtTax" + cnt).val(vatAmount.toFixed(2));
+            $("#txtTotal" + cnt).val(total.toFixed(2));
+            $("#txtTotAfterTax" + cnt).val(totalAfterVat.toFixed(2));
+            $("#txtDiscountAmount" + cnt).val(((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100).toFixed(2));
+            $("#txtNetUnitPrice" + cnt).val((Number($("#txtPrice" + cnt).val()) - ((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100)));
+            //totalRow(cnt);
+            ComputeTotals();
         });
         $("#txtPrice" + cnt).on('keyup', function () {
             if ($("#txt_StatusFlag" + cnt).val() != "i") {
@@ -753,6 +723,7 @@ var PurchasesNew;
             $("#txtTotAfterTax" + cnt).val(totalAfterVat.toFixed(2));
             $("#txtDiscountAmount" + cnt).val(((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100).toFixed(2));
             $("#txtNetUnitPrice" + cnt).val((Number($("#txtPrice" + cnt).val()) - ((Number($("#txtDiscountPrc" + cnt).val()) * Number($("#txtPrice" + cnt).val())) / 100)));
+            //totalRow(cnt);
             ComputeTotals();
         });
         $("#txtDiscountPrc" + cnt).on('keyup', function () {
@@ -809,7 +780,7 @@ var PurchasesNew;
         filldlltypeuom(cnt, SlsInvoiceItemsDetails);
     }
     function filldlltypeuom(cnt, SlsInvoiceItemsDetails) {
-        var Storeid = 1;
+        var Storeid = Number(ddlStore.value);
         var ItemCode = '';
         var ItemID = SlsInvoiceItemsDetails[cnt].ItemID;
         var Mode = ModeItmes;
@@ -860,6 +831,7 @@ var PurchasesNew;
             $("#btn_minus" + CountGrid).removeAttr("disabled");
             CountGrid++;
             Insert_Serial();
+            ComputeTotals();
         }
     }
     function DeleteRow(RecNo) {
@@ -1003,8 +975,9 @@ var PurchasesNew;
         ReceiveModel.CompCode = Number(compcode);
         ReceiveModel.BranchCode = Number(BranchCode);
         /// if come from PurOrder
-        ReceiveModel.StoreID = 1; //main store
-        ReceiveModel.IsCash = true;
+        ReceiveModel.StoreID = Number(ddlStore.value); //main store
+        ReceiveModel.IsCash = $('#ddlType').val() == '1' ? true : false;
+        ReceiveModel.ReceiveID = ReceiveID;
         ReceiveModel.TrType = 0; //0 invoice 1 return
         ReceiveModel.PurRecType = 1; //  retail PurRecType 
         ReceiveModel.TrDate = $('#txtDate').val();
@@ -1038,14 +1011,15 @@ var PurchasesNew;
                 var stockqty = (Number($('#txtQuantity' + i).val()) * Number(Rate_data));
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.RecStockQty = stockqty; //
-                ReceiveItemSingleModel.StockUnitCost = stockqty; //
+                ReceiveItemSingleModel.StockUnitCost = $("#txtPrice" + i).val(); //
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
+                ReceiveItemSingleModel.ReceiveRecQty = Number($('#txtQuantity' + i).val());
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc; //$("#txtTax" + i).val();txtTotal
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
                 ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = 0;
+                ReceiveItemSingleModel.UnitAddCost = 1;
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
             }
             if (StatusFlag == "u") {
@@ -1057,15 +1031,17 @@ var PurchasesNew;
                 ReceiveItemSingleModel.RecQty = Number($('#txtQuantity' + i).val());
                 var Rate_data = Number($('option:selected', $("#ddlTypeuom" + i)).attr('data-rate'));
                 var stockqty = (Number($('#txtQuantity' + i).val()) * Number(Rate_data));
-                ReceiveItemSingleModel.RecStockQty = stockqty; //
-                ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
-                ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = 0;
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
-                ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
+                ReceiveItemSingleModel.RecStockQty = stockqty; //
+                ReceiveItemSingleModel.StockUnitCost = $("#txtPrice" + i).val(); //
+                ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
+                ReceiveItemSingleModel.ReceiveRecQty = Number($('#txtQuantity' + i).val());
+                ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc; //$("#txtTax" + i).val();txtTotal
+                ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 1;
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
             }
             if (StatusFlag == "d") {
@@ -1115,6 +1091,30 @@ var PurchasesNew;
             }
         });
     }
+    function UpdateNew() {
+        MasterDetailModel.I_Pur_TR_Receive.PurOrderID = 0;
+        MasterDetailModel.UserCode = SysSession.CurrentEnvironment.UserCode;
+        MasterDetailModel.Token = "HGFD-" + SysSession.CurrentEnvironment.Token;
+        MasterDetailModel.I_Pur_TR_Receive.CreatedBy = SysSession.CurrentEnvironment.UserCode;
+        MasterDetailModel.I_Pur_TR_Receive.CreatedAt = DateTimeFormat(Date().toString());
+        debugger;
+        console.log(MasterDetailModel);
+        Ajax.Callsync({
+            type: "POST",
+            url: sys.apiUrl("Purchases", "UpdateListPurchaseReceiveMasterDetail"),
+            data: JSON.stringify(MasterDetailModel),
+            success: function (d) {
+                var result = d;
+                if (result.IsSuccess == true) {
+                    var res = result.Response;
+                    DisplayMassage(" تم تعديل  فاتورة رقم  " + $('#txtNumber').val() + " ", "invoice number" + res.I_Pur_TR_Receive.TrNo + "has been issued", MessageType.Succeed);
+                }
+                else {
+                    DisplayMassage(" هناك خطـأ  ", "Error", MessageType.Error);
+                }
+            }
+        });
+    }
     ////----------------------------------------------------- Div_items-------------------------------------------------------
     function Assign() {
         debugger;
@@ -1148,8 +1148,9 @@ var PurchasesNew;
                     }
                     else {
                         AssignNew();
+                        UpdateNew();
                     }
-                    MessageBox.Show("تم الحفظ بنجاح", "تم");
+                    //MessageBox.Show("تم الحفظ بنجاح", "تم");
                     btnBack_onclick();
                     //Display();
                     btnShow_onclick();
@@ -1244,7 +1245,11 @@ var PurchasesNew;
         $(".fontitm3").removeClass("display_none");
         $("#btnAddDetails").removeClass("display_none");
         //remove_disabled_Grid_Controls();
+        $("#ddlStore").removeClass("display_none");
+        $("#ddlType").removeClass("display_none");
         $("#txtDate").removeAttr("disabled");
+        $("#ddlStore").removeAttr("disabled");
+        $("#ddlType").removeAttr("disabled");
         $("#txtPaid_Up").removeAttr("disabled");
         //$("#txtTo_be_Paid").removeAttr("disabled");
         $("#txtRemarks").removeAttr("disabled");
@@ -1267,18 +1272,14 @@ var PurchasesNew;
         //$("#DivHederMaster").attr("disabled", "disabled").off('click');
         $("#DivHederMaster").addClass("disabledDiv");
         $(".fontitm3").removeClass("display_none");
-        $("#btnAddDetails").removeClass("display_none");
+        //$("#btnAddDetails").removeClass("display_none");
         $("#txtDate").removeAttr("disabled");
         //$("#txtPaid_Up").removeAttr("disabled");
         //$("#txtTo_be_Paid").removeAttr("disabled");
         $("#txtRemarks").removeAttr("disabled");
+        $("#ddlStore").removeAttr("disabled");
+        $("#ddlType").removeAttr("disabled");
         //remove_disabled_Grid_Controls();
-        for (var i = 0; i < CountGrid; i++) {
-            $("#txtQuantityRetrun" + i).removeAttr("disabled");
-            $("#txtPrice" + i).removeAttr("disabled");
-            $("#Sales_Price" + i).removeAttr("disabled");
-            $("#MinUnitPrice" + i).removeAttr("disabled");
-        }
     }
     function btnBack_onclick() {
         if (AddNew == true) {
@@ -1311,6 +1312,8 @@ var PurchasesNew;
             disabled_Grid_Controls();
             DocumentActions.RenderFromModel(Selected_Data[0]);
         }
+        $("#ddlStore").attr("disabled", "disabled");
+        $("#ddlType").attr("disabled", "disabled");
         ComputeTotals();
     }
     function btnSave_onclick() {
