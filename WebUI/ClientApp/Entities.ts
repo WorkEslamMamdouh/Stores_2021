@@ -993,6 +993,7 @@ class GQ_GetStore extends SecurityClass {
         this.BRA_DESCL = "";
         this.ACC_DESCA = "";
         this.ACC_DESCL = "";
+        this.CommissionPRC = 0;
         this.StatusFlag = "";
 
     }
@@ -1021,6 +1022,7 @@ class GQ_GetStore extends SecurityClass {
     public BRA_DESCL: string;
     public ACC_DESCA: string;
     public ACC_DESCL: string;
+    public CommissionPRC: number;
     public StatusFlag: string;
 
 }
@@ -1608,6 +1610,7 @@ class G_STORE extends SecurityClass {
         this.CreatedBy = "";
         this.UpdatedAt = "";
         this.UpdatedBy = "";
+        this.CommissionPRC = 0;
     }
     public StoreId: number;
     public BranchId: number;
@@ -1629,6 +1632,7 @@ class G_STORE extends SecurityClass {
     public CreatedBy: string;
     public UpdatedAt: string;
     public UpdatedBy: string;
+    public CommissionPRC: number;
 }
 
 

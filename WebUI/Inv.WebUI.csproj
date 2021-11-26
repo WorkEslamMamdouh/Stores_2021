@@ -1405,6 +1405,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Reports\Report\Print\Rpt_Prnt_deliverynoteAr.rdlc">
+      <SubType>Designer</SubType>
+    </Content>
     <EmbeddedResource Include="Reports\Report\Reports\Rpt_ACCExpensesAr.rdlc" />
     <EmbeddedResource Include="Reports\Report\Reports\Rpt_ACCIncomeAr.rdlc" />
     <EmbeddedResource Include="Reports\Report\Reports\Rpt_GardDetailAr.rdlc" />

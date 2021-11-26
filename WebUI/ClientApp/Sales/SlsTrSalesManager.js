@@ -103,6 +103,7 @@ var SlsTrSalesManager;
     var btnPrintTrPDF;
     var btnPrintTrEXEL;
     var btnPrintTransaction;
+    var btndeliverynote;
     //var btnPrintInvoicePrice: HTMLButtonElement;
     var btnPrintslip;
     // giedView
@@ -225,6 +226,7 @@ var SlsTrSalesManager;
         btnPrintTrEXEL = document.getElementById("btnPrintTrEXEL");
         btnPrintTransaction = document.getElementById("btnPrintTransaction");
         btnPrintslip = document.getElementById("btnPrintslip");
+        btndeliverynote = document.getElementById("btndeliverynote");
         ////
         //btnPrintInvoicePrice = document.getElementById("btnPrintInvoicePrice") as HTMLButtonElement;
     }
@@ -253,6 +255,7 @@ var SlsTrSalesManager;
         btnPrintTrEXEL.onclick = function () { PrintReport(3); };
         btnPrint.onclick = function () { PrintReport(4); };
         btnPrintTransaction.onclick = PrintTransaction;
+        btndeliverynote.onclick = printbtndeliverynote;
         btnPrintslip.onclick = btnPrintslip_onclick;
         ////
         //btnPrintInvoicePrice.onclick = btnPrintInvoicePrice_onclick;
@@ -831,7 +834,6 @@ var SlsTrSalesManager;
             MasterDetailsModel.UserCode = SysSession.CurrentEnvironment.UserCode;
             InvoiceModel.VatType = vatType;
             InvoiceModel.VatAmount = Number(txtTax.value);
-            InvoiceModel.CommitionAmount = Number(txt_Remarks.value);
             if (Validation_Insert == 1) {
                 Open_poup_Pass();
             }
@@ -1308,11 +1310,9 @@ var SlsTrSalesManager;
                         var StoreID_1 = SysSession.CurrentEnvironment.StoreID;
                         storeDetails = storeDetails.filter(function (s) { return s.StoreId == StoreID_1; });
                     }
-                    if (SysSession.CurrentEnvironment.ScreenLanguage == "en") {
-                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescL", "Select Store");
-                    }
-                    else {
-                        DocumentActions.FillCombowithdefult(storeDetails, ddlStore, "StoreId", "DescA", "اختر المستودع");
+                    $('#ddlStore').append('<option commissionPRC="0"  value="null">' + (lang == "ar" ? "اختر المستودع" : "Choose store") + ' </option>');
+                    for (var i = 0; i < storeDetails.length; i++) {
+                        $('#ddlStore').append('<option commissionPRC="' + storeDetails[i].CommissionPRC + '"  value="' + storeDetails[i].StoreId + '">' + (lang == "ar" ? storeDetails[i].DescA : storeDetails[i].DescL) + ' </option>');
                     }
                     SysSession.CurrentEnvironment.UserType == 1 || SysSession.CurrentEnvironment.UserType == 3 ? ($('#ddlStore option[value="null"]').remove()) : $('#ddlStore').prop('selectedIndex', 1);
                 }
@@ -1359,7 +1359,7 @@ var SlsTrSalesManager;
             { title: res.App_total, name: "TotalAmount", type: "text", width: "15%" },
             { title: res.App_Tax, name: "VatAmount", type: "text", width: "12%" },
             { title: res.App_Net, name: "NetAfterVat", type: "text", width: "13%" },
-            //{ title: res.App_Commission, name: "CommitionAmount", type: "text", width: "15%" },
+            { title: res.App_Commission, name: "CommitionAmount", type: "text", width: "15%" },
             { title: res.App_TobePaid, name: "RemainAmount", type: "text", width: "17%", css: "classfont" },
             { title: res.App_invoiceType, name: "IsCashDesciption", type: "text", width: "16%" },
             { title: res.App_Certified, name: "statusDesciption", type: "text", width: "17%" },
@@ -1584,6 +1584,8 @@ var SlsTrSalesManager;
         $('#txtSupply_end_Date').val(DeliveryEndDate);
         NewAdd = false;
         btndiv_1_onclick();
+        var commissionprc = Number($('option:selected', $("#ddlStore")).attr('commissionprc'));
+        $('#txtCommission').val(((Number(txtNet.value) * commissionprc) / 100));
     }
     //------------------------------------------------------ Controls Grid Region------------------------
     function BuildControls(cnt) {
@@ -2046,6 +2048,7 @@ var SlsTrSalesManager;
                 //NetCount = (Number(NetCount.toFixed(2)) - Number(txtDiscountValue.value));
             }
         }
+        debugger;
         txtItemCount.value = CountItems.toString();
         txtPackageCount.value = PackageCount.toString();
         txtTotalDiscount.value = TotalDiscount.toString();
@@ -2053,6 +2056,8 @@ var SlsTrSalesManager;
         txtTotal.value = CountTotal.toString();
         txtTax.value = TaxCount.toString();
         txtNet.value = (Number(NetCount.toFixed(2)) - Number(txtDiscountValue.value)).toFixed(2);
+        var commissionprc = Number($('option:selected', $("#ddlStore")).attr('commissionprc'));
+        $('#txtCommission').val(((Number(txtNet.value) * commissionprc) / 100));
     }
     function Insert_Serial() {
         var Ser = 1;
@@ -2243,7 +2248,7 @@ var SlsTrSalesManager;
         InvoiceModel.TrType = 0; //0 invoice 1 return
         InvoiceModel.SlsInvSrc = 1; // 1 from store 2 from van  
         InvoiceModel.StoreId = $('#ddlStore').val(); //main store
-        InvoiceModel.PaymentMeansTypeCode = ddlType.value == '0' ? 2 : 1; //  Cash or   Credit
+        InvoiceModel.PaymentMeansTypeCode = ddlType.value == '0' ? 2 : 1; //  Cash or   Credit  
         InvoiceModel.RefTrID = null;
         ///////////////
         debugger;
@@ -2256,7 +2261,6 @@ var SlsTrSalesManager;
         InvoiceModel.TrDate = txtInvoiceDate.value;
         InvoiceModel.CustomerName = txtInvoiceCustomerName.value;
         InvoiceModel.CustomerMobileNo = txtCustomerMobile.value;
-        InvoiceModel.CommitionAmount = 0;
         InvoiceModel.Remark = txt_Remarks.value;
         InvoiceModel.VatType = vatType;
         InvoiceModel.VatAmount = Number(txtTax.value);
@@ -2296,6 +2300,8 @@ var SlsTrSalesManager;
         else {
             InvoiceModel.Status = 0;
         }
+        debugger;
+        InvoiceModel.CommitionAmount = Number($('#txtCommission').val());
         // Details
         for (var i = 0; i < CountGrid; i++) {
             invoiceItemSingleModel = new I_Sls_TR_InvoiceItems();
@@ -2951,6 +2957,47 @@ var SlsTrSalesManager;
         rp.TRId = GlobalinvoiceID;
         rp.slip = 0;
         rp.stat = 1;
+        debugger;
+        Ajax.CallAsync({
+            url: Url.Action("rptInvoiceNote", "GeneralRep"),
+            data: rp,
+            success: function (d) {
+                debugger;
+                var result = d;
+                window.open(Url.Action("ReportsPopup", "Home"), "blank");
+                localStorage.setItem("result", "" + result + "");
+                //let result = d.result as string;    
+                //window.open(result, "_blank");
+            }
+        });
+    }
+    function printbtndeliverynote() {
+        if (!SysSession.CurrentPrivileges.PrintOut)
+            return;
+        window.open(Url.Action("ReportsPopup", "Home"), "blank");
+        localStorage.setItem("result", '<div class="lds-ring"><div></div><div></div><div></div><div></div></div>');
+        var rp = new ReportParameters();
+        rp.CompCode = SysSession.CurrentEnvironment.CompCode;
+        rp.BranchCode = SysSession.CurrentEnvironment.BranchCode;
+        rp.CompNameA = SysSession.CurrentEnvironment.CompanyNameAr;
+        rp.CompNameE = SysSession.CurrentEnvironment.CompanyName;
+        rp.UserCode = SysSession.CurrentEnvironment.UserCode;
+        rp.Tokenid = SysSession.CurrentEnvironment.Token;
+        rp.ScreenLanguage = SysSession.CurrentEnvironment.ScreenLanguage;
+        rp.SystemCode = SysSession.CurrentEnvironment.SystemCode;
+        rp.SubSystemCode = SysSession.CurrentEnvironment.SubSystemCode;
+        rp.BraNameA = SysSession.CurrentEnvironment.BranchName;
+        rp.BraNameE = SysSession.CurrentEnvironment.BranchName;
+        if (rp.BraNameA == null || rp.BraNameE == null) {
+            rp.BraNameA = " ";
+            rp.BraNameE = " ";
+        }
+        rp.Type = 4;
+        rp.Repdesign = 0;
+        rp.TRId = GlobalinvoiceID;
+        rp.slip = 0;
+        rp.stat = 1;
+        rp.RecType = 1;
         debugger;
         Ajax.CallAsync({
             url: Url.Action("rptInvoiceNote", "GeneralRep"),

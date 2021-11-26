@@ -38,5 +38,6 @@ namespace Inv.DAL.Domain
         public string BRA_DESCL { get; set; }
         public string ACC_DESCA { get; set; }
         public string ACC_DESCL { get; set; }
+        public Nullable<decimal> CommissionPRC { get; set; }
     }
 }

@@ -219,7 +219,7 @@ namespace DefStore {
     function DisplayData(Selected_Data: Array<GQ_GetStore>) {
 
 
-        DocumentActions.RenderFromModel(Selected_Data[0]);
+        DocumentActions.RenderFromModel(Selected_Data[0]);   
     }
     //---------------------------------------------------------------------------Search in Grid
     function _SearchBox_Change() {
@@ -309,7 +309,8 @@ namespace DefStore {
         Modelstore.StockAccCode = $('#drpinventoryAccount').val();
         Modelstore.Fax = "1";
         Modelstore.STORE_TYPE = 1;
-        Modelstore.TYPE_CODE = 1;    
+        Modelstore.TYPE_CODE = 1;
+        Modelstore.CommissionPRC = Number($('#txtCommission').val());    
         if (flag == true) {
             Modelstore.StoreId = Number(ReportGrid.SelectedKey);
             Modelstore.UpdatedBy = SysSession.CurrentEnvironment.UserCode;

@@ -512,6 +512,14 @@ namespace Inv.WebUI.Controllers
 
             int Repdesign = RepPar.Repdesign;
             int slip = RepPar.slip;
+            int RecType = RepPar.RecType;
+            if (RecType == 1 )
+            {
+                Rep = OpenReport("Rpt_Prnt_deliverynote");
+            }
+            else
+            {
+
             if (slip == 1)
             {
                 Rep = OpenReport("Slip_Prnt_SlsInvoiceSimple");
@@ -547,6 +555,7 @@ namespace Inv.WebUI.Controllers
                 }
             }
 
+            }
             int Type = int.Parse(RepPar.Type.ToString());
             if (Type == 0) { Type = int.Parse(Rep.OutputTypeNo); }
             SqlParameter spRepType = new SqlParameter("@RepType", Type);

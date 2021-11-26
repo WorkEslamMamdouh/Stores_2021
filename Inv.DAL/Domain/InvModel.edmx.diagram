@@ -87,7 +87,6 @@
         <EntityTypeShape EntityType="POS2021Model.IQ_GetItemYearUom" Width="1.5" PointX="19.375" PointY="32.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_GetSlsInvoiceItem" Width="1.5" PointX="21.375" PointY="32.75" />
         <EntityTypeShape EntityType="POS2021Model.G_VatNature" Width="1.5" PointX="30.375" PointY="8.75" />
-        <EntityTypeShape EntityType="POS2021Model.GQ_GetStore" Width="1.5" PointX="33.375" PointY="14.75" />
         <EntityTypeShape EntityType="POS2021Model.A_CCDT_Types" Width="1.5" PointX="33.375" PointY="21.75" />
         <EntityTypeShape EntityType="POS2021Model.A_D_VAT_TYPE" Width="1.5" PointX="33.375" PointY="24.75" />
         <EntityTypeShape EntityType="POS2021Model.I_Item" Width="1.5" PointX="29.375" PointY="24.75" />
@@ -107,6 +106,7 @@
         <EntityTypeShape EntityType="POS2021Model.Purchases_Master" Width="1.5" PointX="30.375" PointY="35.75" />
         <EntityTypeShape EntityType="POS2021Model.IQ_Purchases_Master" Width="1.5" PointX="35.375" PointY="35.75" />
         <EntityTypeShape EntityType="POS2021Model.G_STORE" Width="1.5" PointX="32.375" PointY="8.75" />
+        <EntityTypeShape EntityType="POS2021Model.GQ_GetStore" Width="1.5" PointX="32.375" PointY="14.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

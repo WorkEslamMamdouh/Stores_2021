@@ -96,5 +96,6 @@ namespace Inv.DAL.Domain
         public Nullable<System.DateTime> Op_TrDate { get; set; }
         public string Op_TruckNo { get; set; }
         public string Op_RefNo { get; set; }
+        public Nullable<decimal> iv_Commission { get; set; }
     }
 }
