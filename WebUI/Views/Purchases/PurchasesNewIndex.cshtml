@@ -1,4 +1,4 @@
-﻿
+﻿@using Inv.WebUI.Resources
 @{
     ViewBag.Title = "المشتريات";
     Layout = "~/Views/Shared/Layout.cshtml";
@@ -165,7 +165,7 @@
 
                             </div>
 
-                            <div class="btn-group">
+                            <div class="btn-group display_none">
                                 <label type="button" class="btn btn-warning" style="background-color: #031665;">طباعة</label>
                                 <button type="button" class="btn btn-warning dropdown-toggle" style="background-color: #031665;" data-toggle="dropdown">
                                     <span class="glyphicon glyphicon-hand-down"></span>
@@ -245,34 +245,17 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
 
-                            <div class="col-lg-1 col-md-1 col-sm-1">
-                                <label class="style_pading_lepel">الباركود</label>
+                            <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager "> @SystemResource.App_Store </label>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3">
+                                <select id="ddlStore" name="" disabled class="form-control input-sm"></select>
                             </div>
 
-                            <div class="col-lg-2 col-md-3 col-sm-3">
-                                <input id="txt_Barcode" type="text" class="form-control right2" />
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1">
-                                <label class="style_pading_lepel">الاسم</label>
-                            </div>
-
-                            <div class="col-lg-3 col-md-3 col-sm-3">
-                                <input id="txt_ItemName" type="text" class="form-control right2" />
-                            </div>
-
-
-                            <div class="col-lg-1 col-md-1 col-sm-1">
-
-                                <label class="style_pading_lepel">الكمية</label>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2">
-                                <input id="txt_Quantity" type="number" class="form-control right2" />
-                            </div>
-
-                            <div class="col-lg-2">
-                                <button type="button" class="btn btn-warning " id="btnAddQty">
-                                    <span class="glyphicon glyphicon-arrow-down">إضافة</span>
-                                </button>
+                            <label class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1  marginstenig pading_lep  pading_2 textcentr_padingSlsTrSalesManager text-center">  @SystemResource.App_invoiceType</label>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 col-xs-2">
+                                <select id="ddlType" disabled class="form-control input-sm" style="width: 100%;border-radius: 30px;">
+                                    <option value="1"> نقدي</option>
+                                    <option value="0">علي الحساب</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-12 ">
@@ -293,46 +276,39 @@
                 <div id="DivShow" class="col-lg-12 " style="border: solid 4px;border-radius: 44px;background: linear-gradient(to right, rgb(253 211 213) 0%, #8babed 100%); overflow:auto ;">
                     <div id=" " class="col-lg-12 font_header" style="bottom: 5px;font-weight:bold!important">
                         <br>
-                        <div class="col-lg-1">
-
+                        <div class="col-lg-1" style="width: 4%;">
+                            <span style="padding-right: 1px;" class=""> م</span>
                         </div>
                         <div class="col-lg-2" style="width: 14%;">
-                            <span style="padding-right: 1px;" class="">  نوع الفئة</span>
+                            <span style="padding-right: 1px;" class=""> الكود</span>
 
                         </div>
-                        <div class="col-lg-1" style="width: 3%;">
+                        <div class="col-lg-1" style="width: 6%;">
 
                         </div>
                         <div class="col-lg-2">
-                            <span style="padding-right: 1px;" class="">الفئة</span>
+                            <span style="padding-right: 1px;" class="">الصنف</span>
                         </div>
-                        <div class="col-lg-2" style="width: 15%;">
-                            <span class="">الصنف</span>
+                        <div class="col-lg-2" style="width: 13%;">
+                            <span class="">الوحده</span>
                         </div>
                         <div class="col-lg-2" style="margin-right: -5%;width: 7%;">
                             <span class="">كمية الشراء</span>
 
                         </div>
-                        <div class="col-lg-1" style="width: 7%;">
-                            <span class="">كمية المرتجع</span>
-
-                        </div>
-                        <div class="col-lg-1" style="width: 7%;">
+                        <div class="col-lg-1" style="width: 9%;">
                             <span class="">سعر الشراء</span>
 
                         </div>
+                        <div class="col-lg-1" style="width: 9%;">
+                            <span class="">كمية المرتجع</span>
+                        </div>
                         <div class="col-lg-1" style="width: 6%;">
-                            <span class="">سعر البيع</span>
+                            <span class=""> الاجمالي  </span>
 
                         </div>
-                        <div class="col-lg-1" style="width: 10%;">
-                            <span class=""> اقل سعر بيع</span>
 
-                        </div>
-                        <div class="col-lg-1">
-                            <span class="">الاجمالي</span>
 
-                        </div>
 
 
 

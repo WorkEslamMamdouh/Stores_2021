@@ -30,12 +30,12 @@ namespace API.Controllers
         private readonly IPurTRChargesService PurTRChargesService;
         private readonly IPurchases_MasterServices Purchases_MasterServices;
 
-        public PurchasesController(IPurTrReceiveService _IPurTrReceiveService, IPurTRReceiveItemsService _IPurTRReceiveItemsService,  IPurTRChargesService _IPurTRChargesService ,IPurchases_MasterServices _Purchases_MasterServices)
+        public PurchasesController(IPurTrReceiveService _IPurTrReceiveService, IPurTRReceiveItemsService _IPurTRReceiveItemsService, IPurTRChargesService _IPurTRChargesService, IPurchases_MasterServices _Purchases_MasterServices)
         {
-            PurTrReceiveService = _IPurTrReceiveService; 
-            this.Purchases_MasterServices = _Purchases_MasterServices; 
+            PurTrReceiveService = _IPurTrReceiveService;
+            this.Purchases_MasterServices = _Purchases_MasterServices;
             PurTRChargesService = _IPurTRChargesService;
-            PurTRReceiveItemsService = _IPurTRReceiveItemsService; 
+            PurTRReceiveItemsService = _IPurTRReceiveItemsService;
         }
 
         [HttpGet, AllowAnonymous]
@@ -145,7 +145,7 @@ namespace API.Controllers
 
 
         [HttpPost, AllowAnonymous]
-        public IHttpActionResult Insert_Purchases([FromBody]PurchasesMasterDetails Operation)
+        public IHttpActionResult Insert_Purchases([FromBody] PurchasesMasterDetails Operation)
         {
 
             try
@@ -289,46 +289,46 @@ namespace API.Controllers
 
                 }
 
- 
 
-                    if (TrNo == 0)
+
+                if (TrNo == 0)
+                {
+                    string Tr_Date = Operation.Purchases_Master.Tr_Date;
+                    int ID_Supplier = Convert.ToInt16(Operation.Purchases_Master.ID_Supplier);
+                    bool Type_Debit = Convert.ToBoolean(Operation.Purchases_Master.Type_Debit);
+                    decimal Total_Amount = Convert.ToDecimal(Operation.Purchases_Master.Total_Amount);
+                    decimal Paid_Up = Convert.ToDecimal(Operation.Purchases_Master.Paid_Up);
+                    decimal To_be_Paid = Convert.ToDecimal(Operation.Purchases_Master.To_be_Paid);
+                    string REMARKS = Operation.Purchases_Master.REMARKS;
+
+                    string qury = "insert_Purchases_Master  '" + Tr_Date + "'," + ID_Supplier + "," + Type_Debit + ", " + Total_Amount + " ," + Paid_Up + "," + To_be_Paid + ",'" + REMARKS + "'";
+
+                    TrNo = db.Database.SqlQuery<int>(qury).FirstOrDefault();
+
+                    foreach (var item in insertOperationItems)
                     {
-                        string Tr_Date = Operation.Purchases_Master.Tr_Date;
-                        int ID_Supplier = Convert.ToInt16(Operation.Purchases_Master.ID_Supplier);
-                        bool Type_Debit = Convert.ToBoolean(Operation.Purchases_Master.Type_Debit);
-                        decimal Total_Amount = Convert.ToDecimal(Operation.Purchases_Master.Total_Amount);
-                        decimal Paid_Up = Convert.ToDecimal(Operation.Purchases_Master.Paid_Up);
-                        decimal To_be_Paid = Convert.ToDecimal(Operation.Purchases_Master.To_be_Paid);
-                        string REMARKS = Operation.Purchases_Master.REMARKS;
 
-                        string qury = "insert_Purchases_Master  '" + Tr_Date + "'," + ID_Supplier + "," + Type_Debit + ", " + Total_Amount + " ," + Paid_Up + "," + To_be_Paid + ",'" + REMARKS + "'";
+                        //db.Processes_Purchases(item.PRODUCT_NAME, Convert.ToInt16(item.Purchases_Quantity), Convert.ToDecimal(item.Purchases_Price), Convert.ToDecimal(item.Sales_Price), Convert.ToDecimal(item.MinUnitPrice), item.Name_CAT, Convert.ToInt16(TrNo), Convert.ToInt16(item.ID), "i");
 
-                        TrNo = db.Database.SqlQuery<int>(qury).FirstOrDefault();
+                        string Pro_qury = "Processes_Purchases  '" + item.PRODUCT_NAME + "'," + Convert.ToInt16(item.Purchases_Quantity) + "," + Convert.ToDecimal(item.Purchases_Price) + ", " + Convert.ToDecimal(item.Sales_Price) + " ," + Convert.ToDecimal(item.MinUnitPrice) + ",'" + item.Name_CAT + "'," + Convert.ToInt16(TrNo) + "," + Convert.ToInt16(item.ID) + "," + Convert.ToInt16(item.ID_familly_Cat) + ",'i'";
+                        db.Database.ExecuteSqlCommand(Pro_qury);
 
-                        foreach (var item in insertOperationItems)
-                        {
-
-                            //db.Processes_Purchases(item.PRODUCT_NAME, Convert.ToInt16(item.Purchases_Quantity), Convert.ToDecimal(item.Purchases_Price), Convert.ToDecimal(item.Sales_Price), Convert.ToDecimal(item.MinUnitPrice), item.Name_CAT, Convert.ToInt16(TrNo), Convert.ToInt16(item.ID), "i");
-
-                            string Pro_qury = "Processes_Purchases  '" + item.PRODUCT_NAME + "'," + Convert.ToInt16(item.Purchases_Quantity) + "," + Convert.ToDecimal(item.Purchases_Price) + ", " + Convert.ToDecimal(item.Sales_Price) + " ," + Convert.ToDecimal(item.MinUnitPrice) + ",'" + item.Name_CAT + "'," + Convert.ToInt16(TrNo) + "," + Convert.ToInt16(item.ID) + "," + Convert.ToInt16(item.ID_familly_Cat) + ",'i'";
-                            db.Database.ExecuteSqlCommand(Pro_qury);
-
-                        }
                     }
-                    else
+                }
+                else
+                {
+                    //loop insert  I_Pur_TR_ReceiveItems
+                    foreach (var item in insertOperationItems)
                     {
-                        //loop insert  I_Pur_TR_ReceiveItems
-                        foreach (var item in insertOperationItems)
-                        {
-                            //db.Processes_Purchases(item.PRODUCT_NAME, Convert.ToInt16(item.Purchases_Quantity), Convert.ToDecimal(item.Purchases_Price), Convert.ToDecimal(item.Sales_Price), Convert.ToDecimal(item.MinUnitPrice), item.Name_CAT, Convert.ToInt16(item.TrNo), Convert.ToInt16(item.ID), "i");
+                        //db.Processes_Purchases(item.PRODUCT_NAME, Convert.ToInt16(item.Purchases_Quantity), Convert.ToDecimal(item.Purchases_Price), Convert.ToDecimal(item.Sales_Price), Convert.ToDecimal(item.MinUnitPrice), item.Name_CAT, Convert.ToInt16(item.TrNo), Convert.ToInt16(item.ID), "i");
 
-                            string Pro_qury = "Processes_Purchases  '" + item.PRODUCT_NAME + "'," + Convert.ToInt16(item.Purchases_Quantity) + "," + Convert.ToDecimal(item.Purchases_Price) + ", " + Convert.ToDecimal(item.Sales_Price) + " ," + Convert.ToDecimal(item.MinUnitPrice) + ",'" + item.Name_CAT + "'," + Convert.ToInt16(item.TrNo) + "," + Convert.ToInt16(item.ID) + "," + Convert.ToInt16(item.ID_familly_Cat) + ",'i'";
-                            db.Database.ExecuteSqlCommand(Pro_qury);
-                            TrNo = item.TrNo;
-                        }
+                        string Pro_qury = "Processes_Purchases  '" + item.PRODUCT_NAME + "'," + Convert.ToInt16(item.Purchases_Quantity) + "," + Convert.ToDecimal(item.Purchases_Price) + ", " + Convert.ToDecimal(item.Sales_Price) + " ," + Convert.ToDecimal(item.MinUnitPrice) + ",'" + item.Name_CAT + "'," + Convert.ToInt16(item.TrNo) + "," + Convert.ToInt16(item.ID) + "," + Convert.ToInt16(item.ID_familly_Cat) + ",'i'";
+                        db.Database.ExecuteSqlCommand(Pro_qury);
+                        TrNo = item.TrNo;
                     }
+                }
 
-               
+
 
                 if (updatedOperationItems.Count > 0)
                 {
@@ -374,47 +374,186 @@ namespace API.Controllers
         [HttpPost, AllowAnonymous]//done 
         public IHttpActionResult InsertPurchaseReceiveMasterDetail([FromBody] PurInvoiceMasterDetails obj)
         {
-             
-                using (System.Data.Entity.DbContextTransaction dbTransaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        I_Pur_TR_Receive Pur_TR_Invoice = PurTrReceiveService.Insert(obj.I_Pur_TR_Receive);
-                        for (int i = 0; i < obj.I_Pur_TR_ReceiveItems.Count; i++)
-                        {
-                            obj.I_Pur_TR_ReceiveItems[i].ReceiveID = Pur_TR_Invoice.ReceiveID;
-                        }
-                        for (int i = 0; i < obj.I_Pur_Tr_ReceiveCharges.Count; i++)
-                        {
-                            obj.I_Pur_Tr_ReceiveCharges[i].ReceiveID = Pur_TR_Invoice.ReceiveID;
-                        }
-                        PurTRReceiveItemsService.InsertLst(obj.I_Pur_TR_ReceiveItems);
-                        PurTRChargesService.InsertLst(obj.I_Pur_Tr_ReceiveCharges);
 
-                         string Update_Purchases_Master = "update [dbo].[Purchases_Master] set ReceiveID = "+ Pur_TR_Invoice.ReceiveID + " where TrNo = (select MAX(TrNo) from Purchases_Master)";
-                         db.Database.ExecuteSqlCommand(Update_Purchases_Master);
+            using (System.Data.Entity.DbContextTransaction dbTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    I_Pur_TR_Receive Pur_TR_Invoice = PurTrReceiveService.Insert(obj.I_Pur_TR_Receive);
+                    for (int i = 0; i < obj.I_Pur_TR_ReceiveItems.Count; i++)
+                    {
+                        obj.I_Pur_TR_ReceiveItems[i].ReceiveID = Pur_TR_Invoice.ReceiveID;
+                    }
+                    for (int i = 0; i < obj.I_Pur_Tr_ReceiveCharges.Count; i++)
+                    {
+                        obj.I_Pur_Tr_ReceiveCharges[i].ReceiveID = Pur_TR_Invoice.ReceiveID;
+                    }
+                    PurTRReceiveItemsService.InsertLst(obj.I_Pur_TR_ReceiveItems);
+                    PurTRChargesService.InsertLst(obj.I_Pur_Tr_ReceiveCharges);
+
+                    string Update_Purchases_Master = "update [dbo].[Purchases_Master] set ReceiveID = " + Pur_TR_Invoice.ReceiveID + " where TrNo = (select MAX(TrNo) from Purchases_Master)";
+                    db.Database.ExecuteSqlCommand(Update_Purchases_Master);
 
                     ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(obj.I_Pur_TR_Receive.CompCode), Convert.ToInt32(obj.I_Pur_TR_Receive.BranchCode), Pur_TR_Invoice.ReceiveID, "PurInvoice", "Add", db);
-                        if (res.ResponseState == true)
+                    if (res.ResponseState == true)
+                    {
+                        obj.I_Pur_TR_Receive.TrNo = int.Parse(res.ResponseData.ToString());
+                        dbTransaction.Commit();
+                        return Ok(new BaseResponse(obj));
+                    }
+                    else
+                    {
+                        dbTransaction.Rollback();
+                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+                }
+            }
+
+        }
+
+
+        public IHttpActionResult UpdateListPurchaseReceiveMasterDetail([FromBody] PurInvoiceMasterDetails updatedObj)
+        {
+
+            using (System.Data.Entity.DbContextTransaction dbTransaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    // update master
+                    PurTrReceiveService.Update(updatedObj.I_Pur_TR_Receive);
+
+                    //update I_Pur_Tr_ReceiveCharges 
+                    List<I_Pur_Tr_ReceiveCharges> insertedRecordsCharges = updatedObj.I_Pur_Tr_ReceiveCharges.Where(x => x.StatusFlag == 'i').ToList();
+                    List<I_Pur_Tr_ReceiveCharges> updatedRecordsCharges = updatedObj.I_Pur_Tr_ReceiveCharges.Where(x => x.StatusFlag == 'u').ToList();
+                    List<I_Pur_Tr_ReceiveCharges> deletedRecordsCharges = updatedObj.I_Pur_Tr_ReceiveCharges.Where(x => x.StatusFlag == 'd').ToList();
+
+                    //update I_Pur_TR_ReceiveItems 
+                    List<I_Pur_TR_ReceiveItems> insertedRecordsReceiveItems = updatedObj.I_Pur_TR_ReceiveItems.Where(x => x.StatusFlag == 'i').ToList();
+                    List<I_Pur_TR_ReceiveItems> updatedRecordsReceiveItems = updatedObj.I_Pur_TR_ReceiveItems.Where(x => x.StatusFlag == 'u').ToList();
+                    List<I_Pur_TR_ReceiveItems> deletedRecordsReceiveItems = updatedObj.I_Pur_TR_ReceiveItems.Where(x => x.StatusFlag == 'd').ToList();
+
+
+                    //loop insered  I_Pur_Tr_ReceiveCharges
+                    foreach (I_Pur_Tr_ReceiveCharges item in insertedRecordsCharges)
+                    {
+                        item.ReceiveID = updatedObj.I_Pur_TR_Receive.ReceiveID;
+                        I_Pur_Tr_ReceiveCharges InsertedRec = PurTRChargesService.Insert(item);
+                    }
+
+                    //loop Update  I_Pur_Tr_ReceiveCharges
+                    foreach (I_Pur_Tr_ReceiveCharges item in updatedRecordsCharges)
+                    {
+                        item.ReceiveID = updatedObj.I_Pur_TR_Receive.ReceiveID;
+                        I_Pur_Tr_ReceiveCharges updatedRec = PurTRChargesService.Update(item);
+                    }
+
+                    //loop Delete  I_Pur_Tr_ReceiveCharges
+                    foreach (I_Pur_Tr_ReceiveCharges item in deletedRecordsCharges)
+                    {
+                        int deletedId = item.ReceiveExpensesID;
+                        PurTRChargesService.Delete(deletedId);
+                    }
+
+
+                    //loop insered  I_Pur_TR_ReceiveItems
+                    foreach (I_Pur_TR_ReceiveItems item in insertedRecordsReceiveItems)
+                    {
+                        item.ReceiveID = updatedObj.I_Pur_TR_Receive.ReceiveID;
+                        I_Pur_TR_ReceiveItems InsertedRec = PurTRReceiveItemsService.Insert(item);
+                    }
+
+                    //loop Update  I_Pur_TR_ReceiveItems
+                    foreach (I_Pur_TR_ReceiveItems item in updatedRecordsReceiveItems)
+                    {
+                        item.ReceiveID = updatedObj.I_Pur_TR_Receive.ReceiveID;
+
+                        int? itemID = item.ItemID;
+                        decimal? RecQty = item.RecQty;
+                        if (RecQty < 0)
                         {
-                            obj.I_Pur_TR_Receive.TrNo = int.Parse(res.ResponseData.ToString());
-                            dbTransaction.Commit();
-                            return Ok(new BaseResponse(obj));
+                            RecQty = RecQty * -1;
+                            db.Database.ExecuteSqlCommand("update I_Pur_Tr_PurchaseOrderDetail set TotRecQty = TotRecQty - " + RecQty + " where PurOrderID = " + updatedObj.I_Pur_TR_Receive.PurOrderID + "and ItemID = " + itemID + " ");
+
                         }
                         else
                         {
-                            dbTransaction.Rollback();
-                            return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
-                    }
-                }
-         
-        }
 
+                            db.Database.ExecuteSqlCommand("update I_Pur_Tr_PurchaseOrderDetail set TotRecQty = TotRecQty + " + RecQty + " where PurOrderID = " + updatedObj.I_Pur_TR_Receive.PurOrderID + "and ItemID = " + itemID + " ");
+
+
+
+                        }
+
+                        item.RecQty = item.RecStockQty;
+                        I_Pur_TR_ReceiveItems updatedRec = PurTRReceiveItemsService.Update(item);
+
+
+
+                    }
+
+                    //loop Delete  I_Pur_TR_ReceiveItems
+                    foreach (I_Pur_TR_ReceiveItems item in deletedRecordsReceiveItems)
+                    {
+                        int deletedId = item.ReciveDetailsID;
+                        PurTRReceiveItemsService.Delete(deletedId);
+                    }
+
+
+
+
+                    //if (updatedObj.I_Pur_TR_Receive.PurOrderID != null && updatedObj.I_Pur_TR_Receive.PurOrderID != 0)
+                    // {
+
+                    //   foreach (var item in updatedObj.I_Pur_TR_ReceiveItems)
+                    //  {
+
+                    //if (updatedObj.I_Pur_TR_ReceiveItems[0].RecQty > item.RecQty)
+                    //{
+                    //    int? itemID = item.ItemID;
+                    //    decimal? RecQty = updatedObj.I_Pur_TR_ReceiveItems[0].RecQty - item.RecQty;
+                    //    db.Database.ExecuteSqlCommand("update I_Pur_Tr_PurchaseOrderDetail set TotRecQty = TotRecQty - " + RecQty + " where PurOrderID = " + updatedObj.I_Pur_TR_Receive.PurOrderID + "and ItemID = " + itemID + " ");
+                    //}
+                    //else
+                    //{
+                    //    int? itemID = item.ItemID;
+                    //    decimal? RecQty = updatedObj.I_Pur_TR_ReceiveItems[0].RecQty;
+                    //    db.Database.ExecuteSqlCommand("update I_Pur_Tr_PurchaseOrderDetail set TotRecQty = TotRecQty + " + RecQty + " where PurOrderID = " + updatedObj.I_Pur_TR_Receive.PurOrderID + "and ItemID = " + itemID + " ");
+
+                    //}
+                    //   }
+                    //   }
+
+
+
+
+
+
+                    ResponseResult res = Shared.TransactionProcess(Convert.ToInt32(updatedObj.I_Pur_TR_Receive.CompCode), Convert.ToInt32(updatedObj.I_Pur_TR_Receive.BranchCode), updatedObj.I_Pur_TR_Receive.ReceiveID, "PurInvoice", "Update", db);
+                    if (res.ResponseState == true)
+                    {
+                        updatedObj.I_Pur_TR_Receive.TrNo = int.Parse(res.ResponseData.ToString());
+                        dbTransaction.Commit();
+                        return Ok(new BaseResponse(updatedObj));
+                    }
+                    else
+                    {
+                        dbTransaction.Rollback();
+                        return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, res.ResponseMessage));
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    dbTransaction.Rollback();
+                    return Ok(new BaseResponse(HttpStatusCode.ExpectationFailed, ex.Message));
+                }
+            }
+
+        }
 
     }
 }

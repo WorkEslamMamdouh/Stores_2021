@@ -79,6 +79,14 @@ namespace Inv.DAL.Domain
     {
 
     }
+    public partial class I_Pur_TR_ReceiveItems : SecurityandUpdateFlagClass
+    {
+
+    }
+    public partial class I_Pur_Tr_ReceiveCharges : SecurityandUpdateFlagClass
+    {
+
+    }
 
  
     public partial class I_Item : SecurityandUpdateFlagClass
