@@ -1482,6 +1482,7 @@
     <TypeScriptCompile Include="ClientApp\JsGrid.ts" />
     <TypeScriptCompile Include="ClientApp\MessageBox.ts" />
     <TypeScriptCompile Include="ClientApp\Pages\LoginCust.ts" />
+    <TypeScriptCompile Include="ClientApp\Pages\Login_.ts" />
     <TypeScriptCompile Include="ClientApp\Partial\Background.ts" />
     <TypeScriptCompile Include="ClientApp\Purchases\PurchasesNew.ts" />
     <TypeScriptCompile Include="ClientApp\Purchases\Purchases.ts" />

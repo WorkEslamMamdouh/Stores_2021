@@ -22,26 +22,117 @@
 </style>
 
 
-<div class="intro">
-    <div class="container2">
-        <div class="clock">
-            <div id="Date"></div>
 
-            <ul id="ul_clock">
-                <li id="hours"> </li>
-                <li id="point">:</li>
-                <li id="min"> </li>
-                <li id="point">:</li>
-                <li id="sec"> </li>
-            </ul>
+<div id="tblLogin" class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" data-tilt>
+                <img alt="IMG" src="~/New_Design/Login_v1/images/img-01.png" />
+            </div>
 
+            <form class="login100-form validate-form">
+                <span class="login100-form-title">
+                     Login
+                </span>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                    <input id="txtUserName" class="input100" type="text" name="email" placeholder="UserName">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input id="txtUserPassword" class="input100" type="password" name="pass" placeholder="Password">
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                    </span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <select id="cmbLanguage" class="input100"  >
+                        <option value="ar">عربي</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <input type="hidden" class="login_input2" id="txtYear" placeholder="2021">
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button id="btnLogin" class="login100-form-btn">
+                        Login
+                    </button>
+                </div>
+
+                <div class="text-center p-t-12">
+                    <input type="checkbox" id="chkRemember">
+                    <span class="txt1">
+                        Forgot
+                    </span>
+                    <a class="txt2" href="#">
+                        Username / Password?
+                    </a>
+                </div>
+ 
+            </form>
         </div>
     </div>
 </div>
 
-<!--    .........................login...............-->
 
-<div class="container-fluid" style="padding:0%">
+<div id="tblCompany" class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" data-tilt>
+                <img alt="IMG" src="~/New_Design/Login_v1/images/img-01.png" />
+            </div>
+
+            <form class="login100-form validate-form">
+                <span class="login100-form-title">
+                    Company Or Branch
+                </span>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <select id="cmbCompany" class="input100">
+                    </select>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <select id="cmbBranch" class="input100">
+                    </select>
+                </div>
+
+
+
+                <div class="container-login100-form-btn">
+                    <button id="btnOk" class="login100-form-btn">
+                        Enter
+                    </button>
+
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <button id="btnBack" class="login100-form-btn" style="background-color: cadetblue;">
+                        back
+                    </button>
+
+                </div>
+
+                <div class="text-center p-t-12">
+                   
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--    .........................login...............-->
+<!--<div class="container-fluid" style="padding:0%">
     <div class="content">
         <div id="large-header" class="large-header" style="height:797px;">
             <div class="col-xs-12" id="center">
@@ -79,22 +170,17 @@
                     <div class="clear"></div>
                 </div>
             </div>
-            <div class="clear"></div>
+            <div class="clear"></div>-->
+<!--                    <canvas id="demo-canvas"></canvas>-->
+<!--</div>
 
 
-            <!--                    <canvas id="demo-canvas"></canvas>-->
-
-        </div>
-
-
-    </div>
-    <!-- Related demos -->
-
-
-</div><!-- /container -->
+</div>-->
+<!-- Related demos -->
+<!--</div>--><!-- /container -->
 <!--    ..............intro...............-->
 <!--    .........................login...............-->
-<div class="container_login flip" id="divCompanies" style="display: none;
+<!--<div class="container_login flip" id="divCompanies" style="display: none;
     position: fixed;
         top: 25%;
     z-index: 100;left:29%;">
@@ -108,10 +194,10 @@
         </div>
         <div id="padding">
             <select class="se_login" id="cmbCompany" style="margin-top:30px;" name="CompCode"></select>
-            <select class="se_login" id="cmbBranch" style="margin-top:15px;" name="Language"></select>
+            <select class="se_login" id="cmbBranch" style="margin-top:15px;" name="Language"></select>-->
             @*<select class="se_login" id="drlSemister" style="margin-top:15px;" name="Semister" ></select>*@
 
-            <div class="clear"></div>
+            <!--<div class="clear"></div>
 
             <div style="width: 270px;float: right;">
                 <input type="button" class="login_btn_back" id="btnBack" value="back" style="margin-top:25px;float: left;">
@@ -122,7 +208,7 @@
     <div class="clear"></div>
     <div id="shadow"></div>
     <div class="clear"></div>
-</div>
+</div>-->
 
 <div class="modal message_popup fade" id="MessageBoxDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -166,7 +252,7 @@
     </div>
 </div>
 <script src="~/ClientApp/MessageBox.js"></script>
- @*<script src="~/ClientApp/Pages/LoginComponent.js"></script>*@
- 
+@*<script src="~/ClientApp/Pages/LoginComponent.js"></script>*@
+
 <script src="~/ClientApp/Pages/Login_.js"></script>
 

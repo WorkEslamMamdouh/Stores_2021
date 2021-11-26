@@ -243,7 +243,7 @@ var DefStore;
         Modelstore.BRA_CODE = $('#drpuserType_new').val();
         Modelstore.IsActive = checkactive.checked;
         Modelstore.StockAccCode = $('#drpinventoryAccount').val();
-        Modelstore.Fax = $('#txtCommission').val();
+        Modelstore.Fax = "1";
         Modelstore.STORE_TYPE = 1;
         Modelstore.TYPE_CODE = 1;
         if (flag == true) {

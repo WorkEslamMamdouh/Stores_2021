@@ -22,6 +22,8 @@ var Login_;
     var SystemEnv = new SystemEnvironment();
     var SysSession = GetSystemSession();
     function InitalizeComponent() {
+        $("#tblLogin").css("display", "block");
+        $("#tblCompany").css("display", "none");
         txtUserName = document.getElementById("txtUserName");
         txtUserPassword = document.getElementById("txtUserPassword");
         chkRemember = document.getElementById("chkRemember");
@@ -92,6 +94,7 @@ var Login_;
     }
     Login_.checkBrowser = checkBrowser;
     function Login() {
+        debugger;
         var userName = txtUserName.value;
         var userPassword = txtUserPassword.value;
         var user = new G_USERS();
@@ -173,6 +176,7 @@ var Login_;
         });
     }
     function GoToCompanySelect() {
+        debugger;
         $("#tblLogin").css("display", "none");
         $("#tblCompany").css("display", "block");
         document.getElementById("btnOk").addEventListener("click", function () {
@@ -307,8 +311,8 @@ var Login_;
         });
     }
     function GoBack() {
-        $("#divLogin").css("display", "block");
-        $("#divCompanies").css("display", "none");
+        $("#tblLogin").css("display", "block");
+        $("#tblCompany").css("display", "none");
     }
     function cmbCompany_Onchange(compCode, lang) {
         Ajax.Callsync({
