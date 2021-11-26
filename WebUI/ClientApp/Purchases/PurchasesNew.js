@@ -37,6 +37,7 @@ var PurchasesNew;
     var ReceiveItemsDetailsModel = new Array();
     var chargesDetailsModel = new Array();
     var ReceiveItemSingleModel = new I_Pur_TR_ReceiveItems();
+    var ReceiveChargesSingleModel = new I_Pur_Tr_ReceiveCharges();
     var GetAllVendorDetails = new Array();
     var SearchVendorDetails = new Array();
     var Detailsfamilly_Cat = new Array();
@@ -102,6 +103,7 @@ var PurchasesNew;
     var Tax_Rate = 0;
     var vatType;
     var Tax_Type_Model = new Tax_Type();
+    var ModeItmes = 3;
     function InitalizeComponent() {
         debugger;
         compcode = Number(SysSession.CurrentEnvironment.CompCode);
@@ -109,8 +111,8 @@ var PurchasesNew;
         Finyear = Number(SysSession.CurrentEnvironment.CurrentYear);
         InitalizeControls();
         IntializeEvents();
-        txtFromDate.value = GetDate();
-        txtToDate.value = GetDate();
+        txtFromDate.value = SysSession.CurrentEnvironment.StartDate;
+        txtToDate.value = ConvertToDateDash(GetDate()) <= ConvertToDateDash(SysSession.CurrentEnvironment.EndDate) ? GetDate() : SysSession.CurrentEnvironment.EndDate;
         FillddlVendor();
         FillddlFamily();
         GetAllIItem();
@@ -602,7 +604,7 @@ var PurchasesNew;
             NumCnt = cnt;
             //var Storeid = Number($("#ddlStore").val());
             var Storeid = 1;
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', function () {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), ModeItmes, function () {
                 var id = sysInternal_Comm.Itemid;
                 debugger;
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val())))
@@ -610,7 +612,7 @@ var PurchasesNew;
                 $("#txt_ItemID" + NumCnt + "").val(id);
                 var ItemCode = '';
                 var ItemID = id;
-                var Mode = 3;
+                var Mode = ModeItmes;
                 Ajax.Callsync({
                     type: "Get",
                     url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
@@ -628,9 +630,10 @@ var PurchasesNew;
                                 }
                                 $('#txtServiceName' + NumCnt + '').val((lang == "ar" ? GetItemInfo[0].It_DescA : GetItemInfo[0].it_DescE));
                                 $('#txtServiceCode' + NumCnt + '').val(GetItemInfo[0].ItemCode);
-                                $('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
-                                $('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
+                                //$('#txtPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
                                 $('#txtQuantity' + NumCnt + '').val('1');
+                                $('#txtPrice' + NumCnt + '').val("0");
+                                //$('#txtNetUnitPrice' + NumCnt + '').val(GetItemInfo[0].UnitPrice);
                                 $('#txtServiceName' + NumCnt + '').attr('disabled', 'disabled');
                                 $('#txtServiceCode' + NumCnt + '').attr('disabled', 'disabled');
                                 totalRow(NumCnt);
@@ -659,7 +662,7 @@ var PurchasesNew;
             var Storeid = 1;
             var ItemCode = $("#txtServiceCode" + cnt).val();
             var ItemID = 0;
-            var Mode = 3;
+            var Mode = ModeItmes;
             Ajax.Callsync({
                 type: "Get",
                 url: sys.apiUrl("StkDefItemType", "GetItemByCode"),
@@ -729,11 +732,11 @@ var PurchasesNew;
             var txtQuantityValue = $("#txtQuantity" + cnt).val();
             var Typeuom = $("#ddlTypeuom" + cnt);
             var OnhandQty = $('option:selected', Typeuom).attr('data-OnhandQty');
-            if (Number(txtQuantityValue) > Number(OnhandQty)) {
-                DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
-                $("#txtQuantity" + cnt).val(OnhandQty);
-                Errorinput($("#txtQuantity" + cnt));
-            }
+            //if (Number(txtQuantityValue) > Number(OnhandQty)) {
+            //    DisplayMassage(" لا يمكن تجاوز الكميه المتاحه  " + OnhandQty + " ", "Please select a customer", MessageType.Worning);
+            //    $("#txtQuantity" + cnt).val(OnhandQty);
+            //    Errorinput($("#txtQuantity" + cnt));
+            //}
             totalRow(cnt);
         });
         $("#txtPrice" + cnt).on('keyup', function () {
@@ -802,13 +805,14 @@ var PurchasesNew;
         $("#txtReturnQuantity" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].TotRetQty);
         $("#txtTax" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].VatAmount.toFixed(2));
         $("#txt_ItemID" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].ItemID);
+        $("#txtTotal" + cnt).prop("value", SlsInvoiceItemsDetails[cnt].NetUnitCost);
         filldlltypeuom(cnt, SlsInvoiceItemsDetails);
     }
     function filldlltypeuom(cnt, SlsInvoiceItemsDetails) {
         var Storeid = 1;
         var ItemCode = '';
         var ItemID = SlsInvoiceItemsDetails[cnt].ItemID;
-        var Mode = 3;
+        var Mode = ModeItmes;
         var GetItemInfo = new Array();
         Ajax.Callsync({
             type: "Get",
@@ -969,7 +973,7 @@ var PurchasesNew;
                 Errorinput($("#txtQuantity" + rowcount));
                 return false;
             }
-            else if (($("#txtPrice" + rowcount).val() == "" || $("#txtPrice" + rowcount).val() == "0.00" || $("#txtPrice" + rowcount).val() == 0) && ($("#txt_StatusFlag" + rowcount).val() != 'd')) {
+            else if (($("#txtPrice" + rowcount).val() == "" || $("#txtPrice" + rowcount).val() == "0" || $("#txtPrice" + rowcount).val() == 0) && ($("#txt_StatusFlag" + rowcount).val() != 'd')) {
                 MessageBox.Show("  برجاءادخال السعر الشراء", "خطأ");
                 Errorinput($("#txtPrice" + rowcount));
                 return false;
@@ -1017,7 +1021,7 @@ var PurchasesNew;
         ReceiveModel.NetAdditionCost = 0;
         ReceiveModel.NetDue = 0;
         ReceiveModel.VatAmount = 0;
-        ReceiveModel.Total = 0;
+        ReceiveModel.Total = Number($('#txtTotal').val());
         debugger;
         // Details Receive items
         for (var i = 0; i < CountGrid; i++) {
@@ -1032,15 +1036,16 @@ var PurchasesNew;
                 ReceiveItemSingleModel.RecQty = $('#txtQuantity' + i).val();
                 var Rate_data = Number($('option:selected', $("#ddlTypeuom" + i)).attr('data-rate'));
                 var stockqty = (Number($('#txtQuantity' + i).val()) * Number(Rate_data));
+                ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.RecStockQty = stockqty; //
+                ReceiveItemSingleModel.StockUnitCost = stockqty; //
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc; //$("#txtTax" + i).val();txtTotal
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotAddons" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPriceFc" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = $("#txtAddons" + i).val();
-                ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 0;
                 ReceiveItemsDetailsModel.push(ReceiveItemSingleModel);
             }
             if (StatusFlag == "u") {
@@ -1055,9 +1060,9 @@ var PurchasesNew;
                 ReceiveItemSingleModel.RecStockQty = stockqty; //
                 ReceiveItemSingleModel.TotRetQty = $("#txtQuantityReturnValue" + i).val();
                 ReceiveItemSingleModel.RecUnitPrice = $("#txtPrice" + i).val();
-                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPriceFc" + i).val();
-                ReceiveItemSingleModel.UnitAddCost = $("#txtAddons" + i).val();
-                ReceiveItemSingleModel.NetUnitCost = $("#txtTotAddons" + i).val();
+                ReceiveItemSingleModel.RecUnitPriceFC = $("#txtPrice" + i).val();
+                ReceiveItemSingleModel.UnitAddCost = 0;
+                ReceiveItemSingleModel.NetUnitCost = $("#txtTotal" + i).val();
                 ReceiveItemSingleModel.VatAmount = $("#txtTax" + i).val();
                 ReceiveItemSingleModel.Serial = $("#txtSerial" + i).val();
                 ReceiveItemSingleModel.VatPrc = VatPrc; //$("#txtTax" + i).val();txtTotal
@@ -1073,6 +1078,15 @@ var PurchasesNew;
             }
         }
         // Details Receive charges
+        if (AddNew == true) {
+            ReceiveChargesSingleModel = new I_Pur_Tr_ReceiveCharges();
+            ReceiveChargesSingleModel.ReceiveID = 0;
+            ReceiveChargesSingleModel.Amount = 1;
+            ReceiveChargesSingleModel.ChargeID = 3;
+            ReceiveChargesSingleModel.isPaidByVendor = true;
+            ReceiveChargesSingleModel.NetAtferVat = Number($('#txtTotal').val());
+            chargesDetailsModel.push(ReceiveChargesSingleModel);
+        }
         MasterDetailModel.I_Pur_TR_Receive = ReceiveModel;
         MasterDetailModel.I_Pur_TR_ReceiveItems = ReceiveItemsDetailsModel;
         MasterDetailModel.I_Pur_Tr_ReceiveCharges = chargesDetailsModel; //I_Pur_Tr_ReceiveCharges

@@ -179,8 +179,8 @@ namespace Incomeoperations {
     function itemDisplay() {
 
         if (drpitem_family.value != 'null') {
-        Details  = new Array<IQ_GetItemStoreInfo>();
-
+            Details = new Array<IQ_GetItemStoreInfo>();
+            $("#drpitem_family").removeAttr('disabled')
 
             var storeCode = 1;
             var ItemFamilyID = Number($("#drpitem_family").val());

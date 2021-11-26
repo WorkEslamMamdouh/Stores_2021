@@ -1652,7 +1652,7 @@ var SlsTrSalesManager;
             var GetItemInfo = new Array();
             NumCnt = cnt;
             var Storeid = Number($("#ddlStore").val());
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', function () {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), InvoiceType, function () {
                 var id = sysInternal_Comm.Itemid;
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val())))
                     return;

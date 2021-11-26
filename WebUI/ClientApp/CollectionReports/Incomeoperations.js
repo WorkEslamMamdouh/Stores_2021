@@ -149,6 +149,7 @@ var Incomeoperations;
     function itemDisplay() {
         if (drpitem_family.value != 'null') {
             Details = new Array();
+            $("#drpitem_family").removeAttr('disabled');
             var storeCode = 1;
             var ItemFamilyID = Number($("#drpitem_family").val());
             var finyear = sys.SysSession.CurrentEnvironment.CurrentYear;

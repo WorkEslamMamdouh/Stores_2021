@@ -564,7 +564,7 @@
 
 
 
-    public ShowItems(BranchCode: number, Storeid: number, Desc: string, Code: string, Mode: string, OnSearchSelected: () => void) {
+    public ShowItems(BranchCode: number, Storeid: number, Desc: string, Code: string, Mode: number, OnSearchSelected: () => void) {
         debugger
         $('#Popupitem').modal('show');
         $('#Likedesc').val(Desc);
@@ -708,12 +708,15 @@
                         divpopupGrid.OnRowDoubleClicked = () => {
 
                             var OnHand = Details.filter(x => x.ItemID == Number(divpopupGrid.SelectedKey))
-                          
-                            if (OnHand[0].StoreQty == 0) {
-                                DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
-                                $('#Popupitem').modal('hide');
-                                return false
+
+                            if (Mode != 3) {
+                                if (OnHand[0].StoreQty == 0) {
+                                    DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                                    $('#Popupitem').modal('hide');
+                                    return false
+                                }
                             }
+                           
 
                         
 
@@ -780,13 +783,13 @@
                     divpopupGrid.OnRowDoubleClicked = () => {
 
                         var OnHand = Details.filter(x => x.ItemID == Number(divpopupGrid.SelectedKey))
-
-                        if (OnHand[0].StoreQty == 0) {
-                            DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
-                            $('#Popupitem').modal('hide');
-                            return false
+                        if (Mode != 3) {
+                            if (OnHand[0].StoreQty == 0) {
+                                DisplayMassage("الصنف لا يوجد له كميه في المستودع", "Item found before", MessageType.Error);
+                                $('#Popupitem').modal('hide');
+                                return false
+                            }
                         }
-
 
 
                         sysInternal_Comm.Itemid = Number(divpopupGrid.SelectedKey);

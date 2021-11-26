@@ -671,6 +671,7 @@
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="50" />
           <Property Name="UpdatedAt" Type="smalldatetime" />
           <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="CommissionPRC" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="G_SUB_SYSTEMS">
           <Key>
@@ -5476,7 +5477,6 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
             <Parameter Name="LikeDesc" Mode="In" Type="String" />
             <Parameter Name="LikeCode" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="G_STORE" EntityType="POS2021Model.G_STORE" />
           <EntitySet Name="G_VatNature" EntityType="POS2021Model.G_VatNature" />
           <EntitySet Name="GQ_GetStore" EntityType="POS2021Model.GQ_GetStore" />
           <EntitySet Name="A_CCDT_Types" EntityType="POS2021Model.A_CCDT_Types" />
@@ -5560,6 +5560,7 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <EntitySet Name="IQ_GetPurReceiveItem" EntityType="POS2021Model.IQ_GetPurReceiveItem" />
           <EntitySet Name="Purchases_Master" EntityType="POS2021Model.Purchases_Master" />
           <EntitySet Name="IQ_Purchases_Master" EntityType="POS2021Model.IQ_Purchases_Master" />
+          <EntitySet Name="G_STORE" EntityType="POS2021Model.G_STORE" />
         </EntityContainer>
         <ComplexType Name="Get_Settings_Report_Result">
           <Property Type="Int32" Name="ID_Report" Nullable="false" />
@@ -6579,31 +6580,6 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <Property Type="Decimal" Name="GlobalCost" Nullable="true" Precision="19" Scale="6" />
           <Property Type="Int32" Name="FinYear" Nullable="true" />
         </ComplexType>
-        <EntityType Name="G_STORE">
-          <Key>
-            <PropertyRef Name="StoreId" />
-          </Key>
-          <Property Name="StoreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="BranchId" Type="Int32" />
-          <Property Name="COMP_CODE" Type="Int32" />
-          <Property Name="BRA_CODE" Type="Int32" />
-          <Property Name="STORE_CODE" Type="Int32" />
-          <Property Name="DescA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DescL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IsActive" Type="Boolean" />
-          <Property Name="StockAccCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Tel1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Tel2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="STORE_TYPE" Type="Byte" />
-          <Property Name="TYPE_CODE" Type="Byte" />
-          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedAt" Type="DateTime" Precision="0" />
-          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="UpdatedAt" Type="DateTime" Precision="0" />
-          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="G_VatNature">
           <Key>
             <PropertyRef Name="VatNatID" />
@@ -7517,6 +7493,32 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
           <Property Name="To_be_Paid" Type="Decimal" Precision="19" Scale="4" />
           <Property Name="REMARKS" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="ReceiveID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="G_STORE">
+          <Key>
+            <PropertyRef Name="StoreId" />
+          </Key>
+          <Property Name="StoreId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchId" Type="Int32" />
+          <Property Name="COMP_CODE" Type="Int32" />
+          <Property Name="BRA_CODE" Type="Int32" />
+          <Property Name="STORE_CODE" Type="Int32" />
+          <Property Name="DescA" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DescL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="StockAccCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Tel1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Tel2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Fax" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="STORE_TYPE" Type="Byte" />
+          <Property Name="TYPE_CODE" Type="Byte" />
+          <Property Name="Remarks" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UpdatedAt" Type="DateTime" Precision="0" />
+          <Property Name="UpdatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CommissionPRC" Type="Decimal" Precision="18" Scale="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -9676,32 +9678,6 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="G_STORE">
-            <EntityTypeMapping TypeName="POS2021Model.G_STORE">
-              <MappingFragment StoreEntitySet="G_STORE">
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
-                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
-                <ScalarProperty Name="TYPE_CODE" ColumnName="TYPE_CODE" />
-                <ScalarProperty Name="STORE_TYPE" ColumnName="STORE_TYPE" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="Tel2" ColumnName="Tel2" />
-                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
-                <ScalarProperty Name="StockAccCode" ColumnName="StockAccCode" />
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="DescL" ColumnName="DescL" />
-                <ScalarProperty Name="DescA" ColumnName="DescA" />
-                <ScalarProperty Name="STORE_CODE" ColumnName="STORE_CODE" />
-                <ScalarProperty Name="BRA_CODE" ColumnName="BRA_CODE" />
-                <ScalarProperty Name="COMP_CODE" ColumnName="COMP_CODE" />
-                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
-                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="G_VatNature">
             <EntityTypeMapping TypeName="POS2021Model.G_VatNature">
               <MappingFragment StoreEntitySet="G_VatNature">
@@ -10646,6 +10622,33 @@ warning 6002: The table/view 'Stores2021.dbo.ReviewSalesMaster' does not have a 
                 <ScalarProperty Name="ID_Supplier" ColumnName="ID_Supplier" />
                 <ScalarProperty Name="Tr_Date" ColumnName="Tr_Date" />
                 <ScalarProperty Name="TrNo" ColumnName="TrNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="G_STORE">
+            <EntityTypeMapping TypeName="POS2021Model.G_STORE">
+              <MappingFragment StoreEntitySet="G_STORE">
+                <ScalarProperty Name="CommissionPRC" ColumnName="CommissionPRC" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedAt" ColumnName="UpdatedAt" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="TYPE_CODE" ColumnName="TYPE_CODE" />
+                <ScalarProperty Name="STORE_TYPE" ColumnName="STORE_TYPE" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Fax" ColumnName="Fax" />
+                <ScalarProperty Name="Tel2" ColumnName="Tel2" />
+                <ScalarProperty Name="Tel1" ColumnName="Tel1" />
+                <ScalarProperty Name="StockAccCode" ColumnName="StockAccCode" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="DescL" ColumnName="DescL" />
+                <ScalarProperty Name="DescA" ColumnName="DescA" />
+                <ScalarProperty Name="STORE_CODE" ColumnName="STORE_CODE" />
+                <ScalarProperty Name="BRA_CODE" ColumnName="BRA_CODE" />
+                <ScalarProperty Name="COMP_CODE" ColumnName="COMP_CODE" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="StoreId" ColumnName="StoreId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -351,7 +351,7 @@ var CustomerOrder;
             var GetItemInfo = new Array();
             NumCnt = cnt;
             var Storeid = 1;
-            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), 'R', function () {
+            sys.ShowItems(Number(SysSession.CurrentEnvironment.BranchCode), Storeid, $('#txtServiceName' + cnt).val(), $('#txtServiceCode' + cnt).val(), InvoiceType, function () {
                 var id = sysInternal_Comm.Itemid;
                 debugger;
                 if (!validationitem(id, Number($("#txt_ItemID" + NumCnt + "").val())))
