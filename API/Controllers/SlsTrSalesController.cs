@@ -277,8 +277,20 @@ namespace Inv.API.Controllers
                 return Ok(new BaseResponse(res));
             }
             return BadRequest(ModelState);
-        }  
-        
+        }
+
+        [HttpGet, AllowAnonymous]
+        public IHttpActionResult GetAllSlsInvoiceCust(int BranchCode, int CompCode, string StartDate, string EndDate, int? CustId, string UserCode, string Token)
+        {
+            //if (ModelState.IsValid && UserControl.CheckUser(Token, UserCode))
+            //{
+                string s = "select * from IQ_GetSlsInvoiceList where TrType = 3  and BranchCode = " + BranchCode + " and CompCode = " + CompCode + "and SlsInvSrc = 1 and TrDate >=' " + StartDate + "' and TrDate <= ' " + EndDate + " ' and CustomerId =" + CustId +"";
+              
+                var res = db.Database.SqlQuery<IQ_GetSlsInvoiceList>(s).ToList();
+                return Ok(new BaseResponse(res));
+            //}
+            //return BadRequest(ModelState);
+        }
         [HttpGet, AllowAnonymous]
         public IHttpActionResult GetPriceshowById(int InvId, string UserCode, string Token)
         {
