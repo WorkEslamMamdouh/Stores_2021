@@ -1223,7 +1223,7 @@ function DisplayMassage(msg_Ar: string, msg_En: string, msg_type: string, OnOk?:
         //setTimeout(function () { $('#DivMassage').attr('style', ' border-style: solid;border: solid;border-color: #5cb702; display: none; '); }, 6000);
 
         $('#DivMassage').attr('class', 'col-lg-12  margingred  borderred');
-        $('#DivMassage').attr('style', ' border-style: solid;border: solid;border-color: #5cb702; background-color : #009605 !important	');
+        $('#DivMassage').attr('style', ' border-style: solid;border: solid;border-color: #5cb702; background-color : #8e34f1 !important	');
         $('#Text_Massage').attr('style', 'text-align: center;font-weight: bold;color: #ffffff;margin-top: 14px; font-size: 24px; margin-left: 10%; margin-right: 6%;');
 
         setTimeout(function () { $('#DivMassage').attr('style', ' border-style: solid;border: solid;border-color: #5cb702; display: none; '); }, 6000);

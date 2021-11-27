@@ -6,12 +6,26 @@ var LoginComponent;
 (function (LoginComponent) {
     var sys = new SystemTools();
     var sysPar = new SystemParameters();
+    var Model_Cust = new CUSTOMER();
+    var CUSTOMERdETAIL = new Array();
+    var CUSTOMERdETAILnew = new Array();
     var cmbLanguage;
     var OnLoggedUrl = "";
     var txtUserName;
+    var txtUserNameS;
+    var txtNameArS;
+    var txtNameEnS;
+    var txtConfirmpasswordS;
+    var txtAddressS;
+    var btnBackS;
     var txtUserPassword;
+    var txtPhoneS;
+    var txtUserPasswordS;
+    var txtEmailS;
+    var btnOkS;
     var chkRemember;
     var btnLogin;
+    var btnSignUp;
     var btnBack;
     var txtYear;
     var hLoggedName;
@@ -27,7 +41,18 @@ var LoginComponent;
     function InitalizeComponent() {
         txtUserName = document.getElementById("txtUserName");
         txtUserPassword = document.getElementById("txtUserPassword");
+        txtUserNameS = document.getElementById("txtUserNameS");
+        txtNameArS = document.getElementById("txtNameArS");
+        txtNameEnS = document.getElementById("txtNameEnS");
+        txtConfirmpasswordS = document.getElementById("txtConfirmpasswordS");
+        txtUserPasswordS = document.getElementById("txtUserPasswordS");
+        txtPhoneS = document.getElementById("txtPhoneS");
+        txtEmailS = document.getElementById("txtEmailS");
+        txtAddressS = document.getElementById("txtAddressS");
+        btnOkS = document.getElementById("btnOkS");
+        btnBackS = document.getElementById("btnBackS");
         btnLogin = document.getElementById("btnLogin");
+        btnSignUp = document.getElementById("btnSignUp");
         //btnBack = document.getElementById("btnBack");
         //cmbLanguage = document.getElementById("cmbLanguage");
         //txtYear = document.getElementById("txtYear");
@@ -39,6 +64,10 @@ var LoginComponent;
         //btnBack.addEventListener("click", GoBack);
         btnLogin.addEventListener("click", Login);
         //MessageBox
+        btnSignUp.addEventListener("click", SignUp);
+        btnBackS.addEventListener("click", BackS);
+        btnOkS.addEventListener("click", OkS);
+        btnOkS.addEventListener("click", Registration);
         var loginData = localStorage.getItem("Inv1_Login_Data");
         if (loginData != null) {
             var data = JSON.parse(loginData);
@@ -195,6 +224,146 @@ var LoginComponent;
                 }
             }
         });
+    }
+    function getcustomer() {
+        Ajax.Callsync({
+            type: "Get",
+            url: sys.apiUrl("Customer", "GetAll"),
+            data: { CompCode: 1, BranchCode: 1 },
+            success: function (d) {
+                debugger;
+                var result = d;
+                if (result.IsSuccess == true) {
+                    CUSTOMERdETAIL = result.Response;
+                }
+                else {
+                    MessageBox.Show(result.ErrorMessage, "خطأ");
+                }
+            }
+        });
+    }
+    function SignUp() {
+        $('#tblSignUp').removeAttr('Style');
+        $('#tblLogin').attr('Style', 'display:none');
+        getcustomer();
+        ClearInputs();
+    }
+    function OkS() {
+        if (txtNameArS.value == "") {
+            Errorinput(txtNameArS);
+            DisplayMassage("يجب ادخال الاسم بالعربي", "The delegate number must be entered", MessageType.Worning);
+        }
+        else {
+            if (txtNameEnS.value == "") {
+                Errorinput(txtNameEnS);
+                txtNameEnS.value = txtNameArS.value;
+            }
+            else {
+                if (txtPhoneS.value == "") {
+                    Errorinput(txtPhoneS);
+                    DisplayMassage("يجب ادخال الهاتف  ", "The Phone number must be entered", MessageType.Worning);
+                }
+                else {
+                    if (txtEmailS.value == "") {
+                        Errorinput(txtEmailS);
+                        DisplayMassage("يجب ادخال البريد الالكتروني  ", "The Email must be entered", MessageType.Worning);
+                    }
+                    else {
+                        if (txtAddressS.value == "") {
+                            Errorinput(txtAddressS);
+                            DisplayMassage("يجب ادخال العنوان    ", "The Address must be entered", MessageType.Worning);
+                        }
+                        else {
+                            if (txtUserNameS.value == "") {
+                                Errorinput(txtUserNameS);
+                                DisplayMassage("يجب ادخال اسم المستخدم", "Username must be entered", MessageType.Worning);
+                            }
+                            else {
+                                if (txtUserPasswordS.value == "") {
+                                    Errorinput(txtUserPasswordS);
+                                    DisplayMassage("يجب ادخال كلمة السر", "Password must be entered", MessageType.Worning);
+                                }
+                                else {
+                                    if (txtUserPasswordS.value.length < 5) {
+                                        Errorinput(txtUserPasswordS);
+                                        DisplayMassage("  يجب الا تقل كلمة السر عن 5 ارقام", "Password must be entered", MessageType.Worning);
+                                    }
+                                    else {
+                                        if (txtConfirmpasswordS.value == "") {
+                                            Errorinput(txtConfirmpasswordS);
+                                            DisplayMassage("يجب ادخال تاكيد كلمة السر", "Confirm password must be entered", MessageType.Worning);
+                                        }
+                                        else {
+                                            debugger;
+                                            if (txtUserPasswordS.value != txtConfirmpasswordS.value) {
+                                                Errorinput(txtUserPasswordS);
+                                                Errorinput(txtConfirmpasswordS);
+                                                DisplayMassage("كلمتا المرور غير متطابقتان", "Passwords do not match", MessageType.Worning);
+                                            }
+                                            else {
+                                                CUSTOMERdETAILnew = CUSTOMERdETAIL.filter(function (x) { return x.CustomerCODE == txtUserPasswordS.value; });
+                                                if (CUSTOMERdETAILnew.length > 0) {
+                                                    Errorinput(txtUserPasswordS);
+                                                    DisplayMassage("كلمة السر ضعيفة", "Password must be entered", MessageType.Worning);
+                                                }
+                                                else {
+                                                    successSignUp();
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function successSignUp() {
+        Model_Cust = new CUSTOMER();
+        Model_Cust.CUSTOMER_ID = 0;
+        Model_Cust.CompCode = 1;
+        Model_Cust.BranchCode = 1;
+        Model_Cust.CUSTOMER_ADDRES_2 = txtUserNameS.value;
+        Model_Cust.CustomerCODE = txtUserPasswordS.value;
+        Model_Cust.CUSTOMER_NAME = txtNameArS.value;
+        Model_Cust.NAMEE = txtNameEnS.value;
+        Model_Cust.CUSTOMER_ADDRES = txtAddressS.value;
+        Model_Cust.PHONE = txtPhoneS.value;
+        Model_Cust.EMAIL = txtEmailS.value;
+        Ajax.Callsync({
+            type: "POST",
+            url: sys.apiUrl("Customer", "Insertcustomer"),
+            data: JSON.stringify(Model_Cust),
+            success: function (d) {
+                debugger;
+                var result = d;
+                if (result.IsSuccess == true) {
+                    //CUSTOMER_ID = result.Response;
+                }
+                else {
+                    MessageBox.Show(result.ErrorMessage, "خطأ");
+                }
+            }
+        });
+    }
+    function BackS() {
+        $('#tblLogin').removeAttr('Style');
+        $('#tblSignUp').attr('Style', 'display:none');
+        ClearInputs();
+    }
+    function ClearInputs() {
+        txtNameArS.value = "";
+        txtNameEnS.value = "";
+        txtPhoneS.value = "";
+        txtAddressS.value = "";
+        txtEmailS.value = "";
+        txtUserNameS.value = "";
+        txtUserPasswordS.value = "";
+        txtConfirmpasswordS.value = "";
+    }
+    function Registration() {
     }
     function OnLogged() {
         // set api session values 

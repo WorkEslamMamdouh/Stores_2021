@@ -16,8 +16,7 @@
     <link rel="shortcut icon" href="~/images/logokids.png">
     <title>@SystemResource.App_Home</title>
     @Styles.Render("~/Bundles/AppStyle2")
-    <link id="bootstrap_rtl" href="~/Style_design/bootstrap-rtl.css" rel="stylesheet" />
-    <link id="Style_Arabic" href="~/Style_design/Style_Arabic.css" rel="stylesheet" />
+
     @*<script src="http://code.jquery.com/jquery-3.0.0.js"></script>*@
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Style_design/js/jquery-3.4.1.js"></script>
@@ -34,6 +33,7 @@
             color: #333;
             background-color: unset;
         }
+
         .stfooter {
             margin: -15px -12px;
         }
@@ -65,10 +65,33 @@
             color: white;
             left: 5%;
         }
+
         .display_none {
-            display :none;
+            display: none;
         }
     </style>
+
+
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/New_Design/Login_v1/images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/css/main.css">
+    <!--===============================================================================================-->
+
+    <link id="bootstrap_rtl" href="~/Style_design/bootstrap-rtl.css" rel="stylesheet" />
+    <link id="Style_Arabic" href="~/Style_design/Style_Arabic.css" rel="stylesheet" />
+
 </head>
 <body>
     <div id="btnclosefooter" class="display_none">
@@ -287,7 +310,7 @@
                             </select>
                         </div>
 
-                       
+
                     </div>
                     <div class="col-lg-12">
                         <div class="col-lg-2 pad_">
@@ -305,7 +328,7 @@
                         </div>
                         <div class="col-lg-2 float-left ">
                             <button type="button" class="btn btn-info" id="btnsrePopup">
-                               بحث <span class="glyphicon glyphicon-save "></span>
+                                بحث <span class="glyphicon glyphicon-save "></span>
                             </button>
                         </div>
                         <div class="col-lg-2 pad_ display_none">
@@ -343,5 +366,21 @@
 
 
 
+    <!--===============================================================================================-->
+    <script src="~/New_Design/Login_v1/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/New_Design/Login_v1/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/New_Design/Login_v1/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/New_Design/Login_v1/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/New_Design/Login_v1/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $('.js-tilt').tilt({
+            scale: 1.1
+        })
+    </script>
+    <!--===============================================================================================-->
+    <script src="~/New_Design/Login_v1/js/main.js"></script>
 </body>
 </html>
