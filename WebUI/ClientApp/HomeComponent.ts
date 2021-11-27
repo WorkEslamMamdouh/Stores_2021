@@ -10,8 +10,7 @@ namespace HomeComponent {
     var sys: SystemTools = new SystemTools();
 
 
-
-    var tol_allnotification2: HTMLButtonElement;
+     
     var But_Outlet: HTMLButtonElement;
     var But_Input: HTMLButtonElement;
     var btnCash: HTMLButtonElement;
@@ -229,8 +228,7 @@ namespace HomeComponent {
 
         });
 
-
-        tol_allnotification2 = document.getElementById('tol_allnotification') as HTMLButtonElement
+         
         btnCash = document.getElementById('btnCash') as HTMLButtonElement
 
         But_Input = document.getElementById('But_Input') as HTMLButtonElement
@@ -241,8 +239,7 @@ namespace HomeComponent {
         btnCash.onclick = Get_balance;
         Close.onclick = Close_Day;
         Check_Close_Day();
-
-        tol_allnotification2.onclick = tol_allnotification_onclick;
+         
         FillddlPilot();         
         if (SysSession.CurrentEnvironment.I_Control[0].IvoiceDateEditable != true) {
             Close.classList.add("display_none");

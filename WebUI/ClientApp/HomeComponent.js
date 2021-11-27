@@ -6,7 +6,6 @@ var HomeComponent;
 (function (HomeComponent) {
     //let res: any = GetResourceList("");
     var sys = new SystemTools();
-    var tol_allnotification2;
     var But_Outlet;
     var But_Input;
     var btnCash;
@@ -190,7 +189,6 @@ var HomeComponent;
                 backtotop.removeClass('active');
             }
         });
-        tol_allnotification2 = document.getElementById('tol_allnotification');
         btnCash = document.getElementById('btnCash');
         But_Input = document.getElementById('But_Input');
         But_Outlet = document.getElementById('But_Outlet');
@@ -200,7 +198,6 @@ var HomeComponent;
         btnCash.onclick = Get_balance;
         Close.onclick = Close_Day;
         Check_Close_Day();
-        tol_allnotification2.onclick = tol_allnotification_onclick;
         FillddlPilot();
         if (SysSession.CurrentEnvironment.I_Control[0].IvoiceDateEditable != true) {
             Close.classList.add("display_none");

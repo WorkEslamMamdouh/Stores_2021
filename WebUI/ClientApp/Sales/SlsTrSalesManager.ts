@@ -1893,8 +1893,9 @@ namespace SlsTrSalesManager {
         NewAdd = false;
         btndiv_1_onclick();
 
-        let commissionprc = Number($('option:selected', $("#ddlStore")).attr('commissionprc'));
-        $('#txtCommission').val(((Number(txtNet.value) * commissionprc) / 100));
+        //let commissionprc = Number($('option:selected', $("#ddlStore")).attr('commissionprc'));
+        //$('#txtCommission').val(((Number(txtNet.value) * commissionprc) / 100));
+        $('#txtCommission').val(InvoiceStatisticsModel[0].CommitionAmount);
     }
     //------------------------------------------------------ Controls Grid Region------------------------
     function BuildControls(cnt: number) {
@@ -1911,7 +1912,7 @@ namespace SlsTrSalesManager {
             '<input id="InvoiceItemID' + cnt + '" type="hidden" class="form-control input-sm right2 display_none"  />' +
 
             '<div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0" style="width: 11%;">' +
-            '<button type="button" class="col-lg-3 src-btn btn btn-search input-sm " id="btnSearchService' + cnt + '" name="ColSearch">   ' +
+            '<button type="button" class="col-lg-3 src-btn  " id="btnSearchService' + cnt + '" name="ColSearch">   ' +
             '<i class="fa fa-search  "></i></button>' +
             '<input id="txtServiceCode' + cnt + '" name=""   type="text" class="col-lg-9 form-control input-sm  text_Display  " />' +
             '</div>' +
