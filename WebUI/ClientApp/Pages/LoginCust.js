@@ -8,6 +8,7 @@ var LoginComponent;
     var sysPar = new SystemParameters();
     var Model_Cust = new CUSTOMER();
     var CUSTOMERdETAIL = new Array();
+    var CUSTSingl = new CUSTOMER();
     var CUSTOMERdETAILnew = new Array();
     var cmbLanguage;
     var OnLoggedUrl = "";
@@ -340,7 +341,11 @@ var LoginComponent;
                 debugger;
                 var result = d;
                 if (result.IsSuccess == true) {
-                    //CUSTOMER_ID = result.Response;
+                    debugger;
+                    CUSTSingl = result.Response;
+                    txtUserName.value = CUSTSingl.CUSTOMER_ADDRES_2;
+                    txtUserPassword.value = CUSTSingl.CustomerCODE;
+                    Login();
                 }
                 else {
                     MessageBox.Show(result.ErrorMessage, "خطأ");

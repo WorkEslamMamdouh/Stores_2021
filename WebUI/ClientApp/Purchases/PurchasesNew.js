@@ -535,10 +535,10 @@ var PurchasesNew;
             '<input id="InvoiceItemID' + cnt + '" type="hidden" class="form-control input-sm right2 display_none"  />' +
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0" style="width: 11%;">' +
             '<input id="txtServiceCode' + cnt + '" name=""  disabled type="text" class="  col-lg-9 form-control input-sm  text_Display  " />' +
-            '<button type="button" class="col-lg-3 src-btn btn btn-search input-sm " id="btnSearchService' + cnt + '" disabled name="ColSearch">   ' +
+            '<button type="button" class="col-lg-3 src-btn  " id="btnSearchService' + cnt + '" disabled name="ColSearch">   ' +
             '<i class="fa fa-search  "></i></button>' +
             '</div>' +
-            '<div class=" col-lg-3 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0">' +
+            '<div class=" col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
             '<input id="txtServiceName' + cnt + '" name="FromDate" disabled  type="text" class="   form-control input-sm  text_Display"   />' +
             '</div>' +
             '<div class=" col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0">' +
@@ -547,16 +547,7 @@ var PurchasesNew;
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number" disabled id="txtPrice' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="1" min="0" max="1000" step="0.5"></div>' +
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"><input type="text"  disabled class="form-control input-sm" id="txtReturnQuantity' + cnt + '" name="quant[3]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="1"></div>' +
             '<div class="  col-lg-1 col-md-1 col-sm-1 col-xl-1 col-xs-1 p-0"  ><input type="number" disabled id="txtTotal' + cnt + '" name="quant[2]" class="form-control input-sm   font1" value="0" min="0" max="1000" step="0.5"></div>' +
-            '<div class="display_none col-lg-6 col-md-6 col-sm-6 col-xl-6 col-xs-6" style="position:absolute; right:97%">' +
-            '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
-            '<input id="txtNetUnitPrice' + cnt + '" type="text" class="form-control input-sm right2" disabled /></div>' +
-            '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
-            '<input id="txtTax_Rate' + cnt + '" type="text" class="form-control input-sm input-sm right2" disabled /></div>' +
-            '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
-            '<input id="txtTax' + cnt + '" type="text" class="form-control input-sm right2" disabled /></div>' +
-            '<div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 col-xs-3 p-0">' +
-            '<input id="txtTotAfterTax' + cnt + '" type="text" class="form-control input-sm right2" disabled /></div>' +
-            '</div></div></div>' +
+            '</div>' +
             '<input id="txt_StatusFlag' + cnt + '" name = " " type = "hidden" class="form-control"/><input id="txt_ItemID' + cnt + '" name = " " type = "hidden" class="form-control"/><input id="txt_ID' + cnt + '" name = " " type = "hidden" class="form-control" />';
         $("#div_Data").append(html);
         //Search Region

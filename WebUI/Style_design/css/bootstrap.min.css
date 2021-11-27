@@ -5141,7 +5141,7 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
         z-index: 3;
         color: #fff;
         cursor: default;
-        background-color: #03a9f4 !important;
+        background-color: #f47203 !important;
         border-color: #ef6603 !important
     }
 

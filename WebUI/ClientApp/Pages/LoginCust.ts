@@ -8,6 +8,7 @@ var LoginComponent;
     var sysPar = new SystemParameters();
     var Model_Cust: CUSTOMER = new CUSTOMER();
     var CUSTOMERdETAIL: Array <CUSTOMER >= new Array <CUSTOMER>();
+    var CUSTSingl: CUSTOMER = new CUSTOMER();
     var CUSTOMERdETAILnew: Array <CUSTOMER >= new Array <CUSTOMER>();
 
     var cmbLanguage;
@@ -371,9 +372,10 @@ var LoginComponent;
                 debugger
                 let result = d as BaseResponse;
                 if (result.IsSuccess == true) {
-                    CUSTOMERdETAIL = result.Response as Array<CUSTOMER>();
-                    txtUserName.value = CUSTOMERdETAIL[0].CUSTOMER_ADDRES_2;
-                    txtUserPassword.value = CUSTOMERdETAIL[0].CustomerCODE;
+                    debugger
+                    CUSTSingl = result.Response as CUSTOMER;
+                    txtUserName.value = CUSTSingl.CUSTOMER_ADDRES_2;
+                    txtUserPassword.value = CUSTSingl.CustomerCODE;
                     Login();
                 }
                 else {

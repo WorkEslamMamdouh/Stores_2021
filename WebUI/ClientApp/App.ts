@@ -1298,6 +1298,28 @@ function DisplayMassage_Processes(msg_Ar: string, msg_En: string, msg_type: stri
 
 function Errorinput(input: any) {
 
+
+    //var input;
+    //if (inp.id == undefined) {
+    //    input = $('#' + inp[0].id + '')
+    //}
+    //else {
+    //    input = $('#' + inp.id + '')
+    //}
+
+
+
+    //input.addClass('text_Mandatory');
+    //input.addClass('animate__animated animate__wobble');
+
+    //input.focus();
+    //setTimeout(function () {
+    //    input.removeClass('text_Mandatory');
+    //    input.removeClass('animate__animated animate__wobble');
+    //}, 5000);
+
+
+
     if (input.selector != null) {
 
         $('' + input.selector + '').addClass('text_Mandatory');

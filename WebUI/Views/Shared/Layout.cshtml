@@ -36,7 +36,10 @@
     <script src="~/New_Design/website-menu-16/js/popper.js"></script>
     <script src="~/New_Design/website-menu-16/js/main.js"></script>
     @*<script src="~/New_Design/website-menu-16/js/bootstrap.min.js"></script>*@
-
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/css/util.css">
+    <link rel="stylesheet" type="text/css" href="~/New_Design/Login_v1/css/main.css">
+    <!--===============================================================================================-->
     <style>
         .display_none {
             display: none !important;
@@ -81,7 +84,7 @@
                 <div class="container">
                     <ul class="navbar-nav m-auto">
 
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle" href="#" id="Admin_name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
                             <div class="dropdown-menu" aria-labelledby="Admin_name">
                                 <a class="dropdown-item" href="#" id="LanguageButtonHome"> <span id="LanguageButtonHome" class="adminpro-icon adminpro-money author-log-ic"></span> </a>
@@ -91,18 +94,15 @@
                         </li>
 
 
-
-
-
-
                     </ul>
+                  
 
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="fa fa-bars"></span> Menu
                     </button>
                     <div class="collapse navbar-collapse" id="ftco-nav">
                         <ul class="navbar-nav m-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item ">
                                 <a id="btnHome" href="#" class="nav-link">  <span id="btnHome">@SystemResource.Men_Home</span></a>
                             </li>
                             <li class="nav-item dropdown MED display_none" id="btnSales">
@@ -161,9 +161,9 @@
                             <li class="nav-item dropdown MED display_none" id="btnReportMenu">
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">تقارير المخزون </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown06">
-                                    <a class="dropdown-item" href="#" id="btnInventorymove" key="Inventorymove">    حدد الوحدات </a>
-                                    <a class="dropdown-item" href="#" id="btnInventoryvalue" key="Inventoryvalue">      @SystemResource.Men_StkDefCategory</a>
-                                    <a class="dropdown-item" href="#" id="btnIncomeoperations" key="Incomeoperations">    @SystemResource.Men_StkDefItemType</a>
+                                    <a class="dropdown-item" href="#" id="btnInventorymove" key="Inventorymove">      @SystemResource.Inventorymove</a>
+                                    <a class="dropdown-item" href="#" id="btnInventoryvalue" key="Inventoryvalue">      @SystemResource.Inventoryvalue</a>
+                                    <a class="dropdown-item" href="#" id="btnIncomeoperations" key="Incomeoperations">    @SystemResource.Incomeoperations</a>
                                 </div>
                             </li>
 
@@ -238,7 +238,7 @@
                             </li>
 
 
- 
+
                         </ul>
                     </div>
                     <div class="collapse navbar-collapse" id="ftco-Log">
@@ -332,13 +332,13 @@
         </div>
     </div>
     <div id="SearchBox" class=" fade styleserch" style="display:none;z-index:999999999;">
-        <div style="background-color:#03a9f4!important; position:absolute;top:0px;left:0px;width:100%;height:40px;cursor:move;border-top-right-radius: 13px!important;border-top-left-radius: 13px!important;">
+        <div style="background-color: #000000 !important; position: absolute; top: 0px; left: 0px; width: 100%; height: 40px; cursor: move; border-top-right-radius: 13px !important; border-top-left-radius: 13px !important; ">
             <input type="button" onclick="$('#SearchBox').modal('hide');" id="btnCloseSearch" name="name" value="x" class="btn colose_lay_btn btn-danger" style="height: 40px;
-              width: 38px;font-size: 20px;float: left;border-color: #ef6603!important;background-color: #03a9f4!important;" />
+              width: 38px;font-size: 20px;float: left;border-color: #ef6603!important;background-color: #ffec09!important" />
             <h4 id="searchTitle" class="col-xs-3" style="color: #fff;line-height: 36px;text-align:right"></h4>
         </div>
         <div style="overflow-x:scroll;overflow-y:scroll;padding-left: 1%; margin-top:20px;width:100%;left:0px;left: 0px; position: absolute; width: 100%; height: 85%;">
-            <div id="tableDiv" class="table table-bordered table-hover" style="width:100%;"></div>
+            <div id="tableDiv" class="table table-bordered table-hover" style="width: 100%; color: wheat;"></div>
         </div>
     </div>
     <div id="caret_script" style="display:none!important">

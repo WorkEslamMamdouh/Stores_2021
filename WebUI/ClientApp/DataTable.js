@@ -97,7 +97,7 @@ var DataTable = /** @class */ (function () {
             };
         }
         $("#tableDiv").empty();
-        $("#tableDiv").append('<table id="SearchDataTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+        $("#tableDiv").append('<table id="SearchDataTable" class="display" cellspacing="0" width="98%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
         var table = $('#SearchDataTable').DataTable({
             "destroy": true,
             "data": this.dataScr,

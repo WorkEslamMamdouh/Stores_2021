@@ -104,9 +104,12 @@ namespace API.Controllers
         {
              
             string query = "INSERT INTO[dbo].[CUSTOMER] (CustomerCODE,CUSTOMER_NAME,NAMEE,CUSTOMER_ADDRES,CUSTOMER_ADDRES_2,PHONE,EMAIL,STATUS,CompCode,BranchCode)  VALUES ('" + obj.CustomerCODE + "', '"+ obj.CUSTOMER_NAME+ "', '"+ obj.NAMEE+ "', '"+ obj.CUSTOMER_ADDRES+ "', '"+ obj.CUSTOMER_ADDRES_2+ "','"+ obj.PHONE+ "','"+ obj.EMAIL+ "',1,1,1)";
-               
-                   var Nationality = db.Database.SqlQuery<CUSTOMER>(query);
-                    return Ok(new BaseResponse(Nationality));
+                    db.Database.ExecuteSqlCommand(query);
+
+            string query1 = "select * from [dbo].[CUSTOMER]  where CUSTOMER_ADDRES_2= '"+obj.CUSTOMER_ADDRES_2+"' and CustomerCODE = '"+obj.CustomerCODE+"'";
+            var cust = db.Database.SqlQuery<CUSTOMER>(query1).ToList();
+
+            return Ok(new BaseResponse(cust[0]));
          
         }
        
