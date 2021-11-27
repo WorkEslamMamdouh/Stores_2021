@@ -99,7 +99,19 @@ namespace API.Controllers
             }
             return BadRequest(ModelState);
         }
-        [HttpGet, AllowAnonymous]
+        [HttpPost, AllowAnonymous]
+        public IHttpActionResult Insertcustomer([FromBody]CUSTOMER obj)
+        {
+             
+            string query = "INSERT INTO[dbo].[CUSTOMER] (CustomerCODE,CUSTOMER_NAME,NAMEE,CUSTOMER_ADDRES,CUSTOMER_ADDRES_2,PHONE,EMAIL,STATUS,CompCode,BranchCode)  VALUES ('" + obj.CustomerCODE + "', '"+ obj.CUSTOMER_NAME+ "', '"+ obj.NAMEE+ "', '"+ obj.CUSTOMER_ADDRES+ "', '"+ obj.CUSTOMER_ADDRES_2+ "','"+ obj.PHONE+ "','"+ obj.EMAIL+ "',1,1,1)";
+               
+                   var Nationality = db.Database.SqlQuery<CUSTOMER>(query);
+                    return Ok(new BaseResponse(Nationality));
+         
+        }
+       
+
+       [HttpGet, AllowAnonymous]
         public IHttpActionResult Delete(int ID)
         {
             if (ModelState.IsValid)
